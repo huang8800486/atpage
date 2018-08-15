@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>交易系统</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="keyword" content="比特币价格,比特币交易平台,区块链,数字化资产,比特币行情,AT交易所,USDT,莱特币,BCH,以太坊,ETH,以太经典,进行币币交易" />
+    <meta name="description" content="description:AT交易所是一家集数字化资产、投资服务、资讯服务于一体的国际化区块链资产交易平台。提供比特币,莱特币(LTC),以太坊(ETH),比特币现金(BCH),以太经典(ETC)达世币(DASH)等虚拟货币以比特币(BTC)、USDT进行交易！提供实时比特币价格,比特币行情。">
+    <link rel="stylesheet" href="../../assets/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="../../assets/css/app.css">
+    <script src="../../script/jquery-3.3.1.min.js"></script>
+    <script src="../../script/tools/crypto-js.js"></script>
+    <script src="../../script/tools/jquery.cookie.js"></script>
+    <script src="../../script/tools/md5.min.js"></script>
+    <script src="../../script/tools/k_tools.js"></script>
+    <script src="../../script/tools/loadSiteInfo.js"></script>
+    <script src="../../script/tools/jquery-ui.js"></script>
+    <script src="../../script/trade/tools.js"></script>
+    <script src="../../script/center_toos/center_tools_new.js"></script>
+    <script src="../../script/template.js"></script>
+    <script src="../../assets/js/amazeui.min.js"></script>
+    <script src="../../script/layer.js"></script>
+    <script src="../../script/jqPaginator.js"></script>
+    <script src="../../assets/js/translate/jquery.i18n.properties/jquery.i18n.properties.min.js" charset="utf-8"></script>
+    <script src="../../assets/js/translate/i18n.config.js" charset="utf-8"></script>
+    <script src="../../assets/js/clipboard.min.js"></script>
+</head>
+<body class="setbg">
+<!-- header -->
+<header class="header header-other" id="header"></header>
+
+<div class="am-container am-margin-top-sm main-finance main-intocoin main-intocoin-outcoin">
+    <div class="finance-leftbar" id="left"></div>
+    <div class="finance-right">
+        <div class="finance-right-title">
+            <h2 translate="financial_first3">转入虚拟币</h2>
+            <dl translate="financial_first12">位置: 首页 > 财务中心 > <span class="c_blue2" translate="financial_first3">转入虚拟币</span></dl>
+        </div>
+        <div class="finance-form">
+            <div class="finance-title clearfix">
+                <h2 translate="financial_first31" class="fl">请选择转入币种</h2>
+                <div class="finance-text fr"><span translate="financial_first32">可用 </span><strong><span id="name"></span> <span id="num"></span></strong></div>
+            </div>
+            <div class="finance-group">
+                <div class="am-form-group am-form-icon input-xuni finance-xuni">
+                    <!-- <span>虚拟币</span> -->
+                    <select class="am-form-field am-form-select am-radius"
+                            id="ul_coin_list"
+                            onchange="setCoinInfo($('#ul_coin_list').find('option:selected').attr('coinName'))"></select>
+                </div>
+            </div>
+            <div class="finance-money">
+                <p translate="financial_first33">钱包地址：</p>
+                <div class="fin-wall">
+                    <span id="walletAddr"></span>
+                    <textarea id="copy_walletAddr_input"></textarea>
+                    <a href="javascript:;" class="copy_walletAddr" translate="financial_first34">复制地址</a>
+                </div>
+            </div>
+            <div class="finance-money-code">
+                <div>
+                	<img src="" alt="" id="qrcode">
+                </div>
+                <p translate="financial_first35">扫码转入</p>
+            </div>
+        </div>
+        <div class="finance-tip">
+            <strong translate="financial_first36" class="newcolor"> </strong>
+            <p class="note" > <em class="translate_em" translate="financial_first37"></em> <span class="coinName"></span><em class="translate_em" translate="financial_first38"></em> <span class="coinName"></span> <em class="translate_em" translate="financial_first39"></em></p>
+            <p ><em class="translate_em" translate="financial_first310"></em> <span class="coinName"></span> <em class="translate_em" translate="financial_first311"></em> <span class="coinName"></span> <em class="translate_em" translate="financial_first312"></em> <span id="rollInNum"></span> <em class="translate_em" translate="financial_first313"></em><span class="coinName"></span> <em class="translate_em" translate="financial_first314"></em><br>
+                <em class="translate_em" translate="financial_first315"></em></p>
+        </div>
+        <div class="finance-list">
+            <div class="tit">
+                <h2 translate="zhuanrujilu">转入记录</h2>
+            </div>
+            <table class="am-table am-table-striped am-table-hover zhuanrujilu-table">
+                <thead>
+                <tr>
+                    <th translate="c2c_trade5">转入时间</th>
+                    <th translate="qukuaiqingkuang">区块情况</th>
+                    <!-- <th translate="financial_first317">转入币种</th> -->
+                    <!-- <th translate="financial_first318">转入地址</th> -->
+                    <th translate="financial_first319">转入数量</th>
+                    <!--<th>转入费用</th>-->
+                    <!-- <th translate="financial_first320">到账数量</th> -->
+                    <th translate="financial_first321">状态</th>
+                </tr>
+                </thead>
+                <tbody id="tb_list"></tbody>
+            </table>
+            <ul class="am-pagination am-pagination-centered" id="pageList"></ul>
+        </div>
+    </div>
+</div>
+
+
+<br><br>
+
+<footer class="footer" id="footer"></footer>
+
+<input type="hidden" id="coinName" />
+<input type="hidden" id="coinID" />
+
+<!--[if lt IE 9]>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="../../assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+
+
+
+<script type="text/javascript">
+    $(function () {
+        $("#header").load("../common/commonHeader.html?version=" + $.version);
+        $("#footer").load("../common/commonFooter.html?version=" + $.version);
+        $("#left").load("./left.html");
+
+        init();
+    });
+</script>
+
+<!--功能函数-->
+<script type="text/javascript">
+    function init() {
+        var cookieStr = $.getToken();
+
+        //  如果已经登录，则取得财务中心数据
+        if (!$.TokenIsNull(cookieStr)) {
+            getFinanceCore();
+            //  获得币种列表
+            getCoinList();
+        }else {
+            $.toIndex1();
+        }
+    }
+
+    //  获得币种列表
+    function getCoinList() {
+        var param = { coinName: "" };
+        var strObgect = $.toBase64(param);
+        var strSign = $.toSign(strObgect);
+        var resData = $.sendData(strObgect, strSign, "/api/coin/list");
+        if (resData.code == 200) {
+            if (resData.data.length > 0) {
+                var da = { "list": resData.data };
+                $("body").data("coin_list", resData.data);//获取到的数据存入data，方便后面使用
+                var _html = template('coin_list', da);
+                $("#ul_coin_list").html(_html);
+
+                //  设置默认数据
+                setCoinInfo(resData.data[0].name);
+            }
+        } else {
+            layer.msg(resData.msg);
+        }
+    }
+
+    //  设置币种信息
+    function setCoinInfo(name) {
+        var coinList = $("body").data("coin_list");
+        for (var i = 0; i < coinList.length; i++) {
+            if (name == coinList[i].name) {
+                $("#coinName").val(coinList[i].name);
+                $("#coinID").val(coinList[i].id);
+                $("#name").html(coinList[i].name.toUpperCase());
+                //  设置虚拟币名称
+                $(".coinName").html(coinList[i].name.toUpperCase());
+                $("#rollInNum").html(coinList[i].rollInNum);
+                getCoinNum(coinList[i].name);
+                myInList(1);
+                coinPath();
+                return;
+            }
+        }
+    }
+
+    //  获取虚拟币地址
+    function coinPath() {
+        layer.load();
+        var coinID = Number($("#coinID").val());
+
+        var param = {
+            coinId: coinID,
+        };
+
+        var strObgect = $.toBase64(param);
+        var strSign = $.toSign(strObgect);
+
+        var resData = $.sendData(strObgect, strSign, "/api/asset/transfer/in");
+        if (resData.code == 200) {
+            $("#walletAddr").html(resData.data.coinAddr);
+            $(".copy_walletAddr").attr("data-clipboard-text", resData.data.coinAddr);
+            $("#qrcode").attr("src",resData.data.qrCode);
+            layer.closeAll('loading');
+            //$("#purse_two_dimensional_code").attr("src",resData.data.qrCode);
+            
+        } else {
+            $("#walletAddr").html("");
+            layer.msg(resData.msg, { time: 2000, icon: 5 });
+            layer.closeAll('loading');
+        }
+
+        /*$(".copy_walletAddr").on("click", function(){
+            document.designMode = "on";
+            var bool = document.execCommand("copy")
+            if(!bool){
+                alert(langPkg.getI18N("buzhichifuzhi"))
+            }else{
+                var text = $("#walletAddr").text();
+                $("#copy_walletAddr_input").val(text);
+                $("#copy_walletAddr_input").select();
+                document.execCommand("copy");
+                layer.msg(langPkg.getI18N("fuzhichenggong"), { time: 2000, icon: 1 });
+            }
+
+            document.designMode = "off";
+        })*/
+    }
+    var clipboard = new ClipboardJS('.copy_walletAddr');
+    clipboard.on('success', function(e) {
+        layer.msg(langPkg.getI18N("fuzhichenggong"), { time: 2000, icon: 1 });
+    });
+    clipboard.on('error', function(e) {
+        console.log(e);
+    });
+    
+    var pageSize = 10;
+    function page(counts, pageTo) {
+        $('#pageList').jqPaginator('option', {
+            totalCounts: counts,
+            currentPage: pageTo
+        });
+        if (counts <= 1) {
+            $("#pageList").hide();
+        }
+    }
+
+    //初始化分页器
+    $('#pageList').jqPaginator({
+        totalCounts: 1,
+        visiblePages: 10,
+        pageSize: pageSize,
+        currentPage: 1,
+        activeClass: 'am-active',
+
+        //first: '<a href="javascript:void(0)">首页</a>',
+        prev: '<li class="am-disabled"><a href="javascript:void(0)">&laquo;</a></li>  ',
+        next: '<li><a href="javascript:void(0)">&raquo;</a></li> ',
+        //last: '<a href="javascript:void(0)">最后一页</a>',
+        page: ' <li ><a href="javascript:void(0)">{{page}}</a></li>',
+        onPageChange: function (num, status) {
+            if (status == "change") {
+                 myInList(num)
+            }
+        }
+    });
+
+    //  转入虚拟币列表
+    function myInList(pageTo) {
+        if (pageTo == 1) {
+            $("#tb_list").html("");
+        }
+        var coidID = Number($("#coinID").val());
+
+        var param = {
+            coinId: coidID,
+            pageSize: pageSize,
+            pageTo: pageTo
+        };
+
+        var strObgect = $.toBase64(param);
+        var strSign = $.toSign(strObgect);
+
+        var resData = $.sendData(strObgect, strSign, "/api/asset/transfer/in/list");
+
+        if (resData.code == 200) {
+            if (resData.data.length > 0) {
+                //动态处理分页器
+                page(resData.total, pageTo)
+
+                var da = { "list": resData.data }
+                var _html = template('rollInList', da);   //template("模版名","数据集")
+                $("#tb_list").html(_html);
+                $.weakenText($("#tb_list .reg-text"));
+
+                $("#pageList").show();
+            }
+            else {
+                $("#tb_list").html("<tr><td colspan='7' style='text-align:center;'>暂无转入记录!</td></tr>");
+                $("#pageList").hide();
+                page(1, 1)
+            }
+
+        }
+        langPkg.loadLanguage("financial_first318")
+        langPkg.loadLanguage("zhuanruchenggong")
+        langPkg.loadLanguage("zhuanruzhong")
+    }
+
+    function getFinanceCore() {
+        var resData = $.sendData("", "", "/api/finance/core");
+
+        if (resData.code == 200) {
+            $("body").data("financ_core", resData.data.userCoinFinanceDtoList);//获取到的数据存入data，方便后面使用
+        }
+    }
+
+    //  获得相应币种数量
+    function getCoinNum(coinName) {
+        var FinanceCore = $("body").data("financ_core");
+        for (var i = 0; i < FinanceCore.length; i++) {
+            if (coinName == FinanceCore[i].name) {
+                $("#num").html(parseFloat(FinanceCore[i].balance).toFixed(6));
+                return;
+            }
+        }
+        $("#FinanceCore").html(parseFloat(0).toFixed(6));
+    }
+
+</script>
+
+<!--模板辅助函数-->
+<script type="text/javascript">
+    template.helper('_toUpperCase', function (str) {
+        return str.toUpperCase();
+    });
+</script>
+
+
+<!--模板辅助-->
+<script id="coin_list" type="text/html">
+    {{each list as value i}}
+    <option value="{{ value.id }}" coinName="{{ value.name }}">{{ _toUpperCase(value.name) }}</option>
+    {{/each}}
+</script>
+
+<script id="rollInList" type="text/html">
+    {{each list as value i}}
+    {{ if value.address != "管理员后台转入" }}
+    <tr>
+        <td class="reg-text">{{value.createTime}}</td>
+        <!-- <td>{{value.coinname}}</td> -->
+        <!-- <td>{{value.address}}</td> -->
+        <td>
+            <div class="qukuaiqingkuang">
+                <span translate="financial_first318"></span>: {{value.address}}
+            </div>
+            {{ if value.txid != "" && value.coinname == "ETH"}}
+            <div class="qukuaiqingkuang">
+               <span>TXID</span>: <a href="https://etherscan.io/tx/{{value.txid}}" target="_blank">{{value.txid}}</a>
+            </div>
+            {{ /if}}
+            {{ if value.txid != "" && value.coinname == "BTC"}}
+            <div class="qukuaiqingkuang">
+               <span>TXID</span>: <a href="https://blockchain.info/tx/{{value.txid}}" target="_blank">{{value.txid}}</a>
+            </div>
+            {{ /if}}
+            {{ if value.txid != "" && value.coinname != "BTC" && value.coinname != "ETH"}}
+            <div class="qukuaiqingkuang">
+               <span>TXID</span>: <a href="javascript:;">{{value.txid}}</a>
+            </div>
+            {{ /if}}
+        </td>
+        <td>{{value.num}}</td>
+        <!--<td>{{value.fee}}</td>-->
+        <!-- <td>{{value.num}}</td> -->
+        <td>
+            {{if value.status==1}}
+            <span class="translate_em" translate="zhuanruzhong">转入中</span>
+            {{/if}}
+            {{if value.status==2}}
+            <span class="newcolor" translate="zhuanruchenggong">转入成功</span>
+            {{/if}}
+        </td>
+    </tr>
+    {{ /if }}
+    {{/each}}
+</script>
+</body>
+</html>

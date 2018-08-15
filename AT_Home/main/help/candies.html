@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>糖果专区</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="stylesheet" href="../../assets/css/reset.css">
+    <link rel="stylesheet" href="../../assets/font/iconfont.css">
+    <link rel="stylesheet" href="../../assets/css/layout.css">
+    <meta name="keyword" content="比特币价格,比特币交易平台,区块链,数字化资产,比特币行情,AT交易所,USDT,莱特币,BCH,以太坊,ETH,以太经典,进行币币交易" />
+    <meta name="description" content="description:AT交易所是一家集数字化资产、投资服务、资讯服务于一体的国际化区块链资产交易平台。提供比特币,莱特币(LTC),以太坊(ETH),比特币现金(BCH),以太经典(ETC)达世币(DASH)等虚拟货币以比特币(BTC)、USDT进行交易！提供实时比特币价格,比特币行情。">
+    <script type="text/javascript" src="../../script/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../../script/tools/crypto-js.js"></script>
+    <script type="text/javascript" src="../../script/tools/jquery.cookie.js"></script>
+    <script type="text/javascript" src="../../script/tools/md5.min.js"></script>
+    <script type="text/javascript" src="../../script/tools/k_tools.js"></script>
+    <script type="text/javascript" src="../../script/tools/loadSiteInfo.js"></script>
+    <script type="text/javascript" src="../../script/trade/tools.js"></script>
+    <script type="text/javascript" src="../../script/center_toos/center_tools_new.js"></script>
+    <script type="text/javascript" src="../../script/template.js"></script>
+    <script type="text/javascript" src="../../script/jqPaginator.js"></script>
+    <script type="text/javascript" src="../../script/layer.js"></script>
+    <script src="../../assets/js/translate/jquery.i18n.properties/jquery.i18n.properties.min.js" charset="utf-8"></script>
+    <script src="../../assets/js/translate/i18n.config.js" charset="utf-8"></script>
+</head>
+<body>
+<!-- header -->
+<div class="view_body candies_view_body">
+    <header class="header header-other" id="header"></header>
+    <div class="negative_content_page">
+        <div class="dynamic-width negative_content">
+            <div class="main-help-page">
+                <div class="apply_top_header"><p><em>糖</em><em>果</em><em>专</em><em>区</em></p></div>
+                <div class="candies_content">
+                    <ul id="candies_box"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer" id="footer"></footer>
+</div>
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+<script type="text/javascript" src="../../assets/js/amazeui.min.js"></script>
+
+
+
+<script type="text/javascript">
+    $(function () {
+        $("#header").load("../common/commonHeader.html?version=" + $.version);
+        $("#footer").load("../common/commonFooter.html?version=" + $.version);
+        init()
+    });
+
+    function init(){
+        var param = {
+            type: "candy",
+            adaptationtype: 2,
+            languageType : langPkg.getAdLanguage()
+        }
+
+        $.ajaxSendData(param, "/api/article/getArticleList", function(resData){
+            var da = {"list": resData.data};
+            var _html = template('list_candy', da);   //template("模版名","数据集")
+            $("#candies_box").html(_html);
+        })
+    }
+</script>
+
+<script type="text/javascript">
+    template.helper('_imgPath', function (str) {
+        if (str == '' || str == null) {
+            return "../../logo.png";
+        } else {
+            return $.imgFilePath() + str;
+        }
+    });
+</script>
+<script id="list_candy" type="text/html">
+    {{each list as value i}}
+        <li>
+            <a href="candies_content.html?v={{value.id}}">
+                {{if value.dateStatus == 0}}
+                    <span class="status_text status_text_{{value.dateStatus}}">已结束</span>
+                {{/if}}
+                {{if value.dateStatus == 1}}
+                    <span class="status_text status_text_{{value.dateStatus}}">进行中</span>
+                {{/if}}
+                <img src="{{_imgPath(value.img)}}" alt="">
+                <div class="candy_text">
+                    <span class="candy_title">{{value.title}}</span>
+                    <div class="can_con">
+                        <span><em>重点信息：</em>{{value.information}}</span>
+                    </div>
+                    <div class="time_box clearfix">
+                        <!-- <span class="fl"><em>领取数量：</em><em id="candynumber">120MIT</em></span> -->
+                        <span class="fr"><em>截止时间：</em><em id="candytime">{{value.enddate}}</em></span>
+                    </div>
+                </div>
+            </a>
+        </li>
+    {{/each}}
+</script>
+</body>
+</html>

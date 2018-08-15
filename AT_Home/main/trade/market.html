@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>交易系统</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="keyword" content="比特币价格,比特币交易平台,区块链,数字化资产,比特币行情,AT交易所,USDT,莱特币,BCH,以太坊,ETH,以太经典,进行币币交易" />
+    <meta name="description" content="description:AT交易所是一家集数字化资产、投资服务、资讯服务于一体的国际化区块链资产交易平台。提供比特币,莱特币(LTC),以太坊(ETH),比特币现金(BCH),以太经典(ETC)达世币(DASH)等虚拟货币以比特币(BTC)、USDT进行交易！提供实时比特币价格,比特币行情。">
+    <link rel="stylesheet" href="../../assets/css/reset.css">
+    <link rel="stylesheet" href="../../assets/font/iconfont.css">
+    <link rel="stylesheet" href="../../assets/css/layout.css">
+    <script src="../../script/jquery-3.3.1.min.js"></script>
+    <script src="../../script/tools/crypto-js.js"></script>
+    <script src="../../script/tools/jquery.cookie.js"></script>
+    <script src="../../script/tools/md5.min.js"></script>
+    <script src="../../script/tools/k_tools.js"></script>
+    <script src="../../script/tools/loadSiteInfo.js"></script>
+    <script src="../../script/tools/jquery-ui.js"></script>
+    <script src="../../script/trade/tools.js"></script>
+    <script src="../../script/center_toos/center_tools_new.js"></script>
+    <script src="../../script/template.js"></script>
+    <script src="../../script/layer.js"></script>
+    <!--[if lt IE 9]>
+    <script src="../../script/tools/modernizr.js"></script>
+    <script src="../../assets/js/amazeui.ie8polyfill.min.js"></script>
+    <![endif]-->
+    <script src="../../assets/js/amazeui.min.js"></script>
+    <script src="../../assets/js/translate/jquery.i18n.properties/jquery.i18n.properties.min.js" charset="utf-8"></script>
+    <script src="../../assets/js/translate/i18n.config.js" charset="utf-8"></script>
+</head>
+<body>
+    <div class="view_body market_view_body">
+        <!-- header -->
+        <header class="header header-trans" id="header"></header>
+
+        <div class="trans-content-page negative_content_page">
+            <div class="trans-wrap dynamic-width negative_content">
+                <div class="am-margin-sm clearfix">
+                    <!--K线图-->
+                    <div class="coin-trans-wrap clearfix">
+                        <div class="trans-new-price fl">
+                            <div class="k-chart-trans clearfix">
+                                <div class="k-chart fl">
+                                    <div class="k-chart-title">
+                                        <h2 class="clearfix charth2">
+                                            <div class="market_coin_area_wrap">
+                                                <div class="coin_dis_market">
+                                                    <a href="javascript:;" class="coin_dis">
+                                                        <span id="nameEnKTitle"></span>
+                                                        <i class="iconfont icon-arrows-down"></i>
+                                                    </a>
+                                                </div>
+                                                <div class="left-tab left-market-list am-tabs" id="div_tab">
+                                                    <div class="market_nav">
+                                                        <a class="item" href="javascript:;"><em class="translate_em" translate="left1_market2">自选</em></a>
+                                                        <a class="item active" href="javascript:;">QD</a>
+                                                        <a class="item" href="javascript:;">USDT</a>
+                                                        <a class="item" href="javascript:;">BTC</a>
+                                                        <a class="item" href="javascript:;">ETH</a>
+                                                        <div class="left-market-title">
+                                                            <i class="iconfont icon-sousuo"></i>
+                                                            <input id="search" type="text" data-i18n-placeholder="left1_market1_placeholder" autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                    <div class="am-tabs-nav am-nav am-nav-tabs clearfix" id="navList">
+                                                        <div class="panel_list" id="nav-self">
+                                                            <div class="trans-panel">
+                                                                <table>
+                                                                    <thead class="top_panel">
+                                                                        <tr>
+                                                                            <th><a href="javascript:;" class="curr" translate="left1_market3">币种 <i class="am-icon-caret-down"></i></a></th>
+                                                                            <th><a href="javascript:;" translate="left1_market4">最新价 <i class="am-icon-caret-down"></i></a></th>
+                                                                            <th><a href="javascript:;" translate="left1_market5">涨跌 <i class="am-icon-caret-down"></i></a></th>
+                                                                        </tr>
+                                                                        <tr class="panel_title">
+                                                                            <th colspan="3">主区</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody class="con_panel" id="zxList"></tbody>
+                                                                </table>
+                                                            </div>
+                                                            <div class="trans-panel">
+                                                                <table>
+                                                                    <thead class="top_panel">
+                                                                        <tr class="panel_title">
+                                                                            <th colspan="3">创新区</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody class="con_panel" id="cxzxList"></tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <div class="panel_list active" id="nav-qd">
+                                                            <div class="trans-panel">
+                                                                <table>
+                                                                    <thead class="top_panel">
+                                                                        <tr>
+                                                                            <th><a href="javascript:;" class="curr" translate="left1_market3">币种 <i class="am-icon-caret-down"></i></a></th>
+                                                                            <th><a href="javascript:;" translate="left1_market4">最新价 <i class="am-icon-caret-down"></i></a></th>
+                                                                            <th><a href="javascript:;" translate="left1_market5">涨跌 <i class="am-icon-caret-down"></i></a></th>
+                                                                        </tr>
+                                                                        <tr class="panel_title">
+                                                                            <th colspan="3">主区</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody class="con_panel" id="qdList"></tbody>
+                                                                </table>
+                                                            </div>
+                                                            <div class="trans-panel">
+                                                                <table>
+                                                                    <thead class="top_panel">
+                                                                        <tr class="panel_title">
+                                                                            <th colspan="3">创新区</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody class="con_panel" id="cxqdList"></tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <div class="panel_list" id="nav-usdt">
+                                                            <div class="trans-panel">
+                                                                <table>
+                                                                    <thead class="top_panel">
+                                                                        <tr>
+                                                                            <th><a href="javascript:;" class="curr" translate="left1_market3">币种 <i class="am-icon-caret-down"></i></a></th>
+                                                                            <th><a href="javascript:;" translate="left1_market4">最新价 <i class="am-icon-caret-down"></i></a></th>
+                                                                            <th><a href="javascript:;" translate="left1_market5">涨跌 <i class="am-icon-caret-down"></i></a></th>
+                                                                            <tr class="panel_title">
+                                                                                <th colspan="3">主区</th>
+                                                                            </tr>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody class="con_panel" id="usdtList"></tbody>
+                                                                </table>
+                                                            </div>
+                                                            <div class="trans-panel">
+                                                                <table>
+                                                                    <thead class="top_panel">
+                                                                        <tr class="panel_title">
+                                                                            <th colspan="3">创新区</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody class="con_panel" id="cxusdtList"></tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <div class="panel_list" id="nav-btc">
+                                                            <div class="trans-panel">
+                                                                <table>
+                                                                    <thead class="top_panel">
+                                                                        <tr>
+                                                                            <th><a href="javascript:;" class="curr" translate="left1_market3">币种 <i class="am-icon-caret-down"></i></a></th>
+                                                                            <th><a href="javascript:;" translate="left1_market4">最新价 <i class="am-icon-caret-down"></i></a></th>
+                                                                            <th><a href="javascript:;" translate="left1_market5">涨跌 <i class="am-icon-caret-down"></i></a></th>
+                                                                            <tr class="panel_title">
+                                                                                <th colspan="3">主区</th>
+                                                                            </tr>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody class="con_panel" id="btcList"></tbody>
+                                                                </table>
+                                                            </div>
+                                                            <div class="trans-panel">
+                                                                <table>
+                                                                    <thead class="top_panel">
+                                                                        <tr class="panel_title">
+                                                                            <th colspan="3">创新区</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody class="con_panel" id="cxbtcList"></tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <div class="panel_list" id="nav-eth">
+                                                            <div class="trans-panel">
+                                                                <table>
+                                                                    <thead class="top_panel">
+                                                                        <tr>
+                                                                            <th><a href="javascript:;" class="curr" translate="left1_market3">币种 <i class="am-icon-caret-down"></i></a></th>
+                                                                            <th><a href="javascript:;" translate="left1_market4">最新价 <i class="am-icon-caret-down"></i></a></th>
+                                                                            <th><a href="javascript:;" translate="left1_market5">涨跌 <i class="am-icon-caret-down"></i></a></th>
+                                                                            <tr class="panel_title">
+                                                                                <th colspan="3">主区</th>
+                                                                            </tr>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody class="con_panel" id="ethList"></tbody>
+                                                                </table>
+                                                            </div>
+                                                            <div class="trans-panel">
+                                                                <table>
+                                                                    <thead class="top_panel">
+                                                                        <tr class="panel_title">
+                                                                            <th colspan="3">创新区</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody class="con_panel" id="cxethList"></tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="chpris clearfix">
+                                                <span class="rise current_pricec_coin"></span>
+                                                <span id="changeKTitle"></span>
+                                                <span>≈<em class="cny_pricec_coin"></em></span>
+                                                <span>CNY</span>
+                                            </div>
+                                        </h2>
+                                        <div class="klin-pr_wrap">
+                                            <!-- <span class="klin-prt" translate="left1_market4">最新价</span>  -->
+                                            <!-- <span class="klin-pr"><em id="newPricenKTitle"></em></span>  -->
+                                            <span class="klin-prt" translate="market_line4">24h最高价 </span>
+                                            <span class="klin-pr"><em id="maxPriceKTitle"></em></span> 
+                                            <span class="klin-prt" translate="market_line5">24h最低价 </span>
+                                            <span class="klin-pr"><em id="minPriceKTitle"></em></span> 
+                                            <!-- <span class="klin-prt" translate="market_line3">24h涨跌 </span>
+                                            <span class="klin-pr"><em id="changeKTitle" class="red"></em></span>  -->
+                                            <span class="klin-prt" translate="market_line6">24h成交量  </span>
+                                            <span class="klin-pr"><em id="volumeKTitle"></em></span> 
+                                        </div>
+                                        <div class="klin-chart-tit clearfix">
+                                            <div class="fl kct">
+                                                <span translate="shishihangqing">实时行情</span>
+                                            </div>
+                                            <div class="fr kcr">
+                                                <!-- <span>全屏交易</span> -->
+                                                <a href="fullmarket.html" target="_blank" class="gofullMarket"><i class="iconfont icon-Kxian"></i><em style="padding-left:5px;" translate="kline"></em style="padding-left:5px;"></a>
+                                            </div>
+                                        </div>
+                                        <a href="javascript:;" class="collectCoin">
+                                            <i class="iconfont icon-weishoucang off"></i>
+                                            <i class="iconfont icon-shoucang on"></i>
+                                        </a>
+                                    </div>
+                                    <div class="k-chart-cont">
+                                        <iframe id="k_line" width="100%" height="227"
+                                                src=""></iframe>
+                                    </div>
+                                </div>
+                                <div class="trans-box fl">
+                                    <!-- <div class="trans-box-title">
+                                        <h2 translate="middle1_market1">限价交易</h2>
+                                        &nbsp;&nbsp;&nbsp;&nbsp; <span id="availables" style="display: none"><em class="translate_em" translate="middle1_canuse"></em>&nbsp; <span class="red" id="available_rm2">0.00</span> <span id="getSellCoinName6"></span> &nbsp;&nbsp;&nbsp;&nbsp; <em class="translate_em" translate="middle1_canuse"></em>&nbsp; <span
+                                            id="available_xn2" class="c_green">0.00</span> <span id="getCoinName3"></span></span>
+                                    </div> -->
+                                    <div class="trans-box-nav-clie clearfix">
+                                        <div class="trans-box-nav clearfix">
+                                            <a class="buycolor active" href="javascript:;"><em class="translate_em" translate="left2_market3">买入</em> <span class="getCoinName2"></span></a>
+                                            <a class="sellcolor" href="javascript:;"><em class="translate_em" translate="left2_market4">卖出</em> <span class="getCoinName2"></span></a>
+                                        </div>
+                                        <div class="trans-box-order">
+                                            <div class="trans-box-list trans-box-list-buy active">
+                                                <div class="am-form-group">
+                                                    <span class="input_tit" translate="middle1_market1_placeholder1">买入价</span>
+                                                    <div class="input_wrap">
+                                                        <input id="buyPrice" type="text" class="frominput buyinput" value="" placeholder="" maxlength="20" autocomplete="off">
+                                                        <span class="innerInput" translate="middle1_market1_placeholder2">单价</span>
+                                                        <p class="math_price"><span>≈&nbsp;<em id="buy_limit_math_price">0</em>&nbsp;CNY</span></p>
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="deep-gray dee-price">
+                                                    <div id="buyMax" style="display: none"><span translate="zuidakemai">最大可买：</span><span id="buy_max">-</span> <span id="maxBuyName"></span></div>
+                                                    <div class="deep-max" ><em class="translate_em" translate="zuijiamaijia"></em><span class="c_green" id="buy_best_price">￥0.00</span> <span id="getSellCoinName4"></span></div>
+                                                </div> -->
+                                                <!--<p class="deep-gray">最佳买价：<span id="buy_max2">-</span> <span id="maxBuyName2"></span></p>-->
+                                                <div class="am-form-group">
+                                                    <span class="input_tit" translate="middle1_market1_placeholder4">买入量</span>
+                                                    <div class="input_wrap">
+                                                        <input id="buyNum" type="text" class="frominput buyinput" value="" autocomplete="off" maxlength="19">
+                                                        <span class="innerInput" translate="c2c_trade7">数量</span>
+                                                    </div>
+                                                </div>
+                                                <div id="buyMax"><span translate="zuidakemai">最大可买：</span><span id="buy_max">-</span> <span id="maxBuyName"></span></div>
+                                                <div class="slider_sell_wrap">
+                                                    <div id="slider_buy" class="slider_body">
+                                                        <div class="sli_percent">
+                                                            <div class="percent percent_00"><span>0%</span><i></i></div>
+                                                            <div class="percent percent_01"><span>25%</span><i></i></div>
+                                                            <div class="percent percent_02"><span>50%</span><i></i></div>
+                                                            <div class="percent percent_03"><span>75%</span><i></i></div>
+                                                            <div class="percent percent_04"><span>100%</span><i></i></div>
+                                                        </div>
+                                                        <div id="sli_buy" class="dragO">
+                                                            <em class="iconfont icon-santiaoxian"></em>
+                                                        </div>
+                                                        <div id="sliderLine_buy" class="sliderLine lineGreen" style="width:0%;">
+                                                            <!--<div class="dragBar" style="margin-left:-3.5%;"></div>-->
+                                                        </div>
+                                                    </div>
+                                                    <span id="ratio_num_buy">0%</span>
+                                                </div>
+                                                <div class="marketlispri">
+                                                    <em class="translate_em" translate="middle1_market1_placeholder7"></em><span id="buyMum" class="c_green">0</span> <span id="getSellCoinName1"></span> <!-- &nbsp;&nbsp; 手续费：<span id="feeBuy" class="c_green">0</span>% -->
+                                                </div>
+                                                <div class="pop_tradeadd_buy_wrap">
+                                                    <a href="javascript:;" onclick="pop_tradeadd_buy()" type="button" class="buybtn" ><em class="translate_em" translate="left2_market3"></em> <span id="getCoinName1"></span></a>
+                                                </div>
+                                            </div>
+                                            <div class="trans-box-list trans-box-list-sell">
+                                                <div class="am-form-group">
+                                                    <span class="input_tit" translate="c2c_second4">卖出价</span>
+                                                    <div class="input_wrap">
+                                                        <input id="sellPrice" type="text" class="frominput sellinput" value="" placeholder="" autocomplete="off" maxlength="20">
+                                                        <span class="innerInput" translate="middle1_market1_placeholder2">单价</span>
+                                                        <p class="math_price"><span>≈&nbsp;<em id="sell_limit_math_price">0</em>&nbsp;CNY</span></p>
+                                                    </div>
+                                                </div>
+                                                <div class="deep-gray dee-price">
+                                                    
+                                                    <!-- <div class="deep-max"><em class="translate_em" translate="zuijiamjia"></em><span class="red" id="sell_best_price">￥0.00</span> <span id="getSellCoinName5"></span></div> -->
+                                                </div>
+                                                <div class="am-form-group">
+                                                    <span class="input_tit" translate="middle1_market1_placeholder5">卖出量</span>
+                                                    <div class="input_wrap">
+                                                        <input id="sellNum" type="text" class="frominput sellinput" alue="" autocomplete="off" maxlength="19">
+                                                        <input type="text" class="am-form-field am-radius am-text-right" value="" autocomplete="off" maxlength="19" style="display:none;">
+                                                        <span class="innerInput" translate="left2_market7">数量</span>
+                                                    </div>
+                                                </div>
+                                                <div id="sellMax"><em class="translate_em" translate="zuidakemai_2"></em><span id="sell_max">-</span> <span id="maxSellName"></span></div>
+                                                <dl class="slider_sell_wrap">
+                                                    <div id="slider_sell" class="slider_body">
+                                                        <div class="sli_percent">
+                                                            <div class="percent percent_00"><span>0%</span><i></i></div>
+                                                            <div class="percent percent_01"><span>25%</span><i></i></div>
+                                                            <div class="percent percent_02"><span>50%</span><i></i></div>
+                                                            <div class="percent percent_03"><span>75%</span><i></i></div>
+                                                            <div class="percent percent_04"><span>100%</span><i></i></div>
+                                                        </div>
+                                                        <div id="sli_sell" class="dragO">
+                                                            <em class="iconfont icon-santiaoxian"></em>
+                                                        </div>
+                                                        <div id="sliderLine_sell" class="sliderLine lineGreen" style="width:0%;">
+                                                            <!--<div id="sli_sell" class="dragBar" style="margin-left:00%;"></div>-->
+                                                        </div>
+                                                    </div>
+                                                    <span id="ratio_num_sell">0%</span>
+                                                </dl>
+                                                <div class="marketlispri"><em class="translate_em" translate="middle1_market1_placeholder7"></em><span id="sellMum" class="red">0</span> <span id="getSellCoinName2"></span><!--  &nbsp;&nbsp; 手续费：<span id="feeSell" class="red">0</span>%--></div>
+                                                <div class="pop_tradeadd_sell_wrap">
+                                                    <a href="javascript:;" onclick="pop_tradeadd_sell()" type="button" class="sellbtn" ><em class="translate_em" translate="middle1_market1_placeholder9"></em> <span id="getCoinName2"></span></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="realtime-dealbox">
+                                <!--委托-->
+                                <div class="delegate am-margin-top-sm">
+                                    <div class="am-tabs delegate-box">
+                                        <ul class="am-tabs-nav am-nav am-nav-tabs clearfix">
+                                            <li class="dele_li_01 am-active fl"><a href="javascript:;" class="spanS" translate="middle2_market1">当前委托</a></li>
+                                            <li class="dele_li_02 fr"><i class="iconfont icon-weituoweixuanzhong"></i>&nbsp;<a id="showMore" class="yellow_more" href="javascript:;" target="_blank" translate="financial_first5"></a></li>
+                                        </ul>
+                                        <!-- <span class="readmore"><a id="showMore" class="yellow_more" href="javascript:;" target="_blank"><em class="translate_em" translate="middle2_market10"></em></a></span> -->
+                                        <div class="am-tabs-bd am-tabs-bd-ofv" id="limitIsLogin" style="display: block">
+                                            <div class="am-tab-panel am-active" id="delegate-tab1">
+                                                <table class="am-table am-table-hover">
+                                                    <thead>
+                                                    <tr>
+                                                        <th class="c_left" translate="middle2_market3">委托时间</th>
+                                                        <th class="c_left" translate="middle2_market4">买入 / 卖出</th>
+                                                        <th class="c_right" translate="middle2_market5">委托单价</th>
+                                                        <th class="c_right" translate="left2_market7">数量</th>
+                                                        <th class="c_right" translate="middle2_market6">成交均价</th>
+                                                        <th class="c_right" translate="middle2_market7">成交量</th>
+                                                        <th class="c_right" translate="middle2_market8">成交总额<span class="markecoin"></span></th>
+                                                        <th class="c_center" translate="middle2_market9">操作</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody id="limitTradeList"></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="trans-newprice fr">
+                            <div class="newprice">
+                                <!-- <div class="newprice-title">
+                                    <h2 translate="right1_market1">最新价</h2>
+                                    <span class="deep-gray" translate="right1_market2">最新价格仅供参考</span>
+                                </div> -->
+                                <div class="newprice-list">
+                                    <div class="list_tit clearfix">
+                                        <div class="tt t1 clearfix real-time-btn">
+                                            <a href="javascript:;" class="fl"></a>
+                                            <a href="javascript:;" class="fl"></a>
+                                            <a href="javascript:;" class="fl"></a>
+                                        </div>
+                                        <div class="tt t3" translate="left2_market7"></div>
+                                        <div class="tt t2" translate="middle1_market1_placeholder2"></div>
+                                    </div>
+                                    <div class="newprice_wrap">
+                                        <div class="newprice-buy-sell newprice-sell" >
+                                            <ul id="marketselllist"></ul>
+                                        </div>
+                                        <div class="newprice-middle">
+                                            <div class="overmi clearfix">
+                                                <span class="current_pricec_coin"></span>
+                                                <span>≈</span><span class="cny_pricec_coin"></span><span>CNY</span>
+                                            </div>
+                                        </div>
+                                        <div class="newprice-buy-sell newprice-buy" style="padding-top: 0!important;">
+                                            <ul id="marketbuylist"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="am-margin-sm at-coin clearfixe" style="display:none;">
+                    <div class="at-coin-title">
+                        <h2>
+                            <img src="../../images/icon-i.png">
+                            <span id=""></span>
+                        </h2>
+                        <span class=" deep-gray" translate="duochongweidubaohu">多重维度保障您的资金安全，最值得信赖的交易平台</span>
+                        <!--<span class="readmore"><a href="#">查看更多</a></span>-->
+                    </div>
+                    <div class="at-coin-box">
+                        <div class="at-coin-info clearfix">
+                            <h1 class="am-align-left">
+                                <img onerror="errorImg(this)" id="coinImg" src="../../images/tu-at.jpg" style="max-height: 300px;background-size: cover">
+                            </h1>
+                            <h2 id="coinJsEn2"></h2>
+                            <p id="coinJsContent"></p>
+                        </div>
+                        <div class="at-coin-list">
+                            <ul class="clearfix">
+                                <li id="coinTitle"></li>
+                                <li id="coinJsEn3"></li>
+                                <li id="coinName"></li>
+                                <li id="coinCsDevelop"></li>
+                                <li id="coinCsAlgorithm"></li>
+                                <li id="coinCsReleaseTime"></li>
+                                <li id="coinCsBlockSpeed"></li>
+                                <li id="coinCsCount"></li>
+                                <li id="coinCsStock"></li>
+                                <li id="coinCsProve"></li>
+                                <li id="coinCsDifficulty "></li>
+                                <li id="coinCsReward"></li>
+                                <li id="coinCsCharacter"></li>
+                                <li id="coinCsShort"></li>
+                            </ul>
+                            <div class="cl"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer" id="footer"></footer>
+        <input type="hidden" id="available_rmb">
+        <input type="hidden" id="available_xnb">
+
+        <input type="hidden" id="buy_best_priceS">
+        <input type="hidden" id="sell_best_priceS">
+        <!--买入交易密码-->
+        <div class="am-modal am-modal-alert market_trade_pwd" tabindex="-1" id="market_trade_pwd_buy">
+            <div class="am-modal-dialog">
+                <div class="am-modal-hd">
+                    <em class="translate_em tit" translate="jiaoyiyanzheng"></em>
+                    <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>
+                        <i class="iconfont icon-cuowu"></i>
+                    </a>
+                </div>
+                <div class="am-modal-bd">
+                    <div class="am-form-group am-form-icon">
+                        <div class="am-form-group am-form-icon">
+                            <span translate="middle1_market1_placeholder6">交易密码</span>
+                            <input id="buyPayPwd" type="password" class="am-form-field am-radius am-text-right" value="">
+                        </div>
+                        <a href="../security/forgetTradePwd.html" target="_blank" class="forg_trade" translate="forget_Login_Pwd">忘记交易密码</a>
+                        <p><em class="translate_em" translate="temporary">提示：您可以临时</em><a href="javascript:;" class="pows_trade" onclick="setTradeTime()" translate="closeTransactionPassword">关闭交易密码</a></p>
+                    </div>
+                    <a href="javascript:;" onclick="tradeadd_buy()" type="button" class="am-btn new-btn-color am-btn-block am-radius am-btn-lg" ><em class="translate_em" translate="make_sure">确定</em> </a>
+                </div>
+            </div>
+        </div>
+
+        <!--买出交易密码-->
+        <div class="am-modal am-modal-alert market_trade_pwd" tabindex="-1" id="market_trade_pwd_sell">
+            <div class="am-modal-dialog">
+                <div class="am-modal-hd">
+                    <em class="translate_em" translate="jiaoyiyanzheng">交易验证</em>
+                    <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>
+                        <i class="iconfont icon-cuowu"></i>
+                    </a>
+                </div>
+                <div class="am-modal-bd">
+                    <div class="am-form-group am-form-icon">
+                        <div class="am-form-group am-form-icon">
+                            <span translate="middle1_market1_placeholder6">交易密码</span>
+                            <input id="sellPayPwd" type="password" class="am-form-field am-radius am-text-right" autocomplete="off" value="">
+                        </div>
+                        <a href="../security/forgetTradePwd.html" target="_blank" class="forg_trade">忘记交易密码</a>
+                        <p><em class="translate_em">提示：您可以临时</em><a href="javascript:;" class="pows_trade" onclick="setTradeTime()">关闭交易密码</a></p>
+                    </div>
+                    <a href="javascript:;" onclick="tradeadd_sell()" type="button" class="am-btn am-btn-block am-radius am-btn-lg new-btn-color" ><em class="translate_em" translate="middle1_market1_placeholder9"></em> </a>
+                </div>
+            </div>
+        </div>
+        <!--设置交易密码-->
+        <div class="am-modal am-modal-alert market_trade_pwd set_trade_time_wrap" tabindex="-1" id="market_trade_pwd_set">
+            <div class="am-modal-dialog">
+                <div class="am-modal-hd"><b>
+                    <em class="translate_em" translate="security_first4">交易验证设置</em>
+                    <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>
+                        <i class="iconfont icon-cuowu"></i>
+                    </a>
+                </div>
+                <div class="am-modal-bd">
+                    <div class="am-form-group am-form-icon">
+                        <div class="tit">
+                            <p><i class="translate_em jiaoy" translate="jiaoyimimashezhi"></i><em translate="jiaoy1"></em></p>
+                        </div>
+                        <div class="setTimes">
+                            <a href="javascript:;" data-type="1"><i></i><p translate="jiaoy2"></p></a>
+                            <a href="javascript:;" data-type="2"><i></i><p translate="jiaoy3"></p></a>
+                            <a href="javascript:;" data-type="3"><i></i><p translate="jiaoy4"></p></a>
+                        </div>
+                        
+                        <div class="am-form-group am-form-icon">
+                            <span translate="middle1_market1_placeholder6"></span>
+                            <input id="tb_oldpwd" type="password" class="am-form-field am-radius am-text-right" value="">
+                        </div>
+                    </div>
+                    <a href="javascript:;" onclick="setTrade()" type="button" class="am-btn am-btn-block am-radius am-btn-lg new-btn-color" ><em class="translate_em" translate="make_sure"></em> </a>
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="../../assets/js/setdecimals.js"></script>
+<script src="../../assets/js/decimal.min.js"></script>
+<script src="../../assets/js/market.js"></script>
+<!--模板赋值-->
+
+<!--自选交易市场-->
+<script id="list_zxList" type="text/html">
+    {{each list as value i}}
+    {{if searchKeyIsNull(_getCoinName(value.name_en))}}
+    <tr coinname="{{ _getCoinName(value.name_en) }}"  onclick="redictMarketId({{ value.id }}, this)" class="cointr {{IsCookiesMarketId2(value.id)}}">
+        <td class="gay_name"><span> {{ value.name_en }}</span> </td>
+        <td class="c_status">{{value.newPrice}}</td>
+        {{ if value.change < 0 }}
+        <td class="c_status"><span class="red">{{value.change}}%</span></td>
+        {{ else }}
+        <td class="c_status"><span class="c_green">{{value.change}}%</span></td>
+        {{ /if }}
+    </tr>
+    {{/if}}
+    {{/each}}
+</script>
+<!--QD交易市场-->
+<script id="list_qdList" type="text/html">
+    {{each list as value i}}
+    {{if searchKeyIsNull(_getCoinName(value.name_en))}}
+        <tr coinname="{{ _getCoinName(value.name_en) }}"  onclick="redictMarketId({{ value.id }}, this)" class="cointr {{IsCookiesMarketId2(value.id)}}">
+            <td><span> {{ _getCoinName(value.name_en) }}</span> </td>
+            <td class="c_status">{{value.newPrice}}</td>
+            {{ if value.change < 0 }}
+            <td class="c_status"><span class="red">{{value.change}}%</span></td>
+            {{ else }}
+            <td class="c_status"><span class="c_green">{{value.change}}%</span></td>
+            {{ /if }}
+        </tr>
+    {{/if}}
+    {{/each}}
+</script>
+
+<!-- USDT 交易市场-->
+<script id="list_usdtList" type="text/html">
+    {{each list as value i}}
+    {{if searchKeyIsNull(_getCoinName(value.name_en))}}
+    <tr coinname="{{ _getCoinName(value.name_en) }}"  onclick="redictMarketId({{ value.id }}, this)" class="cointr {{IsCookiesMarketId2(value.id)}}">
+        <td><span> {{ _getCoinName(value.name_en) }}</span> </td>
+        <td class="c_status">{{value.newPrice}}</td>
+        {{ if value.change < 0 }}
+        <td class="c_status"><span class="red">{{value.change}}%</span></td>
+        {{ else }}
+        <td class="c_status"><span class="c_green">{{value.change}}%</span></td>
+        {{ /if }}
+    </tr>
+    {{/if}}
+    {{/each}}
+</script>
+
+<!-- BTC 交易市场-->
+<script id="list_btcList" type="text/html">
+    {{each list as value i}}
+        {{if searchKeyIsNull(_getCoinName(value.name_en))}}
+    <tr coinname="{{ _getCoinName(value.name_en) }}"  onclick="redictMarketId({{ value.id }}, this)" class="cointr {{IsCookiesMarketId2(value.id)}}">
+        <td> <span>{{ _getCoinName(value.name_en) }}</span> </td>
+        <td class="c_status">{{value.newPrice}}</td>
+        {{ if value.change < 0 }}
+        <td class="c_status"><span class="red">{{value.change}}%</span></td>
+        {{ else }}
+        <td class="c_status"><span class="c_green">{{value.change}}%</span></td>
+        {{ /if }}
+    </tr>
+    {{/if}}
+    {{/each}}
+</script>
+
+<!-- ETH 交易市场-->
+<script id="list_ethList" type="text/html">
+    {{each list as value i}}
+        {{if searchKeyIsNull(_getCoinName(value.name_en))}}
+    <tr coinname="{{ _getCoinName(value.name_en) }}"  onclick="redictMarketId({{ value.id }}, this)" class="cointr {{IsCookiesMarketId2(value.id)}}">
+        <td><span>{{ _getCoinName(value.name_en) }}</span></td>
+        <td class="c_status">{{value.newPrice}}</td>
+        {{ if value.change < 0 }}
+        <td class="c_status"><span class="red">{{value.change}}%</span></td>
+        {{ else }}
+        <td class="c_status"><span class="c_green">{{value.change}}%</span></td>
+        {{ /if }}
+    </tr>
+    {{/if}}
+    {{/each}}
+</script>
+
+<!--自选创新区交易市场-->
+<script id="cxlist_zxList" type="text/html">
+    {{each list as value i}}
+    {{if searchKeyIsNull(_getCoinName(value.name_en))}}
+    <tr coinname="{{ _getCoinName(value.name_en) }}"  onclick="redictMarketId({{ value.id }}, this)" class="cointr {{IsCookiesMarketId2(value.id)}}">
+        <td class="gay_name"><span> {{ value.name_en }}</span> </td>
+        <td class="c_status">{{value.newPrice}}</td>
+        {{ if value.change < 0 }}
+        <td class="c_status"><span class="red">{{value.change}}%</span></td>
+        {{ else }}
+        <td class="c_status"><span class="c_green">{{value.change}}%</span></td>
+        {{ /if }}
+    </tr>
+    {{/if}}
+    {{/each}}
+</script>
+
+<!--QD 创新区交易市场-->
+<script id="cxlist_qdList" type="text/html">
+    {{each list as value i}}
+    {{if searchKeyIsNull(_getCoinName(value.name_en))}}
+        <tr coinname="{{ _getCoinName(value.name_en) }}"  onclick="redictMarketId({{ value.id }}, this)" class="cointr {{IsCookiesMarketId2(value.id)}}">
+            <td><span> {{ _getCoinName(value.name_en) }}</span> </td>
+            <td class="c_status">{{value.newPrice}}</td>
+            {{ if value.change < 0 }}
+            <td class="c_status"><span class="red">{{value.change}}%</span></td>
+            {{ else }}
+            <td class="c_status"><span class="c_green">{{value.change}}%</span></td>
+            {{ /if }}
+        </tr>
+    {{/if}}
+    {{/each}}
+</script>
+
+<!-- USDT 创新区交易市场-->
+<script id="cxlist_usdtList" type="text/html">
+    {{each list as value i}}
+    {{if searchKeyIsNull(_getCoinName(value.name_en))}}
+    <tr coinname="{{ _getCoinName(value.name_en) }}"  onclick="redictMarketId({{ value.id }}, this)" class="cointr {{IsCookiesMarketId2(value.id)}}">
+        <td><span> {{ _getCoinName(value.name_en) }}</span> </td>
+        <td class="c_status">{{value.newPrice}}</td>
+        {{ if value.change < 0 }}
+        <td class="c_status"><span class="red">{{value.change}}%</span></td>
+        {{ else }}
+        <td class="c_status"><span class="c_green">{{value.change}}%</span></td>
+        {{ /if }}
+    </tr>
+    {{/if}}
+    {{/each}}
+</script>
+
+<!-- BTC 创新区交易市场-->
+<script id="cxlist_btcList" type="text/html">
+    {{each list as value i}}
+        {{if searchKeyIsNull(_getCoinName(value.name_en))}}
+    <tr coinname="{{ _getCoinName(value.name_en) }}"  onclick="redictMarketId({{ value.id }}, this)" class="cointr {{IsCookiesMarketId2(value.id)}}">
+        <td> <span>{{ _getCoinName(value.name_en) }}</span> </td>
+        <td class="c_status">{{value.newPrice}}</td>
+        {{ if value.change < 0 }}
+        <td class="c_status"><span class="red">{{value.change}}%</span></td>
+        {{ else }}
+        <td class="c_status"><span class="c_green">{{value.change}}%</span></td>
+        {{ /if }}
+    </tr>
+    {{/if}}
+    {{/each}}
+</script>
+
+<!-- ETH 创新区交易市场-->
+<script id="cxlist_ethList" type="text/html">
+    {{each list as value i}}
+        {{if searchKeyIsNull(_getCoinName(value.name_en))}}
+    <tr coinname="{{ _getCoinName(value.name_en) }}"  onclick="redictMarketId({{ value.id }}, this)" class="cointr {{IsCookiesMarketId2(value.id)}}">
+        <td><span>{{ _getCoinName(value.name_en) }}</span></td>
+        <td class="c_status">{{value.newPrice}}</td>
+        {{ if value.change < 0 }}
+        <td class="c_status"><span class="red">{{value.change}}%</span></td>
+        {{ else }}
+        <td class="c_status"><span class="c_green">{{value.change}}%</span></td>
+        {{ /if }}
+    </tr>
+    {{/if}}
+    {{/each}}
+</script>
+
+<!--买入列表-->
+<script id="buy_list" type="text/html">
+    {{each list as value i}}
+    {{ if value.type == 1  }}
+    <tr>
+        <td class="reg-time-none">{{ value.createTime }}</td>
+        <td class="reg-price-buy">{{value.price}}</td>
+        <td>{{ value.num }}</td>
+    </tr>
+    {{/if}}
+    {{ if value.type == 2  }}
+    <tr>
+        <td class="reg-time-none">{{ value.createTime }}</td>
+        <td class="reg-price-sell">{{value.price}}</td>
+        <td>{{ value.num }}</td>
+    </tr>
+    {{/if}}
+    {{/each}}
+</script>
+
+<!--卖出列表-->
+<script id="sell_list" type="text/html">
+    {{each list as value i}}
+    <tr>
+        <td class="reg-time-none">{{ value.createTime }}</td>
+        <td>{{value.price}}</td>
+        <td>{{ value.num }}</td>
+    </tr>
+    {{/each}}
+</script>
+
+<!-- 历史委托列表 -->
+<script id="history_tradeList" type="text/html">
+    {{each list as value i}}
+    {{ if i < 20 }}
+    <tr>
+        <td class="reg-text">{{ dateFormat(value.createTime, value.ctStatus) }}</td>
+        {{ if value.type == 1  }}
+        <td><span class="c_green" translate="left2_market3"><em class="translate_em" translate="financial_first5_type2"></em></span></td>
+        {{ else }}
+        <td><span class="red" translate="left2_market4"><em class="translate_em" translate="financial_first5_type3"></em></span></td>
+        {{/if}}
+        <td class="c_status">{{ value.price }}</td>
+        <td class="c_status">{{ value.num }}</td>
+        <td class="c_status">{{ value.average }}</td>
+        <td class="c_status">{{ value.deal }}</td>
+        <td class="c_status">{{ value.totalMum  }}</td>
+        {{ if value.status  == 0  }}
+        <td class="c_status"><em class="translate_em" translate="financial_first5_type4"></em> <a href="javascript:void(0)" onclick="withdrawal({{ value.id }})" class="btn-revoke" ><em class="translate_em" translate="chexiao"></em></a></td>
+        {{ /if }}
+        {{ if value.status  == 1  }}
+        <td class="finish c_status"><em class="translate_em" translate="financial_first5_type5"></em></td>
+        {{ /if }}
+        {{ if value.status  == 2  }}
+        <td class="revocation c_status"><em class="translate_em" translate="financial_first5_type6"></em></td>
+        {{ /if }}
+    </tr>
+    {{/if}}
+    {{/each}}
+</script>
+
+<!-- 当前委托列表 -->
+<script id="limit_tradeList" type="text/html">
+    {{each list as value i}}
+    {{ if i < 20 }}
+    <tr>
+        <td class="reg-text">{{ dateFormat(value.createTime, value.ctStatus) }}</td>
+        {{ if value.type == 1  }}
+        <td><span class="buycolor" ><em class="translate_em" translate="financial_first5_type2"></span></td>
+        {{ else }}
+        <td><span class="sellcolor" ><em class="translate_em" translate="financial_first5_type3"></em></span></td>
+        {{/if}}
+        <td class="c_right">{{value.price}}</td>
+        <td class="c_right">{{value.num}}</td>
+        <td class="c_right">{{value.average}}</td>
+        <td class="c_right">{{value.deal}}</td>
+        <td class="c_right">{{value.totalMum}}</td>
+        <td class="c_center" width="130"> <a href="javascript:void(0)" onclick="withdrawal({{ value.id }})" class="btn-revoke"><em class="translate_em" translate="chexiao"></em></a></td>
+    </tr>
+    {{/if}}
+    {{/each}}
+</script>
+<script id="Sell2_List" type="text/html">
+    {{each list as value i}}
+    {{ if list.length > 30 }}
+    <li title="以这个价格买入" style="cursor: pointer;" onclick="autotrust(this,'sell',2)"><em class="point point_{{value.port}}"></em><i style="width:{{_Bill(value.num,"sell")}}%;"></i>
+        <span class="t1"><em class="translate_em" translate="mai1"></em>{{  list.length - i }}</span><span class="t2">{{value.price}}</span><span class="t3">{{value.num}}</span>
+    </li>
+    {{ else }}
+    <li title="以这个价格买入" style="cursor: pointer;" onclick="autotrust(this,'sell',2)"><em class="point point_{{value.port}}"></em><i style="width:{{_Bill(value.num,"sell")}}%;"></i>
+        <span class="t1"><em class="translate_em" translate="mai1"></em>{{  list.length - i }}</span><span class="t2">{{value.price}}</span><span class="t3">{{value.num}}</span>
+    </li>
+    {{/if}}
+    {{/each}}
+</script>
+
+<script id="Buy2_List" type="text/html">
+    {{each list as value i}}
+    {{if i < 30}}
+    <li title="以这个价格卖出" style="cursor: pointer;" onclick="autotrust(this,'buy',2)"><em class="point point_{{value.port}}"></em><i style="width:{{_Bill(value.num,"buy")}}%;"></i>
+        <span class="t1"><em class="translate_em" translate="mai"></em>{{i+1}}</span><span class="t2">{{value.price}}</span><span class="t3">{{value.num}}</span>
+    </li>
+    {{/if}}
+    {{/each}}
+</script>
+
+</body>
+</html>

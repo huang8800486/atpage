@@ -1,0 +1,126 @@
+<div class="return_center">
+    <a href="security_center.html"><i class="iconfont icon-fanhui" ></i><em class="translate_em" translate="fanhuigerenzhongxin"></em></a>
+</div>
+<ul id="navList">
+    <li>
+        <a id="safe" href="cardinfo.html" class="icon-safety icon-safety1">
+            <i class="iconfont icon-shimingrenzheng"></i>
+            <p translate="security_first2" class="center_p">实名认证</p>
+            <span></span>
+        </a>
+    </li>
+    <li>
+        <a href="phone.html" class="icon-safety icon-safety2">
+            <i class="iconfont icon-shouji"></i>
+            <p translate="bangdingshouji" class="center_p">绑定手机</p>
+            <span></span>
+        </a>
+    </li>
+    <li>
+        <a href="email.html" class="icon-safety icon-safety3">
+            <i class="iconfont icon-youxiang"></i>
+            <p translate="bangdingyouxiang" class="center_p">绑定邮箱</p>
+            <span></span>
+        </a>
+    </li>
+    <li>
+        <a href="update_login_pwd.html" class="icon-safety icon-safety4">
+            <i class="iconfont icon-denglumima"></i>
+            <p translate="login_code" class="center_p">登录密码</p>
+            <span></span>
+        </a>
+    </li>
+    <li>
+        <a href="update_trade_pwd.html" class="icon-safety icon-safety5">
+            <i class="iconfont icon-jiaoyimima"></i>
+            <p translate="middle1_market1_placeholder6" class="center_p">交易密码</p>
+            <span></span>
+        </a>
+    </li>
+    <li>
+        <a href="google.html" class="icon-safety icon-safety6">
+            <i class="iconfont icon-gugeyanzhengqi"></i>
+            <p translate="security_Google1" class="center_p">绑定谷歌验证器</p>
+            <span></span>
+        </a>
+    </li>
+    <li>
+        <a href="bankmanage.html" class="icon-safety icon-safety7">
+            <i class="iconfont icon-yinhangqiaguanli1"></i>
+            <p translate="security_first5" class="center_p">银行卡管理</p>
+            <span></span>
+        </a>
+    </li>
+    <li>
+        <a href="coinaddress.html" class="icon-safety icon-safety8">
+            <i class="iconfont icon-qianbaodizhiguanli1"></i>
+            <p translate="security_first6" class="center_p">钱包地址管理</p>
+            <span></span>
+        </a>
+    </li>
+    <li>
+        <a href="set_trade.html" class="icon-safety icon-safety9">
+            <i class="iconfont icon-yanzhengshezhi"></i>
+            <p translate="security_first4" class="center_p"></p>
+            <span></span>
+        </a>
+    </li>
+</ul>
+
+<script type="text/javascript">
+    $(function () {
+
+        var cookieStr = $.getToken();
+        //  如果已经登录，则取得财务中心数据
+        if (!$.TokenIsNull(cookieStr)) {
+            getUserInfo();
+        }
+        navStyle();
+    });
+
+    var status = null;
+
+    function getUserInfo() {
+        $.ajaxSendData("", "/api/user/details", function(resData){
+            status = resData.data.status;
+
+            if ( status == 3 ){
+                // $("#setTradePwd2").html("设置交易密码");
+            }else {
+                // $("#setTradePwd2").html("修改交易密码");
+            }
+        });
+    }
+
+    //  动态设置左边导航样式
+    function navStyle() {
+        var pathname = window.location.pathname;
+        //  拿到最后的网页链接
+        var url = pathname.substr(pathname.lastIndexOf('/')+1,pathname.length);
+
+        $("#navList li").each(function (index,element) {
+            //  获得索引
+            var index = ++index;
+            //  取得A标签
+            var oA = $(this).children("a");
+            //  取得A 标签里面的链接
+            var link = $(this).children("a").attr("href");
+
+            if ( link == url ){
+                oA.parent().addClass("curr");
+            }
+
+            /*if ( url == "phone.html" ){
+                $("#safe").parent().addClass("curr");
+            }
+
+            if ( url == "email.html" ){
+                $("#safe").parent().addClass("curr");
+            }
+
+            if ( url == "google.html" ){
+                $("#safe").parent().addClass("curr");
+            }*/
+        })
+    }
+</script>

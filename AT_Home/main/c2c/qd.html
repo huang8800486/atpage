@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>交易系统</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="keyword" content="比特币价格,比特币交易平台,区块链,数字化资产,比特币行情,AT交易所,USDT,莱特币,BCH,以太坊,ETH,以太经典,进行币币交易" />
+    <meta name="description" content="description:AT交易所是一家集数字化资产、投资服务、资讯服务于一体的国际化区块链资产交易平台。提供比特币,莱特币(LTC),以太坊(ETH),比特币现金(BCH),以太经典(ETC)达世币(DASH)等虚拟货币以比特币(BTC)、USDT进行交易！提供实时比特币价格,比特币行情。">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="stylesheet" href="../../assets/css/reset.css">
+    <link rel="stylesheet" href="../../assets/font/iconfont.css">
+    <link rel="stylesheet" href="../../assets/css/layout.css">
+    <script src="../../script/jquery-3.3.1.min.js"></script>
+    <script src="../../script/tools/crypto-js.js"></script>
+    <script src="../../script/tools/jquery.cookie.js"></script>
+    <script src="../../script/tools/md5.min.js"></script>
+    <script src="../../script/tools/k_tools.js"></script>
+    <script src="../../script/tools/loadSiteInfo.js"></script>
+    <script src="../../script/tools/jquery-ui.js"></script>
+    <script src="../../script/trade/tools.js"></script>
+    <script src="../../script/center_toos/center_tools_new.js"></script>
+    <script src="../../script/template.js"></script>
+    <script src="../../script/layer.js"></script>
+    <script src="../../assets/js/translate/jquery.i18n.properties/jquery.i18n.properties.min.js" charset="utf-8"></script>
+    <script src="../../assets/js/translate/i18n.config.js" charset="utf-8"></script>
+</head>
+
+<body>
+<div class="view_body qd_view_body">
+    <!-- header -->
+    <header class="header header-other" id="header"></header>
+    <div class="negative_content_page">
+        <div class="dynamic-width negative_content">
+            <div class="main_qd">
+                <div class="amoney-deal-qd-wrapper">
+                    <div class="money-deal-title">
+                        <h2>QD</h2>
+                        <div class="money-deal-right clearfix">
+                            <a href="../help/c2c_explain.html" target="_blank"><em class="translate_em" translate="caozuoshuoming"></em></a>
+                            <a href="../security/bankmanage.html" target="_blank"><em class="translate_em" translate="security_first5"></em></a>
+                        </div>
+                    </div>
+                    <div class="trans-box-list-c2c-wrap clearfix">
+                        <div class="trans-box-list-c2c fl trans-box-list-left">
+                            <div class="trbylist">
+                                <div class="am-form-group">
+                                    <span class="buycolor" translate="c2c_second1">买入价</span>
+                                    <div class="input_wrap">
+                                        <input id="buyPrice" type="text" class="frominput" value="" disabled>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <span class="buycolor" translate="c2c_second2">买入量</span>
+                                    <div class="input_wrap">
+                                        <input id="buyNum" type="text" class="frominput" value=""" maxlength="19" autocomplete="off" onkeypress="return myNumberic(event)">
+                                    </div>
+                                </div>
+                                <div class="all-group">
+                                    <div class="rpi">
+                                        <em class="translate_em" translate="middle1_market1_placeholder7"></em>
+                                        <span id="buyMum" class="c_green">0</span> CNY 
+                                        <!--&nbsp;&nbsp; 手续费：<span id="buyFee" class="red">0%</span>-->
+                                    </div>
+                                </div>
+                                <div class="buyCoin_wrap">
+                                    <a onclick="buyCoin()" class="new-btn-color" translate="c2c_second7">立即买入</a>
+                                </div>
+                            </div>
+                            <div class="listcointable">
+                                <table>
+                                    <thead>
+                                    <tr>
+                                        <th class="c_left" translate="c2c_third1">商户</th>
+                                        <th class="c_right" translate="c2c_third2">成交数量</th>
+                                        <th class="c_center" translate="c2c_third3">类型</th>
+                                        <th class="c_center" translate="c2c_third4">状态</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="sellList"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="trans-box-list-c2c fr trans-box-list-right">
+                            <div class="trbylist">
+                                <div class="am-form-group">
+                                    <span class="sellcolor" translate="c2c_second4">卖出价</span>
+                                    <div class="input_wrap">
+                                        <input id="sellPrice" type="text" class="frominput" value="" disabled>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <span class="sellcolor" translate="c2c_second5">卖出量</span>
+                                    <div class="input_wrap">
+                                        <input id="sellNum" type="text" class="frominput" value=""" maxlength="19" autocomplete="off" onkeypress="return myNumberic(event)">
+                                        <input type="text" class="frominput" value="" maxlength="19" autocomplete="off" style="display:none;">
+                                    </div>
+                                </div>
+                                <div class="all-group">
+                                    <div class="rpi">
+                                        <em class="translate_em" translate="middle1_market1_placeholder7"></em>
+                                        <span id="sellMum" class="red">0</span> CNY 
+                                        <!--&nbsp;&nbsp; 手续费：<span id="sellFee" class="c_green">0%</span>-->
+                                    </div>
+                                </div>
+                                <div class="buyCoin_wrap">
+                                    <a onclick="sellCoin()" class="sell-btn-color" translate="c2c_second8">立即卖出</a>
+                                </div>
+                            </div>
+
+                            <div class="listcointable">
+                                <table class="am-table am-table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th class="c_left" translate="c2c_third1">商户</th>
+                                        <th class="c_right" translate="c2c_third2">成交数量</th>
+                                        <th class="c_center" translate="c2c_third3">类型</th>
+                                        <th class="c_center" translate="c2c_third4">状态</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="buyList"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="money-deal-txt">
+                    <h1 translate="c2c_last1">温馨提示:</h1>
+                    <p class="note sellcolor" translate="c2c_last2"><b>1. 请使用本人绑定的银行卡进行汇款，其他任何方式汇款都会退款。（禁止微信和支付宝）</b></p>
+                    <p translate="c2c_last3">2. 商家处理时间9:00 - 21:00非处理时间的订单会在第二天9:00开始处理，一般接单后24小时内会完成打款。</p>
+                    <p><em class="translate_em" translate="c2c_last4"></em>&nbsp;&nbsp;<span class="note" id="dayTradeSum"></span>&nbsp;&nbsp;<em class="translate_em" translate="c2c_last5"></em>
+                    <p translate="c2c_last6">4. 买卖商户均为实地考察认证商户，您每次兑换会冻结商户资产，商户资产不够时，不能接单，可放心兑换；</p>
+                    <p translate="c2c_last7">5. 买卖商户均为实名认证商户，并提供保证金，可放心兑换；</p>
+                    <p translate="c2c_last8">6. 如需申请成为商户请发邮件到 bd@at3.com；</p>
+                </div>
+            </div>
+        </div>
+        <div class="dynamic-width dynamin-record">
+            <div class="money-deal-record" id="userPayList" style="display: none">
+                <div class="money-deal-title clearfix">
+                    <h2 translate="c2c_trade4" class="fl">最近兑换记录</h2>
+                    <span class="c2c_more fr" >
+                        <a href="../usercenter/assetDetails.html" target="_blank" >
+                            <i class="iconfont icon-chakanquanbu"></i>
+                            <em class="translate_em" translate="middle2_market10"></em>
+                    </a></span>
+                </div>
+                <div class="money-deal-record-list">
+                    <table class="am-table am-table-hover">
+                        <thead>
+                        <tr>
+                            <th class="c_left" translate="left2_market5">时间</th>
+                            <th class="c_left" translate="c2c_trade6">类别</th>
+                            <th class="c_right" translate="c2c_trade7">数量</th>
+                            <th class="c_right" translate="c2c_trade8">单价（￥）</th>
+                            <th class="c_right" translate="c2c_trade9">总价（￥）</th>
+                            <th class="c_left" translate="c2c_trade10">商户信息</th>
+                            <th class="c_left" translate="c2c_trade11">状态</th>
+                        </tr>
+                        </thead>
+                        <tbody id="userTradeList" class="userTradeList_c2c"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer id="footer" class="footer"></footer>
+    <!--汇款订单-->
+    <div class="am-modal am-modal-alert" tabindex="-1" id="order-form">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">
+                <em class="translate_em tit" translate="c2c_trade_info1"></em>
+                <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>
+                    <i class="iconfont icon-cuowu"></i>
+                </a>
+            </div>
+            <div class="am-modal-bd">
+                <div class="am-table am-table-bordered">
+                    <div class="pay_detail_wrap clearfix">
+                        <div class="pay_detail">
+                            <span class="de_top" translate="c2c_trade_info3">收款方户名</span>
+                            <span id="trueName" class="de_bottom"></span>
+                        </div>
+                        <div class="pay_detail">
+                            <span class="de_top" translate="c2c_trade_info4">收款方开户行</span>
+                            <span id="bank" class="de_bottom"></span>
+                        </div>
+                    </div>
+                    <div class="pay_detail_center">
+                        <div class="pay_detail">
+                            <span class="de_top" translate="c2c_trade_info5">收款方账号</span>
+                            <span id="bankCard" class="de_bottom"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="pay_detail_wrap clearfix">
+                        <div class="pay_detail">
+                            <span class="de_top" translate="c2c_trade_info6">转账金额</span>
+                            <span class="de_bottom"><b class="red" id="mum"></b></span>
+                        </div>
+                        <div class="pay_detail">
+                            <span class="de_top"><em translate="c2c_trade_info7">汇款时备注信息</em><em class="translate_em" translate="c2c_trade_info8">（请务必填写）</em></span>
+                            <span class="de_bottom"><b class="red" id="credence"></b> </span>
+                        </div>
+                    </div>
+                    <div class="pay_detail_center pay_detail_last">
+                        <div class="pay_detail">
+                            <!-- <span class="de_top" translate="c2c_trade_info9">状态</span> -->
+                            <span class="yellow" id="status"></span>
+                            <span class="de_top"><em class="translate_em creatTime" id="tradingEnd"></em></span>
+                            <input type="hidden" id="tradeId">
+                            <a id="pay_btn" href="javascript:void(0)" onclick="setTradeId()" style="display: none">
+                                <em class="translate_em" translate="c2c_trade_info10"></em>
+                            </a>
+                            <span translate="qingxianxiazhuanzheng" style="display:block;text-align:center;"></span>
+                            <span translate="ruyouwenzaoxinxi" style="display:block;text-align:center;"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="rich_text">
+                    <p translate="c2c_trade_info2">1.请按提示信息向该商家汇款；</p>
+                    <p translate="c2c_trade_message1">2.卖家为认证商户，可放心汇款；</p>
+                    <p translate="c2c_trade_message2" class="red">3.汇款时一定要填写备注信息；</p>
+                    <p translate="c2c_trade_message3">4.卖家确认收到款后，自动充值QD。如超过24小时未收到币，请向客服反馈解决；</p>
+                    <p><em class="translate_em" translate="c2c_trade_message4"></em>&nbsp;&nbsp;<span class="red" id="dayTradeSum2"></span>&nbsp;&nbsp;<em class="translate_em" translate="c2c_trade_message5"></em></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--收款订单-->
+    <div class="am-modal am-modal-alert" tabindex="-1" id="receipt-form">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">
+                <em class="translate_em tit" translate="shoukuanxinxi"></em>
+                <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>
+                    <i class="iconfont icon-cuowu"></i>
+                </a>
+            </div>
+            <div class="am-modal-bd">
+                <div class="am-table am-table-bordered">
+                    <div class="pay_detail_wrap clearfix">
+                        <div class="pay_detail">
+                            <span class="de_top" translate="c2c_trade_info3">收款方户名</span>
+                            <span id="trueName2" class="de_bottom"></span>
+                        </div>
+                        <div class="pay_detail">
+                            <span class="de_top" translate="c2c_trade_info4">收款方开户行</span>
+                            <span id="bank2" class="de_bottom"></span>
+                        </div>
+                    </div>
+                    <div class="pay_detail_wrap clearfix">
+                        <div class="pay_detail">
+                            <span class="de_top" translate="c2c_trade_info5">收款方账号</span>
+                            <span id="bankCard2" class="de_bottom"></span>
+                        </div>
+                        <div class="pay_detail">
+                            <span class="de_top" translate="c2c_trade_info6">转账金额</span>
+                            <span class="de_bottom"><b class="red" id="mum2"></b></span>
+                        </div>
+                    </div>
+                    <div class="pay_detail_center">
+                        <div class="pay_detail">
+                            <!-- <span class="de_top" translate="c2c_trade_info9">状态</span> -->
+                            <span class="de_bottom">
+                                <b class="yellow" id="status2"></b>
+                                &nbsp;&nbsp;<!-- <a id="pay_btn2" href="javascript:void(0)" onclick="setTradeId()" style="display: none" translate="c2c_trade_info10">确认打款</a> -->
+                            </span>
+                            <input type="hidden" id="tradeId2">
+                        </div>
+                    </div>
+                </div>
+                <p translate="c2ctrade_info_seller">1.请确认您的收款信息；</p>
+                <p translate="kefangxindengdai">2.可放心等待；</p>
+                <p translate="qingquebaoningdeshoukuan">3.请确保您的收款信息准确无误，如有问题，请向客服反馈解决；</p>
+                <p translate="c2c_trade_message31">4.如超过24小时未收到款项，请向客服反馈解决；</p>
+                <p><em class="translate_em" translate="c2c_trade_message4"></em>&nbsp;&nbsp;<span class="red" id="dayTradeSum3"></span>&nbsp;&nbsp;<em class="translate_em" translate="c2c_trade_message5"></em></p>
+            </div>
+        </div>
+    </div>
+
+    <!--收款订单-->
+    <div class="am-modal am-modal-alert" tabindex="-1" id="cancel-form">
+        <div class="am-modal-dialog">
+            <div class="am-modal-bd">
+                <h2>取消订单？</h2>
+                <span>如果您已经向卖家付款，请千万不要取消交易</span>
+                <div class="cancel_btns">
+                    <a href="javascript:;" class="cancel_no">不想要了</a>
+                    <a href="javascript:;" class="am-close cancel_down" data-am-modal-close>继续下单</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="buy_pop_trade_secret pop_trade_secret">
+        <div class="pop_trad">
+            <div class="tibox">
+                <h2 translate="financial_first47">交易密码验证</h2>
+                <a href="javascript: void(0)" class="tra-close">
+                    <i class="iconfont icon-cuowu"></i>
+                </a>
+            </div>
+            <div class="confina">
+                <div class="finance-form-input am-form-full clearfix">
+                    <div class="finance-form-left finance-form-lt">
+                        <div class="input_wrap">
+                            <input id="buyPayPassword" type="password" class="frominput" value="" maxlength="60" autocomplete="new-password" data-i18n-placeholder="qingshurujiaoyimima">
+                            <input type="text" class="frominput" value="" maxlength="19" autocomplete="off" style="display:none;">
+                        </div>
+                        <button type="button" class="new-btn-color buybutton" onclick="buyQD()" translate="queren">确认</button>
+                        <a class="foge" onclick="goTandPage(this)"><i class="iconfont icon-tishi"></i><em translate="forgetLoginPwd">忘记密码?</em></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="sell_pop_trade_secret pop_trade_secret">
+        <div class="pop_trad">
+            <div class="tibox">
+                <h2 translate="financial_first47">交易密码验证</h2>
+                <a href="javascript: void(0)" class="tra-close">
+                    <i class="iconfont icon-cuowu"></i>
+                </a>
+            </div>
+            <div class="confina">
+                <div class="banklistselect">
+                    <div class="list_wrap">
+                        <h2>收款账户：</h2>
+                        <div class="no_list" style="display:none">
+                            <span class="sellcolor">您还没有收款账户，请添加银行卡</span>
+                        </div>
+                        <div class="yes_list" style="display:none"></div>
+                        <a href="../security/bankmanage.html" class="gobankpage">+添加新卡</a>
+                    </div>
+                </div>
+                <div class="finance-form-input am-form-full clearfix">
+                    <div class="finance-form-left finance-form-lt">
+                        <div class="input_wrap">
+                            <input id="sellPayPassword" type="password" class="frominput" value="" maxlength="60" autocomplete="new-password" data-i18n-placeholder="qingshurujiaoyimima">
+                            <input type="text" class="frominput" value="" maxlength="19" autocomplete="off" style="display:none;">
+                        </div>
+                        <button type="button" class="new-btn-color sellbutton" onclick="sellQD()" translate="queren">确认</button>
+                        <a class="foge" onclick="goTandPage(this)"><i class="iconfont icon-tishi"></i><em translate="forgetLoginPwd">忘记密码?</em></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!--[if lt IE 9]>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="../../assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+
+<script src="../../assets/js/amazeui.min.js"></script>
+<script src="../../assets/js/count-number.js"></script>
+<script src="../../assets/js/setdecimals.js"></script>
+
+
+<script>
+    var marketID = null;
+    var marketInfo = null;
+    $(function () {
+        $("#header").load("../common/commonHeader.html?version=" + $.version);
+        $("#footer").load("../common/commonFooter.html?version=" + $.version);
+        //  查询出 QD 专区的市场的信息
+        getC2cMarketInfo();
+        
+
+        // if($("#userTradeList").html() == ""){
+        //     $("#userPayList").hide();
+        // }else{
+        //     $("#userPayList").show();
+        // }
+    })
+</script>
+<script src="../../assets/js/setdecimals.js"></script>
+<script type="text/javascript">
+    var isSetTradePwd = null;
+    var cardrzV = null;
+    var trueName = null;
+    function myNumberic(e,len) {
+        var obj=e.srcElement || e.target;
+        var dot=obj.value.indexOf(".");//alert(e.which);
+        len =(typeof(len)=="undefined")?2:len;
+        var  key=e.keyCode|| e.which;
+        if(key==8 || key==9 || key==46 || (key>=37  && key<=40))//这里为了兼容Firefox的backspace,tab,del,方向键
+            return true;
+        if (key<=57 && key>=48) { //数字
+            if(dot==-1)//没有小数点
+                return true;
+            else if(obj.value.length<=dot+len)//小数位数
+                return true;
+            } else if((key==46) && dot==-1){//小数点
+                return true;
+        }       
+        return false;
+    }
+    function onlyNumber(str) {
+        $.onlyNumber(str);
+    }
+
+    function onlyNumberSubstrZero(str) {
+        $.onlyNumberSubstrZero(str);
+    }
+
+    function Getassets1() {
+        $.ajaxSendData("", "/api/user/details", function(resData){
+            isSetTradePwd = resData.data.status;
+            cardrzV = resData.data.cardrz;
+            trueName = resData.data.truename;
+        });
+    }
+    //  初始化银行卡设置状态
+    // 选择银行卡
+    var selectBank = null;     // 默认银行为0, 不选择
+    var bankCardStatus = null;
+    function getBankInfo() {
+        $.ajaxSendData("", "/api/user/bank/card/list", function(resData){
+            if (resData.data.length > 0) {
+                bankCardStatus = 1;
+                $(".sell_pop_trade_secret").find(".no_list").hide();
+                $(".sell_pop_trade_secret").find(".yes_list").show();
+                var da = { "list": resData.data};
+                var _html = template('bankList', da);
+                $(".yes_list").html(_html);
+                $(".sell_pop_trade_secret").find(".yes_list a").eq(0).addClass("select");
+                $(".sell_pop_trade_secret").find(".yes_list a").eq(0).attr("data-card-id");
+            }else {
+                selectBank = 0;
+                bankCardStatus = 0;
+                $(".sell_pop_trade_secret").find(".no_list").show();
+                $(".sell_pop_trade_secret").find(".yes_list").hide();
+            }
+        });
+    }
+    $(".sell_pop_trade_secret").on("click", ".yes_list a", function(){
+        var i = $(".yes_list a").index($(this));
+        $(".yes_list a").eq(i).addClass("select").siblings().removeClass("select");
+        selectBank = $(this).attr("data-card-id");
+    });
+    var iThis = 0;
+    var timeObj = {};
+    function getTimeRemaining(startTime, i, index){
+        var endTime = new Date(startTime).getTime() + addTime;
+        var valueTime;
+        clearInterval(timeObj[i])
+        timeObj[i] = setInterval(updateClock,1000);
+        function updateClock(){
+            $("." + i +"_pay").css("display","block")
+            endTime = endTime - 1000;
+            var t = (endTime - serverTime) / 1000;
+            $("." + i).addClass("icon");
+            $(".tradingEnd" + i).addClass("icon");
+            if(t <= 0){
+                $("." + i).removeClass("icon");
+                clearInterval(timeObj[i])
+                var listUerList = $("body").data("list_userList");
+                var listIndex = listUerList[index];
+                listIndex.status = "2";
+                $("body").data("list_userList", listUerList)
+                $("." + i +"_pay").hide()
+                $("." + i).parent().children().first().children().text(langPkg.getI18N("financial_first5_type6"))
+                $("." + i).parent().find("#status2").text(langPkg.getI18N("financial_first5_type6"))
+                $("." + i).parent().find("#pay_btn").hide();
+                return false;
+            }
+            var seconds = Math.floor(t % 60),               // 计算秒钟
+                minutes = Math.floor((t / 60) % 60),        // 计算分钟
+                hours = Math.floor((t / 60 / 60) % 60),     // 计算小时
+                days = Math.floor((t / 60 / 60 / 24));      // 计算天数
+            // console.log((("0" + hours).slice(-2) + ": " + ("0" + minutes).slice(-2) + ": " + ("0" + seconds).slice(-2)));
+            valueTime = (("0" + minutes).slice(-2) + ": " + ("0" + seconds).slice(-2))
+            $("." + i).text(valueTime);
+            $(".tradingEnd" + i).text(valueTime);
+            // console.log(valueTime);
+            // return valueTime;
+        }
+        updateClock();
+        // return valueTime;
+    }
+
+    //  通过ID 调用 C2C2 市场接口,这里只有 QD
+    function getC2cMarketInfo() {
+        var param = {
+            id: "",
+            pageSize: 1,
+            pageTo:1
+        };
+
+        $.ajaxSendData(param, "/api/c2c/market/list", function(resData){
+            var datas = resData.data[0];
+            marketInfo = datas;
+            $("#buyPrice").val(datas.buyPrice);
+            $("#sellPrice ").val(datas.sellPrice);
+            $("#buyFee").html(datas.feeBuy + "%" );
+            $("#sellFee").html(datas.feeSell + "%");
+            $("#dayTradeSum").html(datas.dayTradeSum);
+            $("#dayTradeSum2").html(datas.dayTradeSum);
+            $("#dayTradeSum3").html(datas.dayTradeSum);
+            //  获得C2C买入卖出交易列表
+            getC2cTradeList();
+
+            //  判断用户登录状态
+            var LoginInfo = $.getToken();
+            if (LoginInfo != "") {
+                //  获得 C2C 用户交易列表
+                getC2cUserList();
+                // $("#userPayList").show();
+                Getassets1();
+                getBankInfo();
+            }
+        });
+
+        // 转入富文本
+        var param = {
+            coinId: 5,
+            languageType : langPkg.now_lang,
+            bizType: 2
+        }
+
+        $.ajaxSendData(param, "/api/adver/getTipsList", function(resData){
+            var da = { "list": resData.data };
+            var _html = template('warmprompt', da);
+            $(".money-deal-txt").html(_html)
+        });
+    }
+
+    /**
+     *  赋值
+     */
+    function setTradeId() {
+        var tradeId = $("#tradeId").val();
+        confirmPayFrame(tradeId);
+    }
+
+    //  付款信息
+    function payInfo(tradeId,trueName,bank,bankCard,mum,credence,status,type,i,time,index) {
+        if(typeof index != "undefined"){
+            var listUerList = $("body").data("list_userList");
+            var listIndex = listUerList[index];
+            status = listIndex.status + "";
+        }
+        if(status == "2" || status == "4"){
+            layer.msg(langPkg.getI18N("financial_first5_type7"), {icon: 2});
+            $(".conf_pay").hide()
+            $(".btn-revoke").hide()
+            return;
+        }
+        $('#order-form').modal({
+            relatedTarget: this 
+        });
+
+        $("#trueName").html(trueName);
+        $("#bank").html(bank);
+        $("#bankCard").html(bankCard);
+        $("#mum").html(parseFloat(mum).toFixed(2));
+        $("#credence").html(credence);
+        $("#tradeId").val(tradeId);
+        /*
+        * status = 0;  交易中
+        * status = 1;  已完成
+        * status = 2;  已撤销
+        * status = 3;  已打款
+        */
+        switch (status){
+            case '0':
+                var statusText = "";
+                var endTime = new Date(time).getTime() + addTime;
+                if((endTime - parseInt(serverTime)) <= 0){
+                    statusText = langPkg.getI18N("financial_first5_type6")
+                }else{
+                    statusText = langPkg.getI18N("c2c_trade12")
+                }
+                $("#status").html(statusText);
+                $("#order-form").find("#tradingEnd").attr("class", "translate_em creatTime "+"tradingEnd" + i);
+                if ( type == 1 ){
+                    $("#pay_btn").show();
+                }
+                if ( type == 2 ){
+                    $("#pay_btn").attr("style","display:none");
+                }
+                break;
+            case '1':
+                $("#order-form").find("#tradingEnd").remove();
+                $("#status").html(langPkg.getI18N("financial_first5_type5"));
+                if ( type == 1 ){
+                    $("#pay_btn").attr("style","display:none");
+                }
+                if ( type == 2 ){
+                    $("#pay_btn").attr("style","display:none");
+                }
+                break;
+            case '2':
+                $("#order-form").find("#tradingEnd").remove();
+                $("#status").html(langPkg.getI18N("financial_first5_type6"));
+                if ( type == 1 ){
+                    $("#pay_btn").attr("style","display:none");
+                }
+                if ( type == 2 ){
+                    $("#pay_btn").attr("style","display:none");
+                }
+                break;
+            case '3':
+                $("#order-form").find("#tradingEnd").remove();
+                $("#status").html(langPkg.getI18N("yidakuan"));
+                if ( type == 1 ){
+                    $("#pay_btn").attr("style","display:none");
+                }
+                if ( type == 2 ){
+                    $("#pay_btn").attr("style","display:none");
+                }
+                break;
+            default:
+                $("#order-form").find("#tradingEnd").remove();
+                $("#status").html(langPkg.getI18N("financial_first5_type7"));
+                break;
+        }
+
+        // 富文本
+        var param = {
+            coinId: 5,
+            languageType : "zh_CN",
+            bizType: 2
+        }
+        $.ajaxSendData(param, "/api/adver/getTipsList", function(resData){
+            var da = { "list": resData.data };
+            var _html = template('popwarmprompt', da);
+            $("#order-form").find(".rich_text").html(_html)
+        });
+
+    }
+
+    //  收款信息
+    function receipt(tradeId,trueName,bank,bankCard,mum,credence,status,type) {
+        $("#trueName2").html(trueName);
+        $("#bank2").html(bank);
+        $("#bankCard2").html(bankCard);
+        $("#mum2").html(parseFloat(mum).toFixed(2));
+        $("#credence2").html(credence);
+        $("#tradeId2").val(tradeId);
+        if(status == "2" || status == "4"){
+            layer.msg(langPkg.getI18N("financial_first5_type7"), {icon: 2});
+            return;
+        }
+        $('#receipt-form').modal({
+            relatedTarget: this 
+        });
+        switch (status){
+            case '0':
+                $("#status2").html(langPkg.getI18N("dengdaishangjiadakuan"));
+                if ( type == 1 ){
+                    $("#pay_btn").show();
+                }
+                if ( type == 2 ){
+                    $("#pay_btn").attr("style","display:none");
+                }
+                break;
+            case '1':
+                $("#status2").html(langPkg.getI18N("financial_first5_type5"));
+                if ( type == 1 ){
+                    $("#pay_btn").attr("style","display:none");
+                }
+                if ( type == 2 ){
+                    $("#pay_btn").attr("style","display:none");
+                }
+                break;
+            case '2':
+                $("#status2").html(langPkg.getI18N("financial_first5_type6"));
+                if ( type == 1 ){
+                    $("#pay_btn").attr("style","display:none");
+                }
+                if ( type == 2 ){
+                    $("#pay_btn").attr("style","display:none");
+                }
+                break;
+            case '3':
+                $("#status2").html(langPkg.getI18N("yidakuan"));
+                if ( type == 1 ){
+                    $("#pay_btn").attr("style","display:none");
+                }
+                if ( type == 2 ){
+                    $("#pay_btn").attr("style","display:none");
+                }
+                break;
+            default:
+                $("#status2").html(langPkg.getI18N("financial_first5_type6"));
+                break;
+        }
+    }
+
+    //  键盘监听操作
+    $('#buyNum,#sellNum').bind('keyup change',function () {
+        var searchVal = $(this).val();
+        if((/[^\d^\.]+/g).test(searchVal)){
+            $(this).val(searchVal.replace(/[^\d^\.]+/g, ""));
+        }  
+        if($(this).val() >= 999999999){
+            $(this).val(999999999)
+        }
+        
+        if($(this).val().indexOf(".") != -1){
+            var strVal = $(this).val().split(".");
+            if(strVal[1].length > 9){
+               $(this).val( strVal[0] + "." + strVal[1].substring(0, 9))
+            }
+        }
+        
+        var tb_id = $(this).attr("id");
+        if (tb_id == "buyNum" ) {
+            var buyPirce = parseFloat($("#buyPrice").val());
+            var buyNum = parseFloat($("#buyNum").val());
+            $("#buyMum").html(returnFloat((buyPirce * buyNum), 2) );
+
+            if ( buyNum == "" || buyNum == null || isNaN(buyNum)){
+                $("#buyMum").html(0);
+            }
+        }else {
+            var sellPrice = parseFloat($("#sellPrice").val());
+            var sellNum = parseFloat($("#sellNum").val());
+            $("#sellMum").html(returnFloat((sellPrice * sellNum), 2));
+
+            if ( sellNum == "" || sellNum == null || isNaN(sellNum)){
+                $("#sellMum").html( 0 );
+            }
+        }
+    });
+
+    function Userlogins() {
+        toLogins();
+    }
+
+    var trans_lock = 0;
+    $(".qd_view_body").on("click",".tra-close", function(){
+        $(".qd_view_body").removeClass("fixed");
+        $("html,body").removeClass("fixed");
+        setTimeout(function(){
+            $(".qd_view_body").find(".pop_trade_secret").hide()
+        }, 300)
+    })
+    // 忘记交易密码跳回
+    function goTandPage(obj){
+        $.beforePage();
+        window.location.href = "../security/forgetTradePwd.html"
+    }
+    //  买入操作
+    function buyCoin() {
+        if ( !$.TokenIsNull($.getToken()) ) {
+                if (isSetTradePwd != 3) {
+                    //  获得买入价格
+                    var buyPrice = parseFloat($("#buyPrice").val());
+                    //  获得买入数量
+                    var buyNum = parseFloat($("#buyNum").val());
+
+                    if (buyNum == "" || buyNum == null || isNaN(buyNum)) {
+                        layer.tips(langPkg.getI18N("qingshurumairushuliang"), '#buyNum', {tips: [3, "#0e9e80"]});
+                        layer.closeAll('loading');
+                        return false;
+                    }
+
+                    var param = {
+                        c2cMarketId: marketInfo.id,
+                        num: buyNum,
+                        price: buyPrice,
+                        type: "buy"
+                    }
+
+                    $.ajaxSendData(param, "/api/c2c/trade/num", function(resData){
+                        $("html,body").addClass("fixed");
+                        $(".qd_view_body").removeClass("fixed");
+                        $(".qd_view_body").find(".buy_pop_trade_secret").show()
+                        setTimeout(function(){
+                            $(".qd_view_body").addClass("fixed");
+                        }, 300)
+                    });
+                } else {
+                    layer.msg(langPkg.getI18N("ningshangweishezhijiaoyimima"), {icon: 2, time: 1500}, function () {
+                        $.beforePage();
+                        window.location.href = "../security/update_trade_pwd.html";
+                    });
+                }
+        }else {
+            layer.msg(langPkg.getI18N("ningshangweidenglu..."), {icon: 2, time: 1500}, function () {
+                Userlogins();
+            });
+
+        }
+    }
+    function buyQD(){
+        $(".buybutton").attr("disabled", "disabled");
+        //  获得买入价格
+        var buyPrice = parseFloat($("#buyPrice").val());
+        //  获得买入数量
+        var buyNum = parseFloat($("#buyNum").val());
+        //  获得交易密码
+        var buyPayPwd = $("#buyPayPassword").val();
+        if (buyNum == "" || buyNum == null || isNaN(buyNum)) {
+            layer.tips(langPkg.getI18N("qingshurumairushuliang"), '#buyNum', {tips: [3, "#0e9e80"]});
+            layer.closeAll('loading');
+            $(".buybutton").removeAttr("disabled");
+            return false;
+        }
+        if (buyPayPwd == "" || buyPayPwd == null) {
+            layer.tips(langPkg.getI18N("financial_first4_placeholder3"), '#buyPayPassword', {tips: [3, "#0e9e80"]});
+            layer.closeAll('loading');
+            $(".buybutton").removeAttr("disabled");
+            return false;
+        }
+
+        var param = {
+            trueName: trueName,
+            c2cMarketId: marketInfo.id,
+            num: buyNum,
+            payPwd: buyPayPwd,
+            price: buyPrice
+        };
+
+        $.ajaxSendData(param, "/api/c2c/trade/buy", function(resData){
+            //81 asd asd 6217002710000684874 11.00000000 100180 0 1
+            //'75','王东东', '建议银行深圳市建议银行', '6212264000026288593','11','100174','0','1')
+            layer.closeAll('loading');
+            $("#buyNum").val("");
+            $("#buyPayPassword").val("");
+            $("#buyMum").html("0");
+            $("#sellNum").val("");
+            $("#sellPayPassword").val("");
+            $("#sellMum").html("0");
+            $(".buybutton").removeAttr("disabled");
+            payInfo(resData.data.id,resData.data.trueName,
+                    resData.data.bankName,resData.data.bankCard,
+                    resData.data.num,resData.data.credence,
+                    resData.data.status+'',resData.data.type, resData.data.id, resData.data.createTime);
+            /* layer.msg('买入操作完成', {icon: 1});*/
+            // $("#buyPrice").val("");
+            reloadPages();
+            // layer.closeAll('loading');
+            getC2cUserList();
+            langPkg.loadLanguage("financial_first5_type2");
+            langPkg.loadLanguage("left2_market4");
+            $(".buy_pop_trade_secret").hide();
+            $(".qd_view_body").removeClass("fixed");
+            $("html,body").removeClass("fixed");
+        }, function(resData){
+            layer.msg(resData.msg, {icon: 2}, function(){
+                $(".buybutton").removeAttr("disabled");
+            });
+            layer.closeAll('loading');
+            $("#buyPayPassword").val("");
+        });
+    }
+
+    template.helper('toJson', function (date) {
+        return JSON.stringify(date);
+    });
+
+    function pay(trade)
+    {
+        payInfo(trade.id ,trade.trueName,trade.bankName,trade.bankCard,trade.num,trade.credence,trade.status + '',trade.type,trade.i,trade.time,trade.index);
+    }
+
+    //  卖出操作
+    function sellCoin() {
+        if ( !$.TokenIsNull($.getToken()) ) {
+            if ( isSetTradePwd != 3 ){
+                if ( cardrzV == 1 ){
+                    if ( bankCardStatus != 0 ){
+                        //  获得卖出价格
+                        var sellPrice = parseFloat($("#sellPrice").val());
+                        //  获得卖出数量
+                        var sellNum = parseFloat($("#sellNum").val());
+
+                        if (sellNum == "" || sellNum == null || isNaN(sellNum)) {
+                            layer.tips(langPkg.getI18N("qingshuumaichushuliang"), '#sellNum', {tips: [3, "#0e9e80"]});
+                            layer.closeAll('loading');
+                            return false;
+                        }
+                        var param = {
+                            c2cMarketId: marketInfo.id,
+                            num: sellNum,
+                            price: sellPrice,
+                            type: "sell"
+                        }
+                        $.ajaxSendData(param, "/api/c2c/trade/num", function(resData){
+                            $("html,body").addClass("fixed");
+                            $(".qd_view_body").removeClass("fixed");
+                            $(".qd_view_body").find(".sell_pop_trade_secret").show()
+                            setTimeout(function(){
+                                $(".qd_view_body").addClass("fixed");
+                            }, 300)
+                        });
+                    }else {
+                        layer.msg(langPkg.getI18N("ningshangweitianjia_yinhangka"), {icon: 2, time: 1500}, function () {
+                            window.location.href="../security/bankmanage.html";
+                        });
+                    }
+                } else if ( cardrzV == 2 ){
+                    layer.msg(langPkg.getI18N("ningdangqianxinxizhengzaishenhe_bunengjiaoyi"), {icon: 2, time: 1500});
+                    return false;
+                }else {
+                    layer.msg(langPkg.getI18N("ningshangweishiming_zhengzaiweiningtiaozhuan"), {icon: 2, time: 1500}, function () {
+                        window.location.href="../security/cardinfo.html";
+                    });
+                }
+            }else {
+                layer.msg(langPkg.getI18N("ningshangweishezhijiaoyimima"), {icon: 2, time: 1500}, function () {
+                    $.beforePage();
+                    window.location.href = "../security/update_trade_pwd.html";
+                });
+            }
+        }else {
+            layer.msg(langPkg.getI18N("ningshangweidenglu..."), {icon: 2, time: 1500}, function () {
+                Userlogins();
+            });
+        }
+    }
+
+    function sellQD(){
+        $(".sellbutton").attr("disabled", "disabled");
+        //  获得卖出价格
+        var sellPrice = parseFloat($("#sellPrice").val());
+        //  获得卖出数量
+        var sellNum = parseFloat($("#sellNum").val());
+        //  获得交易密码
+        var sellPayPwd = $("#sellPayPassword").val();
+
+        if (sellNum == "" || sellNum == null || isNaN(sellNum)) {
+            layer.tips(langPkg.getI18N("qingshuumaichushuliang"), '#sellNum', {tips: [3, "#0e9e80"]});
+            layer.closeAll('loading');
+            $(".sellbutton").removeAttr("disabled");
+            return false;
+        }
+        if (sellPayPwd == "" || sellPayPwd == null) {
+            layer.tips(langPkg.getI18N("financial_first4_placeholder3"), '#sellPayPassword', {tips: [3, "#0e9e80"]});
+            layer.closeAll('loading');
+            $(".sellbutton").removeAttr("disabled");
+            return false;
+        }
+
+        if (selectBank == 0) {
+            layer.tips(langPkg.getI18N("zanwuyinghangka_qingtianjia"), '.gobankpage', {tips: [3, "#0e9e80"]});
+            layer.closeAll('loading');
+            $(".sellbutton").removeAttr("disabled");
+            return false;
+        }
+
+        //  组合参数
+        var param = {
+            bankId:selectBank,
+            c2cMarketId: marketInfo.id,
+            num: sellNum,
+            payPwd: sellPayPwd,
+            price: sellPrice
+        };
+
+
+        $.ajaxSendData(param, "/api/c2c/trade/sell", function(resData){
+            layer.msg(langPkg.getI18N("mnaichucaozuowancheng"), {icon: 1});
+            $("#buyNum").val("");
+            $("#buyPayPassword").val("");
+            $("#buyMum").html("0");
+            $("#sellNum").val("");
+            $("#sellPayPassword").val("");
+            $("#sellMum").html("0");
+
+            receipt(resData.data.id,resData.data.trueName,
+                resData.data.bankName,resData.data.bankCard,
+                resData.data.amount,resData.data.credence,
+                resData.data.status+'',resData.data.type);
+
+            reloadPages();
+            layer.closeAll('loading');
+            $(".sellbutton").removeAttr("disabled");
+            getC2cUserList();
+            langPkg.loadLanguage("financial_first5_type2");
+            langPkg.loadLanguage("left2_market4");
+            $(".sell_pop_trade_secret").hide();
+            $(".qd_view_body").removeClass("fixed");
+            $("html,body").removeClass("fixed");
+        }, function(resData){
+            layer.msg(resData.msg, {icon: 2}, function(){
+                $(".sellbutton").removeAttr("disabled");
+            });
+            layer.closeAll('loading');
+            $("#sellPayPassword").val("");
+        });
+    }
+
+    //  获取C2C买入卖出交易列表
+    function getC2cTradeList() {
+        //  组合参数
+        var param = {
+            c2cMarketId: marketInfo.id,
+            // c2cMarketId: 4,
+            pageSize: 20,
+            pageTo: 1
+        };
+
+        $.ajaxSendData(param, "/api/c2c/trade/success/list", function(resData){
+            var datas = resData.data;
+            var da1 = { "list": datas.sell };
+            var _html = template('list_buyList', da1);   //template("模版名","数据集")
+            $("#buyList").html(_html);
+
+            var da2 = { "list": datas.buy };
+            var _html2 = template('list_sellList', da2);   //template("模版名","数据集")
+            $("#sellList").html(_html2);
+            
+            langPkg.loadLanguage("c2c_trade1");
+            langPkg.loadLanguage("c2c_trade2");
+            langPkg.loadLanguage("c2c_trade3");
+            langPkg.loadLanguage("financial_first5_type5");
+            langPkg.loadLanguage("financial_first5_type2");
+            langPkg.loadLanguage("left2_market4");
+        });
+    }
+    var serverTime = 0;
+    var addTime = 0;
+    var endTime = 0;
+    var Timer = null;
+/*    setInterval('getC2cTradeList()',10000);
+
+    var LoginInfo_GLOBAL = $.getToken();
+    if (LoginInfo_GLOBAL != "") {
+        setInterval('getC2cUserList()',3000);
+    }*/
+    //  获取C2C用户交易列表
+    function getC2cUserList() {
+        //  组合参数
+        var param = {
+            c2cMarketId: marketInfo.id,
+            pageSize: 10,
+            pageTo: 1
+        };
+
+        $.ajaxSendData(param, "/api/c2c/trade/user/list", function(resData){
+            var datas = resData.data;
+            var msg = resData.msg.split("/");
+            addTime = msg[1] * (60 * 1000);
+            serverTime = msg[2];
+            var da1 = { "list": datas };
+
+            $("body").data("list_userList", datas);
+
+            var _html = template('list_userList', da1);   //template("模版名","数据集")
+
+            $("#userTradeList").html(_html);
+            if(datas.length == 0){
+                $("#userPayList").hide();
+            }else{
+                $("#userPayList").show();
+            }
+            $.weakenText($("#userTradeList .reg-text"));
+            
+            langPkg.loadLanguage("c2c_trade1");
+            langPkg.loadLanguage("c2c_trade2");
+            langPkg.loadLanguage("c2c_trade3");
+            langPkg.loadLanguage("liushuihao");
+            langPkg.loadLanguage("c2c_trade_info1");
+            langPkg.loadLanguage("shoukuanxinxi");
+            langPkg.loadLanguage("c2c_trade12");
+            langPkg.loadLanguage("financial_first5_type2");
+            langPkg.loadLanguage("financial_first5_type5");
+            langPkg.loadLanguage("left2_market4");
+            langPkg.loadLanguage("financial_first5_type6");
+            langPkg.loadLanguage("financial_first5_type7");
+            langPkg.loadLanguage("dengdaishangjiadakuan");
+            langPkg.loadLanguage("yidakuan");
+            langPkg.loadLanguage("querenfukuan");
+            langPkg.loadLanguage("chexiao");
+        });
+    }
+
+    //  确认打款询问框
+    function confirmPayFrame(tradeId) {
+        layer.confirm(langPkg.getI18N("qingquerenningyidakuan"), {
+            title: langPkg.getI18N("c2c_trade_info10"),
+            icon: 0,
+            btn: [langPkg.getI18N("queren"), langPkg.getI18N("quxiao")] //按钮
+        }, function () {
+            confirmPay(tradeId);
+        });
+    }
+
+    //  确认打款
+    function confirmPay(tradeId) {
+        //  组合参数
+        var param = {
+            c2cMarketId: marketInfo.id,
+            c2cTradeId: tradeId,
+        };
+
+        $.ajaxSendData(param, "/api/c2c/trade/confirm/pay", function(resData){
+            layer.closeAll();
+            getC2cUserList();
+            $("#order-form").modal("close");
+        });
+    }
+
+    //  重新加载页面
+    function reloadPages() {
+        getC2cTradeList();
+        getC2cUserList();
+    }
+
+    $('#buyNum,#sellNum').bind('keypress', function (e) {
+        var code = (e.keyCode ? e.keyCode : e.which); //兼容火狐 IE
+        if (this.value.indexOf(".") == -1) {
+            return (code >= 48 && code <= 57) || (code == 46) || code == 8;
+        } else {
+            return code >= 48 && code <= 57 || code == 8;
+        }
+    }).bind("paste", function () {
+        return false;
+    })
+
+    //  撤销委托
+    function cancelqd(id, status, obj) {
+        $('#cancel-form').modal({
+            relatedTarget: this 
+        });
+
+        var param = {
+            c2cTradeId: id
+        }
+
+        $("#cancel-form").on("click", ".cancel_no", function(){
+            $.ajaxSendData(param, "/api/c2c/trade/cancelOrder", function(resData){
+                reloadPages();
+                layer.msg(langPkg.getI18N("chexiaocaozuowancheng"), {icon: 1, time: 1500});
+                $("#cancel-form").modal("close");
+            }, function(resData){
+                layer.msg(resData.msg, {icon: 2, time: 1500});
+            });
+        })
+    }
+
+</script>
+
+<script>
+    template.helper('_fixedName', function (startTime, i) {
+        var endTime = new Date(startTime).getTime() + addTime;
+        if((endTime - parseInt(serverTime)) <= 0){
+            return langPkg.getI18N("financial_first5_type6")
+        }else{
+            return langPkg.getI18N("c2c_trade12")
+        }
+    });
+
+    template.helper('_returnTimes', function (startTime, i, index) {
+        var value = getTimeRemaining(startTime, i, index);
+        return value;
+    });
+
+    template.helper('_cutRoundNum', function (str,num) {
+        var str = $.cutRoundNum(str,num);
+        return str;
+    });
+    
+
+</script>
+
+<script id="list_buyList"  type="text/html">
+    {{each list as value i}}
+        {{ if i < 2 }}
+            <tr>
+                <td class="c_left">{{ value.accounts }}</td>
+                <td class="c_right">{{ value.num }} QD</td>
+                <td class="c_center"><span class="red"><em class="translate_em" translate="c2c_trade2"></em></span></td>
+                <td class="c_center"><em class="translate_em" translate="c2c_trade3"></em></td>
+            </tr>
+        {{ /if }}
+    {{/each}}
+</script>
+
+<script id="list_sellList"  type="text/html">
+    {{each list as value i}}
+        {{ if i < 2 }}
+            <tr>
+                <td class="c_left">{{ value.accounts }}</td>
+                <td class="c_right">{{ value.num }} QD</td>
+                <td class="c_center"><span class="c_green" ><em class="translate_em" translate="c2c_trade1"></em></span></td>
+                <td class="c_center"><em class="translate_em" translate="c2c_trade3"></em></td>
+            </tr>
+        {{ /if }}
+    {{/each}}
+</script>
+
+<script id="warmprompt"  type="text/html">
+    {{each list as value i}}
+        {{#value.rollInDesc}}
+    {{/each}}
+</script>
+
+<script id="popwarmprompt"  type="text/html">
+    {{each list as value i}}
+        {{#value.rollOutDesc}}
+    {{/each}}
+</script>
+
+<script id="list_userList" type="text/html">
+    {{each list as value i}}
+    <tr>
+        <td class="c_left am-text-middle reg-text">{{ value.createTime }}</td>
+        <td class="c_left am-text-middle">
+            {{ if value.type == 1 }}
+            <span class="deep-gray">
+                <span class="c_green" ><em class="translate_em" translate="financial_first5_type2"></em></span> 
+                <strong class="c_green">{{ value.c2cMarketName }}</strong>
+            </span>
+            <br><strong class="c_gray"><em class="translate_em" translate="liushuihao"></em>{{ value.orderNo }}</strong>
+            {{ else }}
+            <span class="deep-gray"><strong class="red"><em class="translate_em" translate="left2_market4"></em></strong> <strong class="red">{{ value.c2cMarketName }}</strong></span><br><strong class="c_gray"><em class="translate_em" translate="liushuihao"></em>{{ value.orderNo }}</strong>
+            {{ /if }}
+        </td>
+        <td class="c_right am-text-middle"><strong class="c_gray">{{ value.num }}</strong></td>
+        <td class="c_right am-text-middle"><strong class="c_gray">{{ value.price }}</strong></td>
+        <td class="c_right am-text-middle">{{accMul(value.num, value.price)}}</td>
+        <td class="c_left am-text-middle">
+            {{ if value.type == 1 }}
+            <a href="javascript:void(0)" class="pay_middle"
+               onclick="payInfo('{{value.id}}','{{value.trueName}}',
+               '{{ value.bankName}}{{ value.bankCity }}{{ value.bankAddress }}',
+               '{{value.bankCard }}','{{value.num * value.price}}','{{value.credence}}','{{value.status}}','{{value.type}}', '{{value.id}}', '{{value.createTime}}', {{i}})">
+                 <em class="translate_em" translate="c2c_trade_info1"></em>
+            {{ else }}
+            <a href="javascript:void(0)" class="pay_middle"
+               onclick="receipt('{{value.id}}','{{value.trueName}}',
+               '{{ value.bankName}}{{ value.bankCity }}{{ value.bankAddress }}',
+               '{{value.bankCard }}','{{accMul(value.num, value.price)}}','{{value.credence}}','{{value.status}}','{{value.type}}')">
+                 <em class="translate_em" translate="shoukuanxinxi"></em>
+            {{ /if }}
+            </a>
+        </td>
+        <td class="c_left am-text-middle am-text-middle-c2c clearfix">
+            {{ if value.type == 1 }}
+                {{ if value.status == 0 }}
+                <div class="conf_time">
+                    <span class="trading">
+                        <em class="translate_em">{{_fixedName(value.createTime, "tradingEnd" + value.id)}}</em>
+                    </span>
+                    <i data-time="{{value.createTime}}" class="creatTime tradingEnd{{value.id}}">{{_returnTimes(value.createTime, "tradingEnd" + value.id, i)}}</i>
+                </div>
+                <div class="conf_a fl">
+                    <a class="conf_pay tradingEnd{{value.id}}_pay" onclick="pay({{ value | toJson }})" translate="querenfukuan">确认付款</a>
+                    <a href="javascript:void(0)" onclick="cancelqd({{ value.id }}, {{ value.status }}, this)" class="btn-revoke" ><em class="translate_em" translate="chexiao"></em></a>
+                </div>
+                {{ else if value.status == 1 }}
+                <span class="finish"><em class="translate_em" translate="financial_first5_type5"></em></span>
+                {{ else if value.status == 2 }}
+                <span class="finish"><em class="translate_em" translate="financial_first5_type6"></em></span>
+                {{ else if value.status == 3}}
+                <span class="remit"><em class="translate_em" translate="yidakuan"></em></span>
+                {{ else if value.status == 4 }}
+                <span class="finish"><em class="translate_em" translate="financial_first5_type6"></em></span>
+                {{/if}}
+            {{ else }}
+                {{ if value.status == 0 }}
+                <span class="trading"><em class="translate_em" translate="dengdaishangjiadakuan"></em><a href="javascript:void(0)" onclick="cancelqd({{ value.id }}, {{ value.status }}, this)" class="btn-revoke" ><em class="translate_em" translate="chexiao"></em></a></span>
+                {{ else if value.status == 1 }}
+                <span class="finish"><em class="translate_em" translate="financial_first5_type5"></em></span>
+                {{ else if value.status == 2 }}
+                <span class="finish"><em class="translate_em" translate="financial_first5_type6"></em></span>
+                {{ else if value.status == 3}}
+                <span class="remit"><em class="translate_em" translate="yidakuan"></em></span>
+                {{ else if value.status == 4 }}
+                <span class="finish"><em class="translate_em" translate="financial_first5_type6"></em></span>
+                {{/if}}
+            {{/if}}
+        </td>
+    </tr>
+    {{/each}}
+</script>
+
+<script id="bankList" type="text/html">
+    {{each list as value i}}
+        <a href="javascript:;" data-card-id="{{value.id}}">
+            <i class="iconfont icon-shezhichenggong"></i>
+            <span class="bankname">{{value.bank}}</span>
+            <div class="right_card">
+                <!-- <span class="bankcardname">储蓄卡 丨</span> -->
+                <span class="bankcardnumber">{{value.bankcard}}</span>
+            </div>
+        </a>
+    {{/each}}
+</script>
+
+
+<script>
+template.helper('accMul', function (arg1, arg2) {
+    var m=0,s1=arg1.toString(),s2=arg2.toString();   
+    try{m+=s1.split(".")[1].length}catch(e){}   
+    try{m+=s2.split(".")[1].length}catch(e){}   
+    return Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m)   
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>交易系统</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="keyword" content="比特币价格,比特币交易平台,区块链,数字化资产,比特币行情,AT交易所,USDT,莱特币,BCH,以太坊,ETH,以太经典,进行币币交易" />
+    <meta name="description" content="description:AT交易所是一家集数字化资产、投资服务、资讯服务于一体的国际化区块链资产交易平台。提供比特币,莱特币(LTC),以太坊(ETH),比特币现金(BCH),以太经典(ETC)达世币(DASH)等虚拟货币以比特币(BTC)、USDT进行交易！提供实时比特币价格,比特币行情。">
+    <link rel="stylesheet" href="../../assets/css/reset.css">
+    <link rel="stylesheet" href="../../assets/font/iconfont.css">
+    <link rel="stylesheet" href="../../assets/css/layout.css">
+    <script src="../../script/jquery-3.3.1.min.js"></script>
+    <script src="../../script/tools/crypto-js.js"></script>
+    <script src="../../script/tools/jquery.cookie.js"></script>
+    <script src="../../script/tools/md5.min.js"></script>
+    <script src="../../script/tools/k_tools.js"></script>
+    <script src="../../script/tools/loadSiteInfo.js"></script>
+    <script src="../../script/tools/jquery-ui.js"></script>
+    <script src="../../script/trade/tools.js"></script>
+    <script src="../../script/center_toos/center_tools_new.js"></script>
+    <script src="../../script/template.js"></script>
+    <script src="../../script/layer.js"></script>
+    <script src="../../script/jqPaginator.js"></script>
+    <script src="../../assets/js/translate/jquery.i18n.properties/jquery.i18n.properties.min.js" charset="utf-8"></script>
+    <script src="../../assets/js/translate/i18n.config.js" charset="utf-8"></script>
+</head>
+<body>
+    <div class="view_body security_center_view_body coinaddress_view_body">
+        <!-- header -->
+        <header class="header header-other" id="header"></header>
+        <div class="negative_content_page">
+            <div class="dynamic-width negative_content">
+                <div class="leftbar_padding clearfix main-coinaddress">
+                    <div class="safety-leftbar" id="left"></div>
+                    <div class="safety-right">
+                        <!-- <div class="safety-right-title">
+                            <h2 translate="security_first6">钱包地址管理</h2>
+                            <p>谨慎填写钱包地址</p>
+                            <p>
+                                <button class="am-btn am-btn-xs am-radius new-btn-color2" data-am-modal="{target: '#wallet-form'}" translate="security_first61">
+                                    添加地址
+                                </button>
+                            </p>
+                            <dl translate="weizhi_anquanzhongxin">位置: 首页 > 安全中心 > <span class="c_blue2" translate="security_first6">钱包地址管理</span></dl>
+                        </div> -->
+                        <div class="safety-top-title">
+                            <div class="safety-top-user">
+                                <h1><i class="iconfont icon-morentouxiang"></i></h1>
+                                <dl>
+                                    <dt id="trueName"></dt>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="safety-list">
+                            <div class="modify_personal_info">
+                                <div class="bankmanage-detail">
+                                    <!--添加钱包地址-->
+                                    <div class="bankmanage-card-form" id="wallet-form">
+                                        <div class="bankmanage-card-content">
+                                            <h2 class="bank_h2"><span translate="tianjiaqianbaodizhi">添加钱包地址</span></h2>
+                                            <div class="bank-top">
+                                                <div class="am-form-group clearfix">
+                                                    <div class="am-form-group-select">
+                                                        <span class="titl" translate="bizhongmingcheng">币种名称</span>
+                                                        <div class="input_wrap">
+                                                            <i class="iconfont icon-arrows-down"></i>
+                                                            <select onchange="selectMarket($('#ul_coin_list').find('option:selected').attr('coinName'))" id="ul_coin_list" class="am-form-select am-input-sm am-radius">
+                                                            </select>
+                                                            <input type="hidden" id="hid_coinId" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="am-form-group">
+                                                    <span class="titl" translate="qianbaobiaoshi">钱包标识</span>
+                                                    <div class="input_wrap">
+                                                        <input type="text" id="tb_tag" class="frominput" value="" data-i18n-placeholder="qingshuruqianbaobiaoshi" maxlength="14" autocomplete="new-password" >
+                                                    </div>
+                                                </div>
+                                                <div class="am-form-group">
+                                                    <span class="titl" translate="qianbaodizhi">钱包地址</span>
+                                                    <div class="input_wrap">
+                                                        <textarea style="resize:none" id="tb_walletAddress" class="am-form-field am-radius" rows="5" data-i18n-placeholder="qingshuruqianbaodizhi" maxlength="60" autocomplete="new-password"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="am-form-group" style="display:none;">
+                                                    <span class="titl" translate="security_first112">交易密码</span>
+                                                    <div class="input_wrap">
+                                                        <input id="tb_paypassword" type="password" class="frominput" value="" data-i18n-placeholder="financial_first4_placeholder3" maxlength="60" autocomplete="new-password">
+                                                    </div>
+                                                </div>
+
+                                                <a type="a" class="new-btn-color" onclick="addCoinAddress()" translate="lijitianji">立即添加</a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="bankmanage-list">
+                                        <h2 class="bigtitl" translate="wodeqianbaodizhi">我的钱包地址</h2>
+                                        <table class="new-color-table">
+                                            <thead>
+                                            <tr>
+                                                <th><span class="form-txt-cont" id="add_coninName"></span></th>
+                                                <th translate="qianbaobiaoshi">钱包标识</th>
+                                                <th translate="qianbaodizhi">钱包地址</th>
+                                                <th translate="caozuoshijian">添加时间</th>
+                                                <th translate="security_first57">操作</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="tb_list"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--<ul class="am-pagination am-pagination-centered" id="pageList"></ul>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer" id="footer"></footer>
+    </div>
+
+<!--[if lt IE 9]>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="../../assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+
+<script src="../../assets/js/amazeui.min.js"></script>
+<script src="../../assets/js/count-number.js"></script>
+
+
+
+<script type="text/javascript">
+    $(function () {
+        $("#header").load("../common/commonHeader.html?version=" + $.version);
+        $("#footer").load("../common/commonFooter.html?version=" + $.version);
+        $("#left").load("./left.html");
+        init();
+    });
+</script>
+
+<!--功能函数-->
+<script type="text/javascript">
+    function init() {
+        var cookieStr = $.getToken();
+
+        //  如果已经登录，则取得财务中心数据
+        if (!$.TokenIsNull(cookieStr)) {
+            getFinanceCore();
+            getNavMarketList();
+            getUserInfo();
+        }else {
+            $.toIndex1();
+        }
+    }
+</script>
+
+<!--通用方法-->
+<script type="text/javascript">
+    $("#typeList").change(function () {
+        getCoinAddressList(1);
+    })
+
+    $("#statusList").change(function () {
+        getCoinAddressList(1);
+    })
+
+    function getCoinAddressList(pageTo) {
+        var type = Number($("#typeList").val());
+        var status = Number($("#statusList").val());
+        var hid_coinId = Number($("#hid_coinId").val());
+        status = -1;
+
+        var param = {
+            coinId: hid_coinId
+        };
+
+        $.ajaxSendData(param, "/api/assets/wallet/list", function(resData){
+            if (resData.data.length > 0) {
+                // page(resData.total, pageTo);
+                var da = { "list": resData.data };
+                var _html = template('addressList', da);
+                $("#tb_list").html(_html);
+
+                // $("#pageList").show();
+            } else {
+                $("#tb_list").html("<td colspan='5' style='text-align:center;'>" +langPkg.getI18N("zanwushuju") +"</td>");
+                // $("#pageList").hide();
+            }
+        });
+    }
+
+    function getNavMarketList() {
+        var id = "";
+        var param = {
+            id: id
+        };
+        $.ajaxSendData(param, "/api/coin/list", function(resData){
+            if (resData.data.length > 0) {
+                var da = { "list": resData.data }
+                $("body").data("coin_list", resData.data);//获取到的数据存入data，方便后面使用
+                var _html = template('coin_list', da);
+                $("#ul_coin_list").html(_html);
+
+                //设置默认数据
+                selectMarket(resData.data[0].name, 0);
+                $("#add_coninName").html(resData.data[0].name);
+            }
+        });
+    }
+
+    function getFinanceCore() {
+        $.ajaxSendData("", "/api/finance/core", function(resData){
+            $("body").data("financ_core", resData.data.userCoinFinanceDtoList);//获取到的数据存入data，方便后面使用
+        });
+    }
+
+    function selectMarket(coinName, isclose) {
+        var coinList = $("body").data("coin_list");
+
+        for (var i = 0; i < coinList.length; i++) {
+            if (coinName == coinList[i].name) {
+                var _html = template('coin_select', coinList[i]);
+                $("#selectMarket").html(_html);
+                if (isclose == 1) {
+                    $("#selectMarket").click();
+                }
+
+                $("#hid_coinId").val(coinList[i].id);
+
+                $("#add_coninName").html(coinList[i].name);
+                getCoinAddressList(1);
+
+                return;
+            }
+        }
+
+    }
+
+    /*var pageSize = 10;
+    function page(counts, pageTo) {
+        $('#pageList').jqPaginator('option', {
+            totalCounts: counts,
+            currentPage: pageTo
+        });
+        if (counts <= 1) {
+            $("#pageList").hide();
+        }
+    }*/
+
+    //初始化分页器
+    /*$('#pageList').jqPaginator({
+        totalCounts: 1,
+        visiblePages: 10,
+        pageSize: pageSize,
+        currentPage: 1,
+        activeClass: 'am-active',
+
+        //first: '<a href="javascript:void(0)">首页</a>',
+        prev: '<li  class="am-disabled"><a href="javascript:void(0)">&laquo;</a></li>  ',
+        next: '<li><a href="javascript:void(0)">&raquo;</a></li> ',
+        //last: '<a href="javascript:void(0)">最后一页</a>',
+        page: ' <li ><a href="javascript:void(0)">{{page}}</a></li>',
+        onPageChange: function (num, status) {
+            if (status == "change") {
+                getCoinAddressList(num);
+            }
+        }
+    });*/
+
+    function DelQianBao(id) {
+        var param = {
+            walletId: id
+        };
+        layer.confirm("您确认要删除?", {
+            btn: [langPkg.getI18N("make_sure"),langPkg.getI18N("quxiao")]
+            , yes: function (index) {
+                layer.close(index);
+                $.ajaxSendData(param, "/api/assets/wallet/del", function(resData){
+                    layer.msg(langPkg.getI18N("shanchuwancheng"), { icon: 1, time: 2000 });
+                    getCoinAddressList(1);
+                });
+            }
+        });
+
+        
+        /*layer.prompt({ title: langPkg.getI18N("security_first4_placeholder1"), formType: 1 }, function (pass, index) {
+            layer.close(index);
+            //pass = $.passWord(pass)
+
+            var param = {
+                walletId: id, payPwd: pass
+            };
+            var strObgect = $.toBase64(param);
+            var strSign = $.toSign(strObgect);
+
+            var resData = $.sendData(strObgect, strSign, "/api/assets/wallet/del");
+            if (resData.code == 200) {
+                layer.msg(langPkg.getI18N("shanchuwancheng"), { icon: 1, time: 2000 });
+                getCoinAddressList(1);
+            } else {
+                layer.msg(resData.msg, { icon: 2, time: 2000 });
+            }
+
+
+        });*/
+    }
+    function getUserInfo() {
+        $.ajaxSendData("", "/api/user/details", function(resData){
+            $("#trueName").html(resData.data.nickname)
+        });
+    }
+    function addCoinAddress() {
+        var h_coinId = Number($("#hid_coinId").val());
+        var pass = $("#tb_paypassword").val()
+        var in_tag = $("#tb_tag").val();
+        var in_walletAddress = $("#tb_walletAddress").val();
+
+        if (in_tag == "") {
+            layer.msg(langPkg.getI18N("qingshuruqianbaobiaoshi"), { icon: 2, time: 2000 });
+            return;
+        }
+        if (in_walletAddress == "") {
+            layer.msg(langPkg.getI18N("qingshuruqianbaodizhi"), { icon: 2, time: 2000 });
+            return;
+        }
+        /*if (pass == "") {
+            layer.msg(langPkg.getI18N("financial_first4_placeholder3"), { icon: 2, time: 2000 });
+            return;
+        }*/
+
+        var param = {
+            coinId: h_coinId, payPwd: pass, tag: in_tag, walletAddress: in_walletAddress
+        };
+
+        $.ajaxSendData(param, "/api/assets/wallet/add", function(resData){
+            layer.msg(langPkg.getI18N("tianjiawancheng"), { icon: 1, time: 2000 });
+            $("#tb_walletAddress").val("");
+            $("#tb_paypassword").val("");
+            $("#a_close_address").click();
+            getCoinAddressList(1);
+            var goBeforeUrl = "";
+            var url = "";
+            if(window.location.href.indexOf("/main") != -1){
+                url = window.location.href.split("/main")[0];
+            }
+            if(window.sessionStorage && sessionStorage.beforeUrl == "/usercenter/finance_center.html"){
+                goBeforeUrl = url + "/main" + sessionStorage.beforeUrl;
+                sessionStorage.beforeUrl = "";
+                window.location.href = goBeforeUrl;
+            }
+        });
+    }
+</script>
+
+<!--模板辅助方法-->
+<script type="text/javascript">
+    template.helper('_imgPath', function (str) {
+        if (str == '' || str == null) {
+            return '../../../logo.png';
+        } else {
+            return $.imgFilePath() + str;
+        }
+    });
+    template.helper('_toUpperCase', function (str) {
+        return str.toUpperCase().replace("_", "/");
+    });
+</script>
+
+<script id="coin_list" type="text/html">
+    {{each list as value i}}
+    {{if value.name!= "cny"}}
+    <option value="{{ value.id }}" coinName="{{value.name}}">{{_toUpperCase(value.name)}}</option>
+    {{/if}}
+    {{/each}}
+</script>
+
+<script id="coin_select" type="text/html">
+    <img src="{{_imgPath(img)}}" width="24" height="24">
+    {{_toUpperCase(name)}} <span class="am-icon-caret-down"></span>
+</script>
+
+<script id="addressList" type="text/html">
+    {{each list as value i}}
+    <tr>
+        <td>{{_toUpperCase(value.name )}}</td>
+        <td>{{value.tag }}</td>
+        <td>{{value.walletAddress }}</td>
+        <td>{{value.createTime}}</td>
+        <td>
+            <a class="modifybank" onclick="DelQianBao({{value.id}})" translate="security_first58">删除</a>
+        </td>
+    </tr>
+    {{/each}}
+</script>
+
+</body>
+</html>

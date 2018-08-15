@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>AT</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="keyword" content="比特币价格,比特币交易平台,区块链,数字化资产,比特币行情,AT交易所,USDT,莱特币,BCH,以太坊,ETH,以太经典,进行币币交易" />
+    <meta name="description" content="description:AT交易所是一家集数字化资产、投资服务、资讯服务于一体的国际化区块链资产交易平台。提供比特币,莱特币(LTC),以太坊(ETH),比特币现金(BCH),以太经典(ETC)达世币(DASH)等虚拟货币以比特币(BTC)、USDT进行交易！提供实时比特币价格,比特币行情。">
+    <link rel="stylesheet" href="style/reset.css">
+    <link rel="stylesheet" href="style/layout.css?v=2">
+    <script type="text/javascript" src="../../script/jquery-3.3.1.min.js"></script>
+</head>
+<style>
+    h2{text-align:center;}
+    a.ios{display:block;width:100px;padding:5px 0;background:#2DCCA9;color:#fff;text-align:center;margin:10px auto;border-radius:10px;fotn-size:12px;}
+    a.android{display:block;width:100px;padding:5px 0;background:#2DCCA9;color:#fff;text-align:center;margin:10px auto;border-radius:10px;fotn-size:12px;}
+</style>
+<body>
+<!-- header -->
+<div class="view_body app_view_body">
+    <div class="negative_content_page">
+        <div class="dynamic-width negative_content">
+            <div class="main-help-page">
+                <div class="c2c_explain_content">
+                    <h1 align="center">标题1（App调用Js）</h1>
+                    <div class="top_banner">
+                        <h2>IOS</h2>
+                        <a href="javascript:;" class="ios ios_01" id="ios_01">案例一</a>
+                        <a href="javascript:;" class="ios ios_02" id="ios_02">案例二</a>
+                        <a href="javascript:;" class="ios ios_03">案例三</a>
+                        <a href="javascript:;" class="ios ios_04">案例四</a>
+                        <a href="javascript:;" class="ios ios_05">案例五</a>
+                        <a href="javascript:;" id="goLogin"></a>
+                    </div>
+
+                    <div class="top_banner">
+                        <h2>android</h2>
+                        <a href="javascript:;" class="android android_01" onclick="s1()">案例一</a>
+                        <a href="javascript:;" class="android android_02">案例二</a>
+                        <a href="javascript:;" class="android android_03">案例三</a>
+                        <a href="javascript:;" class="android android_04">案例四</a>
+                        <a href="javascript:;" class="android android_05">案例五</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // 安卓 从APP接收数据
+    /*function s1() {
+        //调用原生的方法，android为约定的别名；back()为原生的方法
+        var result = window.android.back();
+        //将返回结果显示在id为p的控件上
+        alert(result);
+    }*/
+
+    //1、传递跳转的页面。  例如 h5 跳转到APP BTC/ETH的交易对的K线页面
+    function s1() {
+         var result=window.android.jumpToKlineActivity('ETH_QD','23');
+        //将返回结果显示在id为p的控件上
+      //  document.getElementById("p").innerHTML=result;
+    }
+
+
+    //2、传递资产信息。 例如 App跳转到h5的EOS充值大赛，需要显示出用户的EOS余额。
+     function s2() {
+        var result=window.android.getEOSvalue('30');
+        //将返回结果显示在id为p的控件上
+        document.getElementById("p").innerHTML=result;
+    }
+
+    //3、h5页面可以进行资产的加减。例如 h5的一元夺宝，用户操作后，QD资产减少1元。
+     function s3() {
+             var result=window.android.reduceAssets('1111.444');
+        //将返回结果显示在id为p的控件上
+        document.getElementById("p").innerHTML=result;
+    }
+
+    //4、可以传递登录状态。   判断用户有没有登录，没有登录触发去登录，登录成功后，跳回触发前的h5页面。
+     function s4() {
+        //调用原生的方法，android为约定的别名；back()为原生的方法
+        var result=window.android.islogin();
+        document.getElementById("p").innerHTML='登录状态'+result;
+    }
+
+    //5、h5可以调用App的分享内容，进行相关内容分享。
+     function s5() {
+        //调用原生的方法，android为约定的别名；back()为原生的方法
+        var result=window.android.shareAPP();
+    }
+
+
+
+
+    // IOS 从APP接收数据
+    function setupWebViewJavascriptBridge(callback) {
+        if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
+        if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
+        window.WVJBCallbacks = [callback];
+        var WVJBIframe = document.createElement('iframe');
+        WVJBIframe.style.display = 'none';
+        WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
+        document.documentElement.appendChild(WVJBIframe);
+        setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
+    }
+
+    // 与Swift交互的所有JS方法都要在这里注册,才能让Swift和JS之间相互调用
+    setupWebViewJavascriptBridge(function(bridge) {
+        /*
+        * 1.判断登陆
+        */
+        isLogin();
+        function isLogin() {
+             bridge.callHandler('getLoginToken', "", function responseCallback(data) {
+                var resData = JSON.parse(data);
+                // 已登陆
+                if(resData.token != ""){
+                    alert(resData.token)
+                }else{
+                    alert(resData.token)
+                }
+             });
+        }
+
+        /*
+        * 2.打开app的k线页面，传递交易对的marketId
+        */
+        document.getElementById('ios_01').onclick = function () {
+                alert("ios传递数据")
+                bridge.callHandler('openPage', {'page': 1, 'marketId': 1 }, function responseCallback(responseData) {
+                //console.log("Swift中返回的参数:", responseData)
+            });
+        };
+
+        /*
+        * 3.调用iOS分享
+        */
+        document.getElementById('ios_02').onclick = function () {
+            bridge.callHandler('shareURL', {'url': "https://www.at3.com" }, function responseCallback(responseData) {
+                //console.log("Swift中返回的参数:", responseData)
+            });
+        };
+    })
+</script>
+</body>
+</html>
+

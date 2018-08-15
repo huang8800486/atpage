@@ -1,0 +1,164 @@
+<h1>请上传资料</h1>
+<ul>
+    <li>
+        <span class="cardup-name">身份证正面照</span>
+        <span class="cardup-pic"><img width="215" height="150" src="" id="file_card_1_img" style="display: none"></span>
+        <span class="cardup-btn">
+            <div class="am-form-group am-form-file" style="cursor: pointer">
+                <button type="button" id="btn_upFile_1">上传照片</button>
+                <input type="file" id="file_card_1" multiple onchange='Upfile("file_card_1")'>
+            </div>
+        </span>
+    </li>
+    <li>
+        <span class="cardup-name">身份证反面照</span>
+        <span class="cardup-pic"><img width="215" height="150" src="" id="file_card_2_img" style="display: none"></span>
+        <span class="cardup-btn">
+            <div class="am-form-group am-form-file" style="cursor: pointer">
+                <button type="button" id="btn_upFile_2">上传照片</button>
+                <input type="file" id="file_card_2" multiple onchange='Upfile("file_card_2")'>
+            </div>
+        </span>
+    </li>
+    <li>
+        <span class="cardup-name">手持身份证照</span>
+        <span class="cardup-pic"><img width="215" height="150" src="" id="file_card_3_img" style="display: none"></span>
+        <span class="cardup-btn">
+            <div class="am-form-group am-form-file" style="cursor: pointer">
+                <button type="button" id="btn_upFile_3">上传照片</button>
+                <input type="file" id="file_card_3" multiple onchange='Upfile("file_card_3")'>
+            </div>
+        </span>
+    </li>
+    <li class="cardup-up">
+        <span>
+            <button id="save" type="button" class="am-btn am-btn-secondary am-radius am-btn-block" onclick="save()">提交</button>
+            <input type="hidden" id="hid_file_card_1" />
+            <input type="hidden" id="hid_file_card_2" />
+            <input type="hidden" id="hid_file_card_3" />
+        </span>
+    </li>
+</ul>
+<script>
+    function Upfile(filename) {
+        layer.load();
+        var formData = new FormData();
+        var img_file = document.getElementById(filename);
+        var fileObj = img_file.files[0];
+        formData.append("file", fileObj);////这里设置的是表单key、value，formData.append("Post Key", file input)
+
+        $.ajax({
+            type: "POST",
+            processData: false,//重要设置，默认为true。默认情况下，发送的数据将被转换为对象以配合默认内容类型"application/x-www-form-urlencoded"。如果要发送DOM树信息或者其他不希望转换的信息，请设置为false。,这里我们需要做文件上传，所以设置为false
+
+            url: $.getGateway() + "/api/file/upload",
+            data: formData,
+            async: false,
+            dataType: "json",
+
+            contentType: false,//重要设置，这里设置成false，个人理解是不设置Requset数据类型
+            beforeSend: function (xhr) {
+                //在这里设置请求头，如果请求头没有特别的要求，可以删除此处代码
+                var Authorization = $.getToken();
+                xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+                xhr.setRequestHeader("Accept", "*/*");
+                xhr.setRequestHeader("Access-Control-Max-Age", "3600");
+                if(Authorization != ""){
+                    xhr.setRequestHeader("Authorization", "Bearer " + Authorization);
+                }else{
+                    xhr.setRequestHeader("Authorization", "Bearer" + Authorization);
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                // data = XMLHttpRequest.responseJSON;
+                layer.msg(langPkg.getI18N("shangchuanshibai"), { icon: 2, time: 2000 });
+                layer.closeAll('loading');
+            },
+            success: function (resdata) {
+                if (resdata.code == 200) {
+                    $("#" + filename + "_img").attr("src", $.imgFilePath() + resdata.data);
+                    $("#" + filename + "_img").show();
+                    $("#hid_" + filename).val(resdata.data);
+                } else {
+                    $("#" + filename + "_img").hide();
+                    layer.msg(langPkg.getI18N("shangchuanshibai"), { icon: 2, time: 2000 });
+                }
+                layer.closeAll('loading');
+            }
+        });
+    }
+
+
+    function save() {
+        // realInfo();
+
+        var idCards = $("#idcard").val();
+        var fullName = $("#trueNames").val();
+
+        if(idCards==""){
+            layer.tips(langPkg.getI18N("security_first29_placeholder1"), '#idcard', { tips: [3, "#0e9e80"], time: 2000, end: function () { $("#save").removeAttr("disabled"); } });
+            return false;
+        }
+        if(fullName==""){
+            layer.tips(langPkg.getI18N("security_first4_placeholder2"), '#trueNames', { tips: [3, "#0e9e80"], time: 2000, end: function () { $("#save").removeAttr("disabled"); } });
+            return false;
+        }
+
+        var res = IdentityCodeValid(idCards);
+        if ( res[0] == true ) {
+            var param = {
+                card: idCards,
+                fullName: fullName
+            };
+            $.ajaxSendData(param, "/api/user/auth", function(resData){
+                var str_cardBack = $("#hid_file_card_2").val();
+                var str_cardFront = $("#hid_file_card_1").val();
+                var str_cardHold = $("#hid_file_card_3").val();
+
+                if ( str_cardFront == "" ){
+                    layer.msg(langPkg.getI18N("shengfenzhengzhengmianmeishangchuan"), { icon: 2, time: 2000 });
+                    return;
+                }
+
+                if ( str_cardBack == "" ){
+                    layer.msg(langPkg.getI18N("shengfenzhengfanmianmeishangchuan"), { icon: 2, time: 2000 });
+                    return;
+                }
+
+                if ( str_cardHold == "" ){
+                    layer.msg(langPkg.getI18N("shouchishenfenzhengtupianshangweishangchuan"), { icon: 2, time: 2000 });
+                    return;
+                }
+                var param = { cardBack: str_cardBack, cardFront: str_cardFront, cardHold: str_cardHold };
+                $.ajaxSendData(param, "/api/user/card/auth", function(resData){
+                    layer.msg(resdata.msg, { icon: 1, time: 2000 });
+                    //window.location.href = "cardinfo.html";
+                    $(".safety-form").hide();
+                    $(".safety-form-03").show();
+                });
+            });
+        }else {
+            layer.msg(res[1], { icon: 2, time: 2000 });
+        }
+    }
+
+
+    //判断token值是否为空
+    if (!$.TokenIsNull($.getToken())) {
+
+        //获取用户信息
+        $.ajaxSendData("", "/api/user/details", function(resData){
+            if (resData.data.cardrz == 2) {
+                $("#file_card_1_img").attr("src", $.imgFilePath() + resData.data.idcardImg1);
+                $("#file_card_2_img").attr("src", $.imgFilePath() + resData.data.idcardImg2);
+                $("#file_card_3_img").attr("src", $.imgFilePath() + resData.data.idcardImg3);
+                $("#file_card_1_img").show();
+                $("#file_card_2_img").show();
+                $("#file_card_3_img").show();
+                $("#btn_upFile_1").html(langPkg.getI18N("chongxinshangchuan"));
+                $("#btn_upFile_2").html(langPkg.getI18N("chongxinshangchuan"));
+                $("#btn_upFile_3").html(langPkg.getI18N("chongxinshangchuan"));
+            }
+        })
+    }
+</script>

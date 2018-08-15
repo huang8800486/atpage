@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>交易系统</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="keyword" content="比特币价格,比特币交易平台,区块链,数字化资产,比特币行情,AT交易所,USDT,莱特币,BCH,以太坊,ETH,以太经典,进行币币交易" />
+    <meta name="description" content="description:AT交易所是一家集数字化资产、投资服务、资讯服务于一体的国际化区块链资产交易平台。提供比特币,莱特币(LTC),以太坊(ETH),比特币现金(BCH),以太经典(ETC)达世币(DASH)等虚拟货币以比特币(BTC)、USDT进行交易！提供实时比特币价格,比特币行情。">
+    <link rel="stylesheet" href="../../assets/css/reset.css">
+    <link rel="stylesheet" href="../../assets/font/iconfont.css">
+    <link rel="stylesheet" href="../../assets/css/layout.css">
+    <script src="../../script/jquery-3.3.1.min.js"></script>
+    <script src="../../script/tools/crypto-js.js"></script>
+    <script src="../../script/tools/jquery.cookie.js"></script>
+    <script src="../../script/tools/md5.min.js"></script>
+    <script src="../../script/tools/k_tools.js"></script>
+    <script src="../../script/tools/loadSiteInfo.js"></script>
+    <script src="../../script/tools/jquery-ui.js"></script>
+    <script src="../../script/trade/tools.js"></script>
+    <script src="../../script/center_toos/center_tools_new.js"></script>
+    <script src="../../script/template.js"></script>
+    <script src="../../script/layer.js"></script>
+    <script src="../../assets/js/translate/jquery.i18n.properties/jquery.i18n.properties.min.js" charset="utf-8"></script>
+    <script src="../../assets/js/translate/i18n.config.js" charset="utf-8"></script>
+</head>
+<body>
+    <div class="view_body security_center_view_body google_view_body">
+        <!-- header -->
+        <header class="header header-other" id="header"></header>
+        <div class="negative_content_page">
+            <div class="dynamic-width negative_content">
+                <div class="leftbar_padding clearfix main-google">
+                    <div class="safety-leftbar" id="left"></div>
+                    <div class="safety-right">
+                        <div class="safety-top-title">
+                            <div class="safety-top-user">
+                                <h1><i class="iconfont icon-morentouxiang"></i></h1>
+                                <dl>
+                                    <dt id="trueName"></dt>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="main">
+                            <div class="modify_personal_info">
+                                <div class="am-g go_conter">
+                                    <p class="veri_prompt" translate="security_Google2">谷歌验证器是一款动态口令工具，工作原理类似短信动态验证。绑定后每30s生成一个动态验证码，验证码可用于登录/提现/修改安全设置等操作的安全验证。</p>
+                                    <div class="veri_conter">
+                                        <div class="veri_pr veri_pr1">
+                                            <h2 class="veri_tit">
+                                                <i class="veri_pri">1</i>
+                                                <span translate="security_Google3">下载谷歌验证器APP</span>
+                                            </h2>
+                                            <p class="ver_pad" translate="security_Google4">IOS用户登录APP Store 搜索 "Authenticator" 下载</p>
+                                            <p class="ver_pad" translate="security_Google5">安卓用户登录登陆应用商店或使用手机浏览器搜索 "谷歌验证器"下载</p>
+                                            <div class="ver_btn clearfix">
+                                                <a href="https://itunes.apple.com/cn/app/google-authenticator/id388497605?mt=8">
+                                                    <i><img src="../../images/ios.png"/> </i>
+                                                    <span> App Store</span>
+                                                </a>
+                                                <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=zh_CN">
+                                                    <i><img src="../../images/Google.png"/><!--<img src="./api/file/googleqrcode"/>--> </i>
+                                                    <span> Google Play</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="veri_pr veri_pr3">
+                                            <h2 class="veri_tit">
+                                                <i class="veri_pri">2</i>
+                                                <span translate="security_Google6">在谷歌验证其中添加密钥并备份</span>
+                                            </h2>
+                                            <div class="ver_ewm_wrap clearfix">
+                                                <div class="ver_ewm fl">
+                                                    <img width="150" height="150" id="ewmimg" src=""/>
+                                                </div>
+                                                <div class="ver_pad_wrap fl">
+                                                    <p class="ver_pad" translate="security_Google7">打开谷歌验证器，扫描下方二维码或手动输入下述密钥添加验证令牌。</p>
+                                                    <p class="ver_pad red" translate="security_Google8">密钥用于手机更换或遗失时找回谷歌验证器，绑定前请务必将下述密钥备份保存。</p>
+                                                    <div class="ver_copy clearf">
+                                                        <div class="input_wrap fl">
+                                                            <span translate="security_Google9">密钥</span>
+                                                            <input type="text" id="copy" value=""/>
+                                                        </div>
+                                                        <a onclick="copyLink();" class="fl copyLink" translate="security_Google10">复制</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="veri_pr veri_pr3 ver_yzm">
+                                            <h2 class="veri_tit">
+                                                <i class="veri_pri">3</i>
+                                                <span translate="security_Google11">输入谷歌验证器中六位验证码</span>
+                                            </h2>
+                                            <div class="am-form-group">
+                                                <span class="titl" translate="security_Google12">谷歌验证码</span>
+                                                <div class="input_wrap">
+                                                    <input type="text" class="frominput" id="go_yzm" placeholder=""/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a id="ver_bd" onclick="BinDing()" translate="security_Google13">绑定</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer" id="footer"></footer>
+        <div>
+            <input type="hidden" id="username">
+        </div>
+    </div>
+<!--[if lt IE 9]>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="../../assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+
+<script src="../../assets/js/amazeui.min.js"></script>
+<script src="../../assets/js/count-number.js"></script>
+
+
+
+
+<script type="text/javascript">
+    var isGetVerificationCode = 0;
+    $(function () {
+        $("#header").load("../common/commonHeader.html?version=" + $.version);
+        $("#footer").load("../common/commonFooter.html?version=" + $.version);
+        $("#left").load("./left.html");
+
+        init();
+    });
+</script>
+
+<!--功能函数-->
+<script type="text/javascript">
+    function init() {
+        var cookieStr = $.getToken();
+
+        //  如果已经登录，则取得财务中心数据
+        if (!$.TokenIsNull(cookieStr)) {
+            //  获取用户信息
+            getUserInfo();
+
+            $("#Islogin").show();
+            GetQRcode();
+        }else {
+            $.toIndex1();
+        }
+    }
+
+    var isSetTradePwd = null;
+    /**
+     * 获取用户信息
+     * @constructor
+     */
+    function getUserInfo() {
+        $.ajaxSendData("", "/api/user/details", function(resData){
+            $("#trueName").html(resData.data.nickname)
+            var bindGoogle = resData.data.bindGoogle;
+
+            if ( bindGoogle == 1 ){
+                isSetTradePwd = resData.data.status;
+
+                if (isSetTradePwd == 3) {
+                    $("#setTradePwd").html(langPkg.getI18N("xiugaimima"));
+                } else {
+                    $("#setTradePwd").html(langPkg.getI18N("shezhimima"));
+                }
+            }else {
+                layer.msg(langPkg.getI18N("gugeyanzheng"), { time: 1500, icon: 1 }, function () {
+                    window.location.href = "./security_center.html";
+                })
+            }
+        });
+    }
+
+    /**
+     * 获取谷歌验证器图片
+     * @constructor
+     */
+    function GetQRcode() {
+        $.ajaxSendData("", "/api/user/google/qrcode", function(resData){
+            var srcs = resData.data.qrcode
+            var secret = resData.data.secret
+            $("#ewmimg").attr("src", srcs);
+            $("#copy").val(secret);
+        });
+    }
+
+    /**
+     * 复制
+     */
+    function copyLink() {
+        var e = document.getElementById("copy");
+        e.select();
+        document.execCommand("Copy");
+    }
+
+    /**
+     * 绑定
+     * @constructor
+     */
+    function BinDing() {
+        var code = $("#go_yzm").val();
+        var param = {
+            code: code
+        };
+        $.ajaxSendData(param, "/api/user/bind/google", function(resData){
+            layer.msg(langPkg.getI18N("bangdingchenggong"), { time: 1500, icon: 1 }, function () {
+                window.location.href = "./security_center.html";
+            })
+        });
+    }
+
+</script>
+
+
+</body>
+</html>

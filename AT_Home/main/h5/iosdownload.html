@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>AT</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="keyword" content="比特币价格,比特币交易平台,区块链,数字化资产,比特币行情,AT交易所,USDT,莱特币,BCH,以太坊,ETH,以太经典,进行币币交易" />
+    <meta name="description" content="description:AT交易所是一家集数字化资产、投资服务、资讯服务于一体的国际化区块链资产交易平台。提供比特币,莱特币(LTC),以太坊(ETH),比特币现金(BCH),以太经典(ETC)达世币(DASH)等虚拟货币以比特币(BTC)、USDT进行交易！提供实时比特币价格,比特币行情。">
+    <link rel="stylesheet" href="style/reset.css">
+    <link rel="stylesheet" href="style/layout.css?v=2">
+    <script type="text/javascript" src="../../script/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../../script/tools/crypto-js.js"></script>
+    <script type="text/javascript" src="../../script/tools/jquery.cookie.js"></script>
+    <script type="text/javascript" src="../../script/tools/md5.min.js"></script>
+    <script type="text/javascript" src="../../script/tools/k_tools.js"></script>
+    <script type="text/javascript" src="../../script/tools/loadSiteInfo.js"></script>
+    <script type="text/javascript" src="../../script/trade/tools.js"></script>
+    <script type="text/javascript" src="../../script/center_toos/center_tools_new.js"></script>
+    <script src="../../assets/js/translate/jquery.i18n.properties/jquery.i18n.properties.min.js" charset="utf-8"></script>
+    <script src="../../assets/js/translate/i18n.config.js" charset="utf-8"></script>
+    <script type='text/javascript'>
+        var browser = {
+            versions: function () {
+                var u = navigator.userAgent, app = navigator.appVersion;
+                return {//移动终端浏览器版本信息
+                    trident: u.indexOf('Trident') > -1, //IE内核
+                    presto: u.indexOf('Presto') > -1, //opera内核
+                    webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+                    gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+                    mobile: !!u.match(/AppleWebKit.*Mobile.*/) && !!u.match(/AppleWebKit/), //是否为移动终端
+                    ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                    android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1 || u.indexOf("UCBrowser") > -1, //android终端或者uc浏览器
+                    //iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+                    iPhone: u.indexOf('iPhone') > -1, //是否为iPhone
+                    iPad: u.indexOf('iPad') > -1, //是否iPad
+                    WindowsMobile: u.indexOf('WindowsMobile') > -1, //是否WindowsMobile
+                    WindowsPhone: u.indexOf('ARM; Touch') > -1, //是否WindowsPhone
+                    webApp: u.indexOf('Safari') == -1, //是否web应该程序，没有头部与底部
+                    weiXin: u.toLowerCase().match(/MicroMessenger/i) == 'micromessenger'
+                };
+            }(),
+            language: (navigator.browserLanguage || navigator.language).toLowerCase()
+        }
+        if (browser.versions.android || browser.versions.WindowsMobile) {
+            window.location.href = "../h5/androiddownload.html";
+        }
+    </script>
+</head>
+<body>
+<!-- header -->
+<div class="view_body app_view_body">
+    <div class="negative_content_page">
+        <div class="dynamic-width negative_content">
+            <div class="main-help-page">
+                <div class="c2c_explain_content">
+                    <div class="top_banner">
+                        <img src="../../images/appdown/appbanner.png" alt="">
+                    </div>
+                    <div class="app_btn">
+                        <a href="javascript:;">
+                            <img src="../../images/appdown/ios_btn.png" alt="">
+                        </a>
+                        <span>点击立即下载iOS APP</span>
+                    </div>
+
+                    <div class="app_text_wrap">
+                        <div class="app_tit">
+                            <h2><span>iOS下载教程</span></h2>
+                        </div>
+                        <div class="app_txt">
+                            <ul class="clearfix">
+                                <li>
+                                    <span>1:点击立即下载按钮</span>
+                                    <img src="../../images/appdown/step_01.png" alt="">
+                                </li>
+                                <li>
+                                    <span>2:点击安装</span>
+                                    <img src="../../images/appdown/step_02.png" alt="">
+                                </li>
+                                <li>
+                                    <span>3:返回桌面，等待安装完成安装完成</span>
+                                    <img src="../../images/appdown/step_03.png" alt="">
+                                </li>
+                                <li>
+                                    <span>4:进入“设置”，然后点开“通用”</span>
+                                    <img src="../../images/appdown/step_04.png" alt="">
+                                </li>
+                                <li>
+                                    <span>5:进如通用后，点开“设备管理”</span>
+                                    <img src="../../images/appdown/step_05.png" alt="">
+                                </li>
+                                <li>
+                                    <span>6:点开企业级证书，点击信任，点开APP开始体验吧</span>
+                                    <img src="../../images/appdown/step_06.png" alt="">
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main_footer">
+                <p>www.at3.com</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="weixinTips">
+    <img src="images/weixin.png" alt="">
+</div>
+<script>
+    init()
+    function init(){
+        var param2 = {
+            platform: 2
+        }
+        if(browser.versions.weiXin){
+            $(".weixinTips").show().on("click", function(){
+                $(this).hide();
+            })
+            $(".app_btn a").on("click", function(){
+                $(".weixinTips").show()
+            })
+        }else{
+            $.ajaxSendData(param2, "/api/version/new", function(resData){
+                $(".app_btn a").attr("href", resData.data.url);
+            });
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>交易系统</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="keyword" content="比特币价格,比特币交易平台,区块链,数字化资产,比特币行情,AT交易所,USDT,莱特币,BCH,以太坊,ETH,以太经典,进行币币交易" />
+    <meta name="description" content="description:AT交易所是一家集数字化资产、投资服务、资讯服务于一体的国际化区块链资产交易平台。提供比特币,莱特币(LTC),以太坊(ETH),比特币现金(BCH),以太经典(ETC)达世币(DASH)等虚拟货币以比特币(BTC)、USDT进行交易！提供实时比特币价格,比特币行情。">
+    <link rel="stylesheet" href="../../assets/css/reset.css">
+    <link rel="stylesheet" href="../../assets/font/iconfont.css">
+    <link rel="stylesheet" href="../../assets/css/layout.css">
+    <script src="../../script/jquery-3.3.1.min.js"></script>
+    <script src="../../script/tools/crypto-js.js"></script>
+    <script src="../../script/tools/jquery.cookie.js"></script>
+    <script src="../../script/tools/md5.min.js"></script>
+    <script src="../../script/tools/k_tools.js"></script>
+    <script src="../../script/tools/loadSiteInfo.js"></script>
+    <script src="../../script/tools/jquery-ui.js"></script>
+    <script src="../../script/trade/tools.js"></script>
+    <script src="../../script/center_toos/center_tools_new.js"></script>
+    <script src="../../script/template.js"></script>
+    <script src="../../script/layer.js"></script>
+    <script src="../../script/jqPaginator.js"></script>
+    <script src="../../assets/js/translate/jquery.i18n.properties/jquery.i18n.properties.min.js" charset="utf-8"></script>
+    <script src="../../assets/js/translate/i18n.config.js" charset="utf-8"></script>
+</head>
+<body>
+<div class="view_body qd_assetDetails_view_body">
+    <!-- header -->
+    <header id="header" class="header header-other"></header>
+    <div class="negative_content_page">
+        <div class="dynamic-width negative_content">
+            <div class="main_qd_assetDetails clearfix">
+                <div class="finance-right">
+                    <div class="finance-right-title">
+                        <h2 translate="financial_first23">C2C交易明细</h2>
+                        <!-- <p translate="financial_first51">可查看所有委托及进行撤销处理</p> -->
+                        <!-- <dl translate="financial_first12">位置: 首页 > 财务中心 > <span class="c_blue2" translate="weituoguanli">委托管理</span></dl> -->
+                    </div>
+                    <div class="finance-list">
+                        <div class="c2c_water_list_wrap">
+                            <div class="wlw_tit clearfix">
+                                <a href="javascript:;" class="c_left" translate="left2_market5">时间</a>
+                                <a href="javascript:;" class="c_right" translate="middle2_market4">买入/卖出</a>
+                                <a href="javascript:;" class="c_right" translate="c2c_trade7">数量</a>
+                                <a href="javascript:;" class="c_right" translate="c2c_trade8">单价（￥）</a>
+                                <a href="javascript:;" class="c_right" translate="c2c_trade9">总价（￥）</a>
+                                <a href="javascript:;" class="c_right" translate="c2c_trade11">状态</a>
+                                <a href="javascript:;" class="c_right" translate="financial_first27">操作</a>
+                            </div>
+                            <div id="userTradeList"></div>
+                        </div>
+                        <ul class="am-pagination am-pagination-centered" id="pageList"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer" id="footer"></footer>
+
+<div class="buy-order-list buy-sell-order-list" style="display:none;">
+    <div class="wraipld">
+        <h2><em translate="left1_market3">币种：</em><span class="wraipcoin">：QD</span></h2>
+        <div class="userl_detai clearfix">
+            <div class="des fl">
+                <span><em translate="xiadanshijian">下单时间：</em><i class="buytime"></i></span>
+                <span><em translate="c2c_third3">类型：</em><i translate="financial_first5_type2"></i></span>
+                <span>
+                    <em translate="c2c_third4">状态：</em>
+                    <b class="yellow status"></b>
+                    <a id="pay_btn" href="javascript:void(0)" onclick="setTradeId()" style="display: none" translate="c2c_trade_info10">确认打款</a>
+                    <em class="translate_em creatTime" id="tradingEnd"></em>
+                </span>
+                <span class="update"><em>到帐时间：</em><b class="updateTime"></b></span>
+                <span><em translate="dingdanhao">订单号：</em><i class="buyorderno"></i></span>
+            </div>
+            <div class="des fl">
+                <span><em translate="dingdanhao">订单号：</em><i class="buyorderno"></i></span>
+                <span><em translate="c2c_trade_info5">收款方账号：</em><i class="buybankCard"></i></span>
+                <span><em translate="c2c_trade_info4">收款方开户行：</em><i class="buybank"></i></span>
+                <span><em translate="c2c_trade_info7">备注信息额：</em><em class="translate_em" translate="c2c_trade_info8">（请务必填写）</em><i class="buycredence sellcolor"></i></span>
+            </div>
+        </div>
+        <div class="despri">
+            <ul>
+                <li>
+                    <p translate="middle1_market1_placeholder2">单价</p>
+                    <span class="buyprice"></span>
+                </li>
+                <li>
+                    <p translate="c2c_trade7">数量</p>
+                    <span class="buynum"></span>
+                </li>
+                <li>
+                    <p translate="jiaoyijinger">交易金额</p>
+                    <span><em class="buyamount"></em><i>&nbsp;QD</i></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="sell-order-list buy-sell-order-list" style="display:none;">
+    <div class="wraipld">
+        <h2><em translate="left1_market3">币种：</em><span class="wraipcoin">QD</span></h2>
+        <div class="userl_detai clearfix">
+            <div class="des fl">
+                <span><em translate="xiadanshijian">下单时间：</em><i class="selltime"></i></span>
+                <span><em translate="c2c_third3">类型：</em><i translate="left2_market4"></i></span>
+                <span><em translate="c2c_third4">状态：</em><b class="yellow status2"></b></span>
+            </div>
+            <div class="des fl">
+                <span><em translate="dingdanhao">订单号：</em><i class="sellorderno"></i></span>
+                <span><em translate="c2c_trade_info5">收款账户：</em><i class="sellbank"></i></span>
+            </div>
+        </div>
+        <div class="despri">
+            <ul>
+                <li>
+                    <p translate="middle1_market1_placeholder2">单价</p>
+                    <span class="sellprice"></span>
+                </li>
+                <li>
+                    <p translate="c2c_trade7">数量</p>
+                    <span class="sellnum"></span>
+                </li>
+                <li>
+                    <p translate="jiaoyijinger">交易金额</p>
+                    <span><em class="sellamount"></em><i>&nbsp;QD</i></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!--[if lt IE 9]>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="../../assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+<script src="../../assets/js/amazeui.min.js"></script>
+<script src="../../assets/js/setdecimals.js"></script>
+
+
+
+<script type="text/javascript">
+    $(function () {
+        $("#header").load("../common/commonHeader.html?version=" + $.version);
+        $("#footer").load("../common/commonFooter.html?version=" + $.version);
+        $("#left").load("./left.html");
+
+        init();
+    });
+</script>
+
+<!--加载功能函数-->
+<script type="text/javascript">
+
+    //  初始化
+    function init() {
+        var cookieStr = $.getToken();
+
+        //  如果已经登录，则取得财务中心数据
+        if (!$.TokenIsNull(cookieStr)) {
+
+            //  查询出 QD 专区的市场的信息
+            getC2cMarketInfo();
+
+            //  获取我的充值列表（页码，类型：0全部）
+            
+        }else {
+            $.toIndex1();
+        }
+    }
+
+    var marketInfo = null;
+    var marketId = null;
+
+    //  通过ID 调用 C2C2 市场接口,这里只有 QD
+    function getC2cMarketInfo() {
+        var param = {
+            id: "",
+            pageSize: 1,
+            pageTo: 1
+        };
+        $.ajaxSendData(param, "/api/c2c/market/list", function(resData){
+            var datas = resData.data[0];
+            marketInfo = datas;
+            marketId = datas.id;
+            $("#dayTradeSum2").html(datas.dayTradeSum);
+            $("#dayTradeSum3").html(datas.dayTradeSum);
+            $("body").data("marketid", marketId);
+            getC2cUserList(1);
+        });
+    }
+    var serverTime = 0;
+    var addTime = 0;
+    var endTime = 0;
+    //  获取C2C用户交易列表
+    function getC2cUserList(pageTo) {
+        var marketIDs = $("body").data("marketid");
+        //  组合参数
+        var param = {
+            c2cMarketId: marketIDs,
+            pageSize: pageSize,
+            pageTo: pageTo
+        };
+
+        $.ajaxSendData(param, "/api/c2c/trade/user/list", function(resData){
+            console.log(resData)
+            if (resData.data.length > 0) {
+                page(resData.total, pageTo);
+                var datas = resData.data;
+                var msg = resData.msg.split("/");
+                addTime = msg[1] * (60 * 1000);
+                serverTime = msg[2];
+                var da1 = {"list": datas};
+                $("body").data("list_userList", datas);
+                var _html = template('list_userList', da1);   //template("模版名","数据集")
+                $("#userTradeList").html(_html);
+                $.weakenText($("#userTradeList .reg-text"));
+                langPkg.loadLanguage("c2c_trade1");
+                langPkg.loadLanguage("c2c_trade2");
+                langPkg.loadLanguage("c2c_trade3");
+                langPkg.loadLanguage("liushuihao");
+                langPkg.loadLanguage("c2c_trade_info1");
+                langPkg.loadLanguage("shoukuanxinxi");
+                langPkg.loadLanguage("c2c_trade12");
+                langPkg.loadLanguage("financial_first5_type5");
+                langPkg.loadLanguage("financial_first5_type6");
+                langPkg.loadLanguage("financial_first5_type7");
+                langPkg.loadLanguage("dengdaishangjiadakuan");
+                langPkg.loadLanguage("yidakuan");
+                langPkg.loadLanguage("financial_first5_type2");
+                langPkg.loadLanguage("left2_market4");
+                langPkg.loadLanguage("chakanxiangqing");
+            } else {
+                // layer.msg(resData.msg);
+                $("#userTradeList").html("<td style='text-align: center'>暂无数据</td>");
+                $("#pageList").hide();
+            }
+
+            if(resData.total > pageSize){
+                $("#pageList").show();
+            }
+        });
+        langPkg.loadLanguage("financial_first5_type2");
+        langPkg.loadLanguage("left2_market4");
+    }
+    var timeObj = {};
+    function getTimeRemaining(startTime, i, index){
+        var endTime = new Date(startTime).getTime() + addTime;
+        var valueTime;
+        clearInterval(timeObj[i])
+        timeObj[i] = setInterval(updateClock,1000);
+        function updateClock(){
+            endTime = endTime - 1000;
+            var t = (endTime - serverTime) / 1000;
+            $("." + i).addClass("icon");
+            $(".tradingEnd" + i).addClass("icon");
+            if(t <= 0){
+                $("." + i).removeClass("icon");
+                clearInterval(timeObj[i])
+                var listUerList = $("body").data("list_userList");
+                var listIndex = listUerList[index];
+                listIndex.status = "2";
+                $("body").data("list_userList", listUerList)
+
+                $("." + i).parent().children().first().children().text(langPkg.getI18N("financial_first5_type6"))
+                $("." + i).parent().find("#status").text(langPkg.getI18N("financial_first5_type6"))
+                $("." + i).parent().find("#pay_btn").hide();
+                return false;
+            }
+            var seconds = Math.floor(t % 60),               // 计算秒钟
+                minutes = Math.floor((t / 60) % 60),        // 计算分钟
+                hours = Math.floor((t / 60 / 60) % 60),     // 计算小时
+                days = Math.floor((t / 60 / 60 / 24));      // 计算天数
+            // console.log((("0" + hours).slice(-2) + ": " + ("0" + minutes).slice(-2) + ": " + ("0" + seconds).slice(-2)));
+            valueTime = (("0" + minutes).slice(-2) + ": " + ("0" + seconds).slice(-2))
+            $("." + i).text(valueTime);
+            $(".tradingEnd" + i).text(valueTime);
+            // console.log(valueTime);
+            // return valueTime;
+        }
+        updateClock();
+        // return valueTime;
+    }
+
+    var pageSize = 10;
+
+    function page(counts, pageTo) {
+        $('#pageList').jqPaginator('option', {
+            totalCounts: counts,
+            currentPage: pageTo
+        });
+        if (counts <= 1) {
+            $("#pageList").hide();
+        }
+    }
+
+    //初始化分页器
+    $('#pageList').jqPaginator({
+        totalCounts: 1,
+        visiblePages: 10,
+        pageSize: pageSize,
+        currentPage: 1,
+        activeClass: 'am-active',
+
+        //first: '<a href="javascript:void(0)">首页</a>',
+        prev: '<li><a href="javascript:void(0)">&laquo;</a></li>  ',
+        next: '<li><a href="javascript:void(0)">&raquo;</a></li> ',
+        //last: '<a href="javascript:void(0)">最后一页</a>',
+        page: ' <li ><a href="javascript:void(0)">{{page}}</a></li>',
+        onPageChange: function (num, status) {
+            if (status == "change") {
+                getC2cUserList(num);
+            }
+        }
+    });
+
+
+    //  确认打款询问框
+    function confirmPayFrame(tradeId) {
+        layer.confirm('请确认您已打款!', {
+            title: "确认打款",
+            icon: 0,
+            btn: ['确认', '取消'] //按钮
+        }, function () {
+            confirmPay(tradeId);
+        });
+    }
+
+    //  确认打款
+    function confirmPay(tradeId) {
+        //  组合参数
+        var param = {
+            c2cTradeId: tradeId,
+        };
+
+        $.ajaxSendData(param, "/api/c2c/trade/confirm/pay", function(resData){
+            layer.closeAll();
+            getC2cUserList(1);
+            $("#order-form").modal("close");
+        });
+
+    }
+
+    /**
+     *  赋值
+     */
+    function setTradeId() {
+        var tradeId = $("#tradeId").val();
+        confirmPayFrame(tradeId);
+    }
+    function payDownInfo(tradeId,trueName,bank,bankCard,mum,credence,status,type,i,time,index,orderno,bank,price,number,amount,updateTime, obj) {
+        if(typeof index != "undefined"){
+            var listUerList = $("body").data("list_userList");
+            var listIndex = listUerList[index];
+            status = listIndex.status + "";
+        }
+        if(status == "2" || status == "4"){
+            layer.msg(langPkg.getI18N("financial_first5_type7"), {icon: 2});
+            return;
+        }
+        $(".user-list-append").html("")
+        $(".buytime").html(time)
+        $(".buyorderno").html(orderno)
+        $(".buyprice").html(parseFloat(price).toFixed(2))
+        $(".buynum").html(parseFloat(number).toFixed(2))
+        $(".buyamount").html(parseFloat(mum).toFixed(2))
+        $(".buybank").html(bank);
+        $(".buycredence").html(credence);
+        $(".buybankCard").html(bankCard);
+        if($(obj).parents(".qduserList").hasClass("active")){
+            $(obj).parents(".qduserList").removeClass("active")
+            $(".user-list-append").html("")
+        }else{
+            $(".qduserList").removeClass("active");
+            $(obj).parents(".qduserList").addClass("active")
+            $(obj).parents(".qduserList").find(".user-list-append").append($(".buy-order-list").html());
+        }
+        
+        /*$('#order-form').modal({
+            relatedTarget: this 
+        });*/
+
+        $("#trueName").html(trueName);
+        $("#bank").html(bank);
+        $("#bankCard").html(bankCard);
+        $("#mum").html(mum);
+        $("#credence2").html(credence);
+        $("#tradeId").val(tradeId);
+        $(".updateTime").html(updateTime)
+
+        switch (status){
+            case '0':
+                var statusText = "";
+                var endTime = new Date(time).getTime() + addTime;
+                if((endTime - parseInt(serverTime)) <= 0){
+                    
+                    statusText = langPkg.getI18N("financial_first5_type6")
+                }else{
+                    statusText = langPkg.getI18N("c2c_trade12")
+                }
+                $("#status, .status").html(statusText);
+                $(".buy-order-list").find("#tradingEnd").attr("class", "translate_em creatTime "+"tradingEnd" + i);
+                if ( type == 1 ){
+                    $("#pay_btn").show();
+                    
+                }
+                if ( type == 2 ){
+                    $("#pay_btn").attr("style","display:none");
+                }
+                break;
+            case '1':
+                $(".buy-order-list").find("#tradingEnd").remove();
+                $("#status, .status").html(langPkg.getI18N("financial_first5_type5"));
+                $(".update").show();
+                if ( type == 1 ){
+                    $("#pay_btn").attr("style","display:none");
+                }
+                if ( type == 2 ){
+                    $("#pay_btn").attr("style","display:none");
+                }
+                break;
+            case '2':
+                $(".buy-order-list").find("#tradingEnd").remove();
+                $("#status, .status").html(langPkg.getI18N("financial_first5_type6"));
+                if ( type == 1 ){
+                    $("#pay_btn").attr("style","display:none");
+                }
+                if ( type == 2 ){
+                    $("#pay_btn").attr("style","display:none");
+                }
+                break;
+            case '3':
+                $(".buy-order-list").find("#tradingEnd").remove();
+                $("#status, .status").html(langPkg.getI18N("yidakuan"));
+                if ( type == 1 ){
+                    $("#pay_btn").attr("style","display:none");
+                }
+                if ( type == 2 ){
+                    $("#pay_btn").attr("style","display:none");
+                }
+                break;
+            default:
+                $(".buy-order-list").find("#tradingEnd").remove();
+                $("#status, .status").html(langPkg.getI18N("financial_first5_type6"));
+                break;
+        }
+    }
+
+    //  收款信息
+    function receiptDownInfo(tradeId,trueName,bank,bankCard,mum,credence,status,type, time,orderno,bank,price,number,amount, obj) {
+        if(status == "2" || status == "4"){
+            layer.msg(langPkg.getI18N("financial_first5_type7"), {icon: 2});
+            return;
+        }
+        $(".user-list-append").html("")
+        $("#trueName2").html(trueName);
+        $("#bank2").html(bank);
+        $("#bankCard2").html(bankCard);
+        $("#mum2").html(mum);
+        $("#credence2").html(credence);
+        $("#tradeId2").val(tradeId);
+
+        $(".selltime").html(time)
+        $(".sellorderno").html(orderno)
+        $(".sellbank").html(bank)
+        $(".sellprice").html(parseFloat(price).toFixed(2))
+        $(".sellnum").html(parseFloat(number).toFixed(2))
+        $(".sellamount").html(parseFloat(mum).toFixed(2))
+        if($(obj).parents(".qduserList").hasClass("active")){
+            $(obj).parents(".qduserList").removeClass("active")
+            $(".user-list-append").html("")
+        }else{
+            $(".qduserList").removeClass("active");
+            $(obj).parents(".qduserList").addClass("active")
+            $(obj).parents(".qduserList").find(".user-list-append").append($(".sell-order-list").html())
+        }
+
+        // $('#receipt-form').modal({
+        //     relatedTarget: this 
+        // });
+        switch (status){
+            case '0':
+                $("#status2,.status2").html(langPkg.getI18N("dengdaishangjiadakuan"));
+                if ( type == 1 ){
+                    $("#pay_btn").show();
+                }
+                if ( type == 2 ){
+                    $("#pay_btn").attr("style","display:none");
+                }
+                break;
+            case '1':
+                $("#status2,.status2").html(langPkg.getI18N("financial_first5_type5"));
+                if ( type == 1 ){
+                    $("#pay_btn").attr("style","display:none");
+                }
+                if ( type == 2 ){
+                    $("#pay_btn").attr("style","display:none");
+                }
+                break;
+            case '2':
+                $("#status2,.status2").html(langPkg.getI18N("dengdaishangjiadakuan"));
+                if ( type == 1 ){
+                    $("#pay_btn").attr("style","display:none");
+                }
+                if ( type == 2 ){
+                    $("#pay_btn").attr("style","display:none");
+                }
+                break;
+            case '3':
+                $("#status2,.status2").html(langPkg.getI18N("yidakuan"));
+                if ( type == 1 ){
+                    $("#pay_btn").attr("style","display:none");
+                }
+                if ( type == 2 ){
+                    $("#pay_btn").attr("style","display:none");
+                }
+                break;
+            default:
+                $("#status2,.status2").html(langPkg.getI18N("financial_first5_type6"));
+                break;
+        }
+    }
+
+    //  重新加载页面
+    function reloadPages() {
+        getC2cUserList(1);
+    }
+
+   
+</script>
+<script>
+    template.helper('_fixedName', function (startTime, i) {
+        var endTime = new Date(startTime).getTime() + addTime;
+        if((endTime - parseInt(serverTime)) <= 0){
+            return langPkg.getI18N("financial_first5_type6")
+        }else{
+            return langPkg.getI18N("c2c_trade12")
+        }
+    });
+    template.helper('_returnTimes', function (startTime, i, index) {
+        var value = getTimeRemaining(startTime, i, index);
+        return value;
+    });
+</script>
+
+<script id="list_userList" type="text/html">
+    {{each list as value i}}
+    <div class="qduserList">
+        <div class="user-list clearfix">
+            <div class="c_left user-middle reg-text">{{ value.createTime }}</div>
+            <div class="c_right user-middle">
+                {{ if value.type == 1 }}
+                <span class="deep-gray">
+                    <span class="c_green" translate="financial_first5_type2">买入</span> 
+                </span>
+                
+                {{ else }}
+                <span class="deep-gray"><strong class="red" translate="left2_market4"></strong> 
+                {{ /if }}
+            </div>
+            <div class="c_right user-middle"><strong class="c_gray">{{ value.num }}</strong></div>
+            <div class="c_right user-middle"><strong class="c_gray">{{ value.price }}</strong></div>
+            <div class="c_right user-middle">{{ value.num * value.price}}</div>
+            <div class="c_right user-middle">
+                {{ if value.type == 1 }}
+                    {{ if value.status == 0 }}
+                    <span class="trading"><em class="translate_em">{{_fixedName(value.createTime, "tradingEnd" + value.id)}}</em></span><i data-time="{{value.createTime}}" class="creatTime tradingEnd{{value.id}}">{{_returnTimes(value.createTime, "tradingEnd" + value.id, i)}}</i>
+                    {{ else if value.status == 1 }}
+                    <span class="finish" translate="financial_first5_type5"></span>
+                    {{ else if value.status == 2 }}
+                    <span class="finish" translate="financial_first5_type6"></span>
+                    {{ else if value.status == 3}}
+                    <span class="remit" translate="yidakuan" ></span>
+                    {{ else if value.status == 4 }}
+                    <span class="finish" translate="financial_first5_type6"></span>
+                    {{/if}}
+                    {{ else }}
+                    {{ if value.status == 0 }}
+                    <span class="trading" translate="dengdaishangjiadakuan"></span></i>
+                    {{ else if value.status == 1 }}
+                    <span class="finish" translate="financial_first5_type5"></span>
+                    {{ else if value.status == 2 }}
+                    <span class="finish" translate="dengdaishangjiadakuan"></span>
+                    {{ else if value.status == 3}}
+                    <span class="remit" translate="yidakuan"></span></i>
+                    {{ else if value.status == 4 }}
+                    <span class="finish" translate="financial_first5_type6"></span>
+                    {{/if}}
+                {{/if}}
+            </div>
+            <div class="c_right user-middle">
+                {{ if value.type == 1 }}
+                <a href="javascript:void(0)"
+                   onclick="payDownInfo('{{value.id}}','{{value.trueName}}',
+                   '{{ value.bankName}}{{ value.bankCity }}{{ value.bankAddress }}',
+                   '{{value.bankCard }}','{{value.num * value.price}}','{{value.credence}}','{{value.status}}','{{value.type}}', '{{value.id}}', '{{value.createTime}}',{{i}}, '{{value.orderNo}}','{{value.bankName}}','{{value.price}}','{{value.num}}','{{value.amount}}','{{value.updateTime}}', this)">
+                    <em class="translate_em" translate="chakanxiangqing">查看详情</em>
+                {{ else }}
+                <a href="javascript:void(0)"
+                   onclick="receiptDownInfo('{{value.id}}','{{value.trueName}}',
+               '{{ value.bankName}}{{ value.bankCity }}{{ value.bankAddress }}',
+               '{{value.bankCard }}','{{value.num * value.price}}','{{value.credence}}','{{value.status}}','{{value.type}}','{{value.createTime}}','{{value.orderNo}}','{{value.bankName}}','{{value.price}}','{{value.num}}','{{value.amount}}', this)">
+                <em class="translate_em" translate="chakanxiangqing">查看详情</em>
+                {{ /if }}
+                </a>
+            </div>
+        </div>
+        <div class="user-list-append"></div>
+    </div>
+    {{/each}}
+</script>
+</body>
+</html>

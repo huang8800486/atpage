@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>帮助中心</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="keyword" content="比特币价格,比特币交易平台,区块链,数字化资产,比特币行情,AT交易所,USDT,莱特币,BCH,以太坊,ETH,以太经典,进行币币交易" />
+    <meta name="description" content="description:AT交易所是一家集数字化资产、投资服务、资讯服务于一体的国际化区块链资产交易平台。提供比特币,莱特币(LTC),以太坊(ETH),比特币现金(BCH),以太经典(ETC)达世币(DASH)等虚拟货币以比特币(BTC)、USDT进行交易！提供实时比特币价格,比特币行情。">
+    <link rel="stylesheet" href="../../assets/css/reset.css">
+    <link rel="stylesheet" href="../../assets/font/iconfont.css">
+    <link rel="stylesheet" href="../../assets/css/layout.css">
+    <script type="text/javascript" src="../../script/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../../script/tools/crypto-js.js"></script>
+    <script type="text/javascript" src="../../script/tools/jquery.cookie.js"></script>
+    <script type="text/javascript" src="../../script/tools/md5.min.js"></script>
+    <script type="text/javascript" src="../../script/tools/k_tools.js"></script>
+    <script type="text/javascript" src="../../script/tools/loadSiteInfo.js"></script>
+    <script type="text/javascript" src="../../script/trade/tools.js"></script>
+    <script type="text/javascript" src="../../script/center_toos/center_tools_new.js"></script>
+    <script type="text/javascript" src="../../script/template.js"></script>
+    <script type="text/javascript" src="../../script/jqPaginator.js"></script>
+    <script type="text/javascript" src="../../script/layer.js"></script>
+</head>
+<body>
+<!-- header -->
+<div class="view_body finance_center_view_body">
+    <header class="header header-other" id="header"></header>
+    <div class="negative_content_page">
+        <div class="dynamic-width negative_content">
+            <div class="am-container am-margin-top-sm main-help">
+                <div class="new-help-leftbar">
+                    <h2>帮助中心</h2>
+                    <div class="help-anchor">
+                        <ul class="category">
+                            <li class="category_li open">
+                                <a href="#web00" class="category-btn">快速入门指导<i></i></a>
+                            </li>
+                            <li class="category_li">
+                                <a href="#web01" class="category-btn">1.注册登录<i></i></a>
+                                <ul>
+                                    <li class="active"><a href="javascript:;">1-1.用户注册</a></li>
+                                    <li><a href="javascript:;">1-2.用户登录</a></li>
+                                </ul>
+                            </li>
+                            <li class="category_li">
+                                <a href="#web02" class="category-btn">2.实名认证<i></i></a>
+                                <ul>
+                                    <li><a href="javascript:;">2-1.实名认证</a></li>
+                                </ul>
+                            </li>
+                            <li class="category_li">
+                                <a href="#web03" class="category-btn">3.安全设置<i></i></a>
+                                <ul>
+                                    <li><a href="javascript:;">3-1.手机认证</a></li>
+                                    <li><a href="javascript:;">3-2.邮箱认证</a></li>
+                                    <li><a href="javascript:;">3-3.Google认证</a></li>
+                                    <li><a href="javascript:;">3-4.修改登录密码</a></li>
+                                    <li><a href="javascript:;">3-5.修改交易密码</a></li>
+                                </ul>
+                            </li>
+                            <li class="category_li">
+                                <a href="#web04" class="category-btn">4.充值充币<i></i></a>
+                                <ul>
+                                    <li><a href="javascript">4-1. 法币充值</a></li>
+                                    <li><a href="javascript">4-2. BTC充值</a></li>
+                                    <li><a href="javascript">4-3. ETH充值</a></li>
+                                    <li><a href="javascript">4-4. USDT充值</a></li>
+                                    <li><a href="javascript">4-5. 莱特币充值</a></li>
+                                </ul>
+                            </li>
+                            <li class="category_li">
+                                <a href="#web05" class="category-btn">5.提币提现<i></i></a>
+                                <ul>
+                                    <li><a href="javascript:;">5-1. 法币提现</a></li>
+                                    <li><a href="javascript:;">5-2. 比特币提现</a></li>
+                                    <li><a href="javascript:;">5-3. ETH提现</a></li>
+                                    <li><a href="javascript:;">5-4. USDT提现</a></li>
+                                    <li><a href="javascript:;">5-5. LTC提现</a></li>
+                                </ul>
+                            </li>
+                            <li class="category_li">
+                                <a href="#web06" class="category-btn">6.交易委托<i></i></a>
+                                <ul>
+                                    <li><a href="javascript:;">6-1. 限价买入/卖出</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="help-right">
+                    <div class="help-right-title">
+                        <h2 id="help_h2"></h2>
+                        <dl>位置: 首页 > <span class="c_blue2" id="help_blue2">帮助中心</span></dl>
+                    </div>
+                    <div class="new-help-list">
+                        <div class="category-list open">
+                            <span class="cate-title">快速入门指导</span>
+                            <div class="anchor-text-wrap">
+                                <div class="anchor-tab" style="display:block;">
+                                    <p>1.注册帐号：</p>
+                                    <p>使用手机或邮箱 注册AT帐号，开启您的数字资产交易之旅。</p>
+                                    <p>2.安全及认证</p>
+                                    <p>设置资金交易密码，完成用户实名认证，确保账户资金安全。</p>
+                                    <p>3.充币</p>
+                                    <p>通过C2C进行法币充值或虚拟货币充币，为您的帐号注入资金</p>
+                                    <p>4.开始交易</p>
+                                    <p>进入交易中心进行交易，在交易中获取利润。</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="category-list">
+                            <span class="cate-title">注册登录</span>
+                            <div class="anchor-text-wrap">
+                                <div class="anchor-tab" style="display:block;">
+                                    <span class="sub-title">1-1.用户注册</span>
+                                    <p>点击右上角“注册”按钮。新用户注册可用手机或邮箱注册。 </p>
+                                    <p>1、手机注册</p>
+                                    <p>根据提示输入页面相应信息——获取手机验证码——设置登录密码，阅读并勾选同意《AT注册协议》，点击“立即注册”即可。</p>
+                                    <p>2、邮箱注册</p>
+                                    <p>根据提示输入邮箱地址——获取邮箱验证码——设置登录密码，阅读并勾选同意《AT注册协议》，点击“立即注册”即可。</p>
+                                </div>
+                                <div class="anchor-tab">
+                                    <span class="sub-title">1-2.用户登录</span>
+                                    <p>用户登录</p>
+                                    <p>1.  在网站首页右上方点击“登录”输入账户信息进行登录</p>
+                                    <p>2.  忘记登录密码</p>
+                                    <p>（1） 在网站登录页点击”忘记密码“或点击右上方“登录”进入登录页面，点击“忘记或未设置登录密码”</p>
+                                    <p>（2） 输入手机号或邮箱，验证码，点击“提交”重新设置密码</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="category-list">
+                            <span class="cate-title">实名认证</span>
+                            <div class="anchor-text-wrap">
+                                <div class="anchor-tab" style="display:block;">
+                                    <span class="sub-title">2-1.实名认证</span>
+                                    <p>1.点击安全中心——进入“实名认证”页面——选择“实名认证” </p>
+                                    <p>2.填写证件信息 </p>
+                                    <p>3.上传证件信息</p>
+                                    <p>请上传证件正面照、背面照和手持证件照片</p>
+                                    <p>大小为10M以内，文件格式支持 .bmp、.jpg、.jpeg、.png、.tif、.rtf、.pdf</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="category-list">
+                            <span class="cate-title">安全设置</span>
+                            <div class="anchor-text-wrap">
+                                <div class="anchor-tab" style="display:block;">
+                                    <span class="sub-title">3-1.手机认证</span>
+                                    <p>1.单击用户名——进入“基本信息”页面——选择“手机认证”——点击“立刻认证”。 </p>
+                                    <p>2.进入“手机认证设置”页面——输入“手机号码”——点击获取并输入“短信验证码”和“邮件验证码”——点击“提交”即可。</p>
+                                </div>
+                                <div class="anchor-tab">
+                                    <span class="sub-title">3-2.邮箱认证</span>
+                                    <p>1.单击安全中心——进入“安全中心”页面——选择“邮箱”——点击“去绑定”。</p>
+                                    <p>2.进入“邮箱设置信息”页面——输入“邮箱地址”，点击“获取验证码”。</p>
+                                    <p>3.登录邮箱查看邮箱验证码，确认绑定即可。 </p>
+                                </div>
+                                <div class="anchor-tab">
+                                    <span class="sub-title">3-3.Google认证</span>
+                                    <p>1.点击用户名，进入“安全中心”页面，选择“Google验证器”，点击“去绑定”</p>
+                                    <p>2.在手机下载Google Authenticator (身份验证器)的应用程序；</p>
+                                    <p>（1）安卓系统：在手机助手搜索“身份验证器”，点击“下载”—“安装”，安装成功后，打开身份验证器，点击“开始”。</p>
+                                    <p>（2）IOS系统：在APP Store上搜索“google authenticator”，点击“获取”--“安装”，安装成功后，打开该应用，点击“开始设置”。</p>
+                                    <p>3.下载完成后，打开该应用程序，选择 “添加帐户”—“扫描条形码”，将手机上的相机镜头对准下图扫描该条形码，扫描完成即生成了谷歌验证码；</p>
+                                    <p>如果手机已经有google身份验证器，要添加一个新的账户，安卓系统请点击右上角“…”并选择“设置账户”，点击“扫描条形码”扫描添加；iOS系统请点击右上方“+”号，选择“扫描条形码”扫描添加。</p>
+                                    <p>4.  在对应文本框填入手机上的6位数谷歌验证码，“点击获取”并填入短信验证码，点击“验证并开启”，按“确定”完成认证</p>
+                                </div>
+                                <div class="anchor-tab">
+                                    <span class="sub-title">3-4.修改登录密码</span>
+                                    <p>1.新用户在注册账户时同时也获得登录密码。修改登录密码：可点击 “安全中心”页面——选择“修改登录密码”——根据页面提示，输入原登录密码和新登录密码——点击“确认修改”即可。</p>
+                                    <p>2.如果已经忘记原登录密码，可按照“忘记登录密码”步骤操作。</p>
+                                    <p>3.忘记登录密码：点击首页右上角——进入“登录”页面——点击登录界面的“忘记密码”按钮——输入注册该账号时的手机号码或邮箱号——获取验证码，点击下一步——设置新密码，确认新密码即可完成修改。</p>
+                                </div>
+                                <div class="anchor-tab">
+                                    <span class="sub-title">3-5.修改交易密码</span>
+                                    <p>1.修改交易密码：进入“安全中心”——点击“修改交易密码”——根据提示填入密码及确认新密码——点击获取填入短信验证码或Google验证码——点击“提交”即可。</p>
+                                    <p>2.忘记交易密码：进入“安全中心”页面——点击“修改交易密码”—— 点击右下角“忘记交易密码？”—— 根据提示输入用户名——填入验证码——点击“下一步”——设置新密码，确认新密码即可完成修改。</p>
+                                    <p class="note">重要提示：修改资金安全密码后24小时不可提币/提现。</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="category-list">
+                            <span class="cate-title">充值充币</span>
+                            <div class="anchor-text-wrap">
+                                <div class="anchor-tab" style="display:block;">
+                                    <span class="sub-title">4-1.法币充值</span>
+                                    <p>一、QD篇</p>
+                                    <p>1.登录www.at3.com，点击C2C交易</p>
+                                    <p>2.在“QD交易”页面输入买入的QD数量，输入交易密码，点击“立即买入”，自动生成付款信息。</p>
+                                    <p>3.打开你的网上/手机银行，根据付款信息进行汇款。</p>
+                                    <p>4.商户收到汇款后随即入账。入处理时间一般为：9:00—21：00，非处理时间的订单会在第二天9:00开始处理。入账后，您可以在财务中心查看到QD资产，然后在【交易中心】的QD交易区，选择您想要买入的币种交易对，挂单买入。</p>
+                                </div>
+                                <div class="anchor-tab">
+                                    <span class="sub-title">4-2. BTC充值</span>
+                                    <p>1.登录AT账户，点击【财务中心】</p>
+                                    <p>2.选择【转入虚拟币】选项，选择“BTC”，您在创建账户后，系统会自动为您分配一个BTC的充值地址，您可以在充值BTC时向这个地址进行充值。复制钱包地址或使用手机APP扫描二维码，把您的比特币发送到该比特币地址。</p>
+                                    <p>3.经过网络确认后可到达您的AT 账户。</p>
+                                    <p class="note">备注：请不要充值除比特币之外的其他资产到比特币充值地址，任何非比特币资产充值将不可找回</p>
+                                </div>
+                                <div class="anchor-tab">
+                                    <span class="sub-title">4-3. ETH充值</span>
+                                    <p>1.登录AT账户，点击【财务中心】</p>
+                                    <p>2.选择【转入虚拟币】选项，选择“ETH”，您在创建账户后，系统会自动为您分配一个ETH的充值地址，您可以在充值ETH时向这个地址进行充值。复制钱包地址或使用手机APP扫描二维码，把您的以太坊发送到该以太坊地址。</p>
+                                    <p>3.经过网络确认后可到达您的AT 账户。</p>
+                                    <p class="note">备注：请不要充值除以太坊之外的其他资产到以太坊充值地址，任何非以太坊资产充值将不可找回</p>
+                                </div>
+                                <div class="anchor-tab">
+                                    <span class="sub-title">4-4. USDT充值</span>
+                                    <p>1.登录AT账户，点击【财务中心】</p>
+                                    <p>2.选择【转入虚拟币】选项，选择“USDT”，您在创建账户后，系统会自动为您分配一个USDT的充值地址，您可以在充值USDT时向这个地址进行充值。复制钱包地址或使用手机APP扫描二维码，把您的USDT发送到该USDT地址。</p>
+                                    <p>3.经过网络确认后可到达您的AT 账户。</p>
+                                    <p class="note">备注：请不要充值除USDT之外的其他资产到USDT充值地址，任何非USDT资产充值将不可找回</p>
+                                </div>
+                                <div class="anchor-tab">
+                                    <span class="sub-title">4-5. 莱特币充值</span>
+                                    <p>1.登录AT账户，点击【财务中心】</p>
+                                    <p>2.选择【转入虚拟币】选项，选择“LTC”，您在创建账户后，系统会自动为您分配一个LTC的充值地址，您可以在充值LTC时向这个地址进行充值。复制钱包地址或使用手机APP扫描二维码，把您的莱特币发送到该莱特币地址。</p>
+                                    <p>3.经过网络确认后可到达您的AT 账户。</p>
+                                    <p>备注：请不要充值除莱特币之外的其他资产到莱特币充值地址，任何非莱特币资产充值将不可找回</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="category-list">
+                            <span class="cate-title">提币提现</span>
+                            <div class="anchor-text-wrap">
+                                <div class="anchor-tab" style="display:block;">
+                                    <span class="sub-title">5-1. 法币提现</span>
+                                    <p>一、QD篇</p>
+                                    <p>1.将你持有的币在交易中心——QD交易区卖出，获得QD。</p>
+                                    <p>2.在【C2C交易】的QD交易页面，输入卖出数量，点击“立即卖出”。</p>
+                                    <p>3.第三步：卖出成功后，商家会在24小时内完成打款。</p>
+                                </div>
+                                <div class="anchor-tab">
+                                    <span class="sub-title">5-2. 比特币提现</span>
+                                    <p>1.点击【财务中心】菜单栏</p>
+                                    <p>2.在【转出虚拟币】选项选择BTC，在对应文本框输入提币地址、数量——点击获取并输入短信验证码和Google验证码——填写交易密码——点击“立即转出”，等待审核人员为您处理。</p>
+                                    <p class="note">备注：请仔细核对转出地址，不要充值除莱特币之外的其他资产到莱特币充值地址，任何非莱特币资产充值将不可找回</p>
+                                </div>
+                                <div class="anchor-tab">
+                                    <span class="sub-title">5-3. ETH提现</span>
+                                    <p>1.点击【财务中心】菜单栏</p>
+                                    <p>2.在【转出虚拟币】选项选择ETH，在对应文本框输入提币地址、数量——点击获取并输入短信验证码和Google验证码——填写交易密码——点击“立即转出”，等待审核人员为您处理。</p>
+                                </div>
+                                <div class="anchor-tab">
+                                    <span class="sub-title">5-4. USDT提现</span>
+                                    <p>1.点击【财务中心】菜单栏</p>
+                                    <p>2.在【转出虚拟币】选项选择USDT，在对应文本框输入提币地址、数量——点击获取并输入短信验证码和Google验证码——填写交易密码——点击“立即转出”，等待审核人员为您处理。</p>
+                                </div>
+                                <div class="anchor-tab">
+                                    <span class="sub-title">5-5. LTC提现</span>
+                                    <p>1.点击【财务中心】菜单栏</p>
+                                    <p>2.在【转出虚拟币】选项选择LTC，在对应文本框输入提币地址、数量——点击获取并输入短信验证码和Google验证码——填写交易密码——点击“立即转出”，等待审核人员为您处理。</p>
+                                    <p class="note">备注：实际到账的数量=提币数量-提币手续费</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="category-list">
+                            <span class="cate-title">交易委托</span>
+                            <div class="anchor-text-wrap">
+                                <div class="anchor-tab" style="display:block;">
+                                    <span class="sub-title">6-1. 限价买入/卖出</span>
+                                    <p>限价买入/卖出是指用户设置一个买入/卖出BTC,LTC,ETH，ETC，BTS,BCC和QTUM的价格，生成委托单，系统会自动撮合市场上的买单和卖单，一旦达到用户设置的价格便自动成交。</p>
+                                    <p>点击【交易中心】页面——选择“限价买入/卖出”——输入“买入/卖出价”和“买入/卖出量”——点击“立即买入/卖出”</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer" id="footer"></footer>
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+<script type="text/javascript" src="../../assets/js/amazeui.min.js"></script>
+
+
+
+<script type="text/javascript">
+    $(function () {
+        $("#header").load("../common/commonHeader.html?version=" + $.version);
+        $("#footer").load("../common/commonFooter.html?version=" + $.version);
+    });
+
+    $(function(){
+        var url = window.location.href;
+        var getHash = url.split("#")[url.split("#").length-1];
+        var hashArr = [];
+        var categoryLi = $(".new-help-leftbar .help-anchor .category_li");
+        var categoryWeb = categoryLi.find(".category-btn");
+        var categoryList = $(".new-help-list .category-list");
+        var categoryTabWrapArr = [];
+        var categoryWebNumber = 0;
+        var $win = $(window);
+
+        categoryWeb.each(function(){
+            var target = $(this).attr("href").split("#")[$(this).attr("href").split("#").length-1];
+            hashArr.push(target)
+        })
+
+        for(var i = 0; i < hashArr.length; i++){
+            if(hashArr[i] == getHash){
+                setActive(categoryLi, categoryList, i);
+            }
+        }
+        categoryLi.on("click", function(){
+            var idx = categoryLi.index($(this));
+            if($(this).hasClass("open")){
+                $(this).removeClass("open").addClass("openColor")
+                categoryList.eq(idx).find(".anchor-tab").hide();
+                categoryList.eq(idx).find(".anchor-tab").eq(0).show();
+                return;
+            }else{
+                categoryLi.removeClass("openColor")
+            }
+            setActive(categoryLi, categoryList, idx);
+            $(this).find("li").removeClass("active");
+            $(this).find("li").eq(0).addClass("active");
+        })
+
+        categoryLi.on("click", "li", function(){
+            var idx = $(this).index();
+            $(this).addClass("active").siblings().removeClass("active");
+            goToPosition(idx);
+            return false;
+        })
+
+        function setActive(obj, obj2, idx){
+            obj.eq(idx).addClass("open").siblings().removeClass("open");
+            obj.eq(idx).find("li").eq(0).addClass("active");
+            obj2.eq(idx).addClass("open").siblings().removeClass("open");
+            categoryWebNumber = idx;
+        }
+
+        function goToPosition(idx){
+            var obj = categoryList.eq(categoryWebNumber);
+            // var top = obj.find(".anchor-tab").eq(idx).offset().top;
+            // $("html,body").animate({"scrollTop": top-50}, 300);
+            obj.find(".anchor-tab").hide();
+            obj.find(".anchor-tab").eq(idx).show();
+            $("html,body").animate({"scrollTop": 0}, 300);
+        }
+
+        // $win.on("scroll", function(){
+        //     var top = $(document).scrollTop();
+        //     if(top >= 80){
+        //         $(".new-help-leftbar").addClass("fixed");
+        //     }else{
+        //         $(".new-help-leftbar").removeClass("fixed");
+        //     }
+        // })
+
+    })
+</script>
+</body>
+</html>

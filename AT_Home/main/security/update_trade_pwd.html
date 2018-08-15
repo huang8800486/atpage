@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>交易系统</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="keyword" content="比特币价格,比特币交易平台,区块链,数字化资产,比特币行情,AT交易所,USDT,莱特币,BCH,以太坊,ETH,以太经典,进行币币交易" />
+    <meta name="description" content="description:AT交易所是一家集数字化资产、投资服务、资讯服务于一体的国际化区块链资产交易平台。提供比特币,莱特币(LTC),以太坊(ETH),比特币现金(BCH),以太经典(ETC)达世币(DASH)等虚拟货币以比特币(BTC)、USDT进行交易！提供实时比特币价格,比特币行情。">
+    <link rel="stylesheet" href="../../assets/css/reset.css">
+    <link rel="stylesheet" href="../../assets/font/iconfont.css">
+    <link rel="stylesheet" href="../../assets/css/layout.css">
+    <script src="../../script/jquery-3.3.1.min.js"></script>
+    <script src="../../script/tools/crypto-js.js"></script>
+    <script src="../../script/tools/jquery.cookie.js"></script>
+    <script src="../../script/tools/md5.min.js"></script>
+    <script src="../../script/tools/k_tools.js"></script>
+    <script src="../../script/tools/loadSiteInfo.js"></script>
+    <script src="../../script/tools/jquery-ui.js"></script>
+    <script src="../../script/trade/tools.js"></script>
+    <script src="../../script/center_toos/center_tools_new.js"></script>
+    <script src="../../script/template.js"></script>
+    <script src="../../script/layer.js"></script>
+    <script src="../../assets/js/translate/jquery.i18n.properties/jquery.i18n.properties.min.js" charset="utf-8"></script>
+    <script src="../../assets/js/translate/i18n.config.js" charset="utf-8"></script>
+</head>
+<body>
+<!-- header -->
+    <div class="view_body security_center_view_body update_login_trade_view_body">
+        <header class="header header-other" id="header"></header>
+        <div class="negative_content_page">
+            <div class="dynamic-width negative_content">
+                <div class="leftbar_padding clearfix main-update_trade_pwd">
+                    <div class="safety-leftbar" id="left"></div>
+                    <div class="safety-right">
+                        <div class="safety-top-title">
+                            <div class="safety-top-user">
+                                <h1><i class="iconfont icon-morentouxiang"></i></h1>
+                                <dl>
+                                    <dt id="trueName"></dt>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="safety-list">
+                            <div class="modify_personal_info">
+                                <div class="safety-form">
+                                    <h2 class="per_titl" id="setTradePwd1" translate="zhezhijiaoyimima">设置交易密码</h2>
+                                    <h2 class="per_titl" id="setTradePwd3" translate="modifyTransactionPassword">修改交易密码</h2>
+                                    <div class="am-form-group" id="oldPwdInput" style="display: none">
+                                        <span class="titl" translate="security_first46">交易密码</span>
+                                        <div class="input_wrap">
+                                            <input id="tb_oldpwd" type="password" class="frominput" value="" placeholder="" maxlength="60" minlength="6" autocomplete="new-password">
+                                        </div>
+                                    </div>
+                                    <div class="am-form-group">
+                                        <span class="titl" translate="security_first47">新交易密码</span>
+                                        <div class="input_wrap">
+                                            <input id="newpaypassword" type="password" class="frominput" value="" placeholder="" maxlength="60" minlength="6" autocomplete="new-password" onkeyup="chckeStrength(this, this.value)">
+                                            <strong class="pwd_tips"></strong>
+                                            <p class="pwdstrength" translate="6_20">6～20位，必须包含大小写字母和数字</p>
+                                        </div>
+                                    </div>
+                                    <div class="am-form-group">
+                                        <span class="titl" translate="security_first48">确认密码</span>
+                                        <div class="input_wrap">
+                                            <input id="repaypassword" type="password" class="frominput" value="" placeholder="" maxlength="60" minlength="6" autocomplete="new-password">
+                                            <p class="pwdstrength" translate="6_20">6～20位，必须包含大小写字母和数字</p>
+                                        </div>
+                                    </div>
+                                    <a type="button" class="new-btn-color" id="editPwdButton" onclick="editPwd()" translate="security_button">确认修改</a>
+                                    <div class="forger-pwd-wrap">
+                                        <a href="../security/forgetTradePwd.html" class="forger-pwd" translate="forget_Login_Pwd">忘记交易密码?</a>
+                                    </div>
+                                    <div class="note">
+                                        <strong translate="security_info1">温馨提示：</strong>
+                                        <p>
+                                            <!--<span class="red">如果没有设置过交易密码请留空</span><br>-->
+                                            <em class="translate_em" translate="security_info41"></em><br>
+                                            <em class="translate_em" translate="security_info42"></em> <br>
+                                            <em class="translate_em" translate="security_info43"></em>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer" id="footer"></footer>
+    </div>
+<!--[if lt IE 9]>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="../../assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+
+<script src="../../assets/js/amazeui.min.js"></script>
+
+
+
+<script type="text/javascript">
+    $(function () {
+        $("#header").load("../common/commonHeader.html?version=" + $.version);
+        $("#footer").load("../common/commonFooter.html?version=" + $.version);
+        $("#left").load("./left.html");
+		$("#newpaypassword").attr("placeholder",langPkg.getI18N("security_first4_placeholder2"));
+        $("#repaypassword").attr("placeholder",langPkg.getI18N("security_first4_placeholder3"));
+    	$("#tb_oldpwd").attr("placeholder",langPkg.getI18N("security_first4_placeholder1"));
+    });
+</script>
+
+<!--功能函数-->
+<script type="text/javascript">
+    var status = null;
+    init();
+    function init() {
+        var cookieStr = $.getToken();
+
+        //  如果已经登录，则取得财务中心数据
+        if (!$.TokenIsNull(cookieStr)) {
+            //  获取用户信息
+            getUserInfo();
+        }else {
+            $.toIndex1();
+        }
+    }
+
+    function getUserInfo() {
+        $.ajaxSendData("", "/api/user/details", function(resData){
+            $("#trueName").html(resData.data.nickname)
+            status = resData.data.status;
+            if ( status == 3 ){
+                // $("#setTradePwd3").html(langPkg.getI18N("zhezhijiaoyimima"));
+                $("#setTradePwd4").html(langPkg.getI18N("zhezhijiaoyimima"));
+                $(".forger-pwd").hide();
+                $("#setTradePwd1").show();
+            }else {
+                $(".forger-pwd").show();
+                $("#setTradePwd3").show();
+                // $("#setTradePwd3").html(langPkg.getI18N("security_first4"));
+                $("#setTradePwd4").html(langPkg.getI18N("security_first4"));
+                $("#oldPwdInput").attr("style","");
+            }
+        });
+    }
+
+    function chckeStrength(obj, objvalue){
+        if($.passwordStrength(objvalue)){
+            $(obj).parents(".am-form-group").find(".pwd_tips").html("")
+            $(obj).removeClass("v_error_new")
+        }else{
+            $(obj).addClass("v_error_new")
+            $(obj).parents(".am-form-group").find(".pwd_tips").html(langPkg.getI18N("mimaqiangdutaidi"))
+        }
+    }
+
+    function editPwd() {
+        //  如果等于3，则是没有设置过交易密码，那么，交易密码可以留空
+        if ( status == 3 ){
+            $("#btn_submit").attr("disabled", "");
+            var newpassword = $("#newpaypassword").val().trim();
+            var repassword = $("#repaypassword").val().trim();
+
+            if(newpassword==""){
+                layer.tips(langPkg.getI18N("security_first4_placeholder2"), '#newpaypassword', { tips: [3, "#0e9e80"], time: 2000, end: function () { $("#btn_submit").removeAttr("disabled"); } });
+                return false;
+            }
+            if(repassword==""){
+                layer.tips(langPkg.getI18N("qingzaicishuruxinmima"), '#repaypassword', { tips: [3, "#0e9e80"], time: 2000, end: function () { $("#btn_submit").removeAttr("disabled"); } });
+                return false;
+            }
+
+            if(newpassword != repassword){
+                layer.tips(langPkg.getI18N("liangcishurudemimabuyizhi"), '#repaypassword', { tips: [3, "#0e9e80"], time: 2000, end: function () { $("#btn_submit").removeAttr("disabled"); $("#repaypassword").val(""); } });
+                return false;
+            }
+
+            if (!$.passwordStrength(newpassword)) {
+                layer.tips(langPkg.getI18N("mimaqiangdutaidi"), "#newpaypassword", {
+                    tips: [3, "#0e9e80"], time: 2000, end: function () {
+                        $("#editPwdButton").removeAttr("disabled");
+                    }
+                });
+                return false;
+            }
+
+            //  整合数据
+            var param = {
+                paypwd: newpassword,
+            };
+
+            $.ajaxSendData(param, "/api/user/set/paypwd", function(resData){
+                layer.msg(langPkg.getI18N("xiugaiwancheng"), { icon: 1, time: 2000 }, function () {
+                    $("#btn_submit").removeAttr("disabled");
+                    $("#newpaypassword").val("");
+                    $("#repaypassword").val("");
+                    var goBeforeUrl = "";
+                    var url = "";
+                    if(window.location.href.indexOf("/main") != -1){
+                        url = window.location.href.split("/main")[0];
+                    }
+                    if(window.sessionStorage && sessionStorage.beforeUrl != "" && typeof sessionStorage.beforeUrl != "undefined" || sessionStorage.beforeUrl != "register.html"){
+                        goBeforeUrl = url + "/main" + sessionStorage.beforeUrl;
+                        window.location.href = goBeforeUrl;
+                    }else{
+                        window.location.reload();
+                    }
+                });
+            }, function(resData){
+                layer.msg(resData.msg, { icon: 2, time: 2000 }, function () {
+                    $("#btn_submit").removeAttr("disabled");
+                });
+            });
+        }
+        //  否则，则需要验证交易密码
+        else {
+            $("#btn_submit").attr("disabled", "");
+            var oldpassword = $("#tb_oldpwd").val();
+            var newpassword = $("#newpaypassword").val();
+            var repassword = $("#repaypassword").val();
+
+            if(newpassword==""){
+                layer.tips(langPkg.getI18N("security_first4_placeholder2"), '#newpaypassword', { tips: [3, "#0e9e80"], time: 2000, end: function () { $("#btn_submit").removeAttr("disabled"); } });
+                return false;
+            }
+            if(repassword==""){
+                layer.tips(langPkg.getI18N("qingzaicishuruxinmima"), '#repaypassword', { tips: [3, "#0e9e80"], time: 2000, end: function () { $("#btn_submit").removeAttr("disabled"); } });
+                return false;
+            }
+
+            if(newpassword != repassword){
+                layer.tips(langPkg.getI18N("liangcishurudemimabuyizhi"), '#repaypassword', { tips: [3, "#0e9e80"], time: 2000, end: function () { $("#btn_submit").removeAttr("disabled"); $("#repaypassword").val(""); } });
+                return false;
+            }
+
+            if (!$.passwordStrength(newpassword)) {
+                layer.tips(langPkg.getI18N("mimaqiangdutaidi"), "#newpaypassword", {
+                    tips: [3, "#0e9e80"], time: 2000, end: function () {
+                        $("#editPwdButton").removeAttr("disabled");
+                    }
+                });
+                return false;
+            }
+
+            //  整合数据
+            var param = {
+                newPwd: newpassword,
+                oldPwd: oldpassword
+            };
+
+            $.ajaxSendData(param, "/api/user/edit/paypwd", function(resData){
+                layer.msg(langPkg.getI18N("xiugaiwancheng"), { icon: 1, time: 2000 }, function () {
+                    $("#btn_submit").removeAttr("disabled");
+                    $("#tb_oldpwd").val("").focus();
+                    $("#newpaypassword").val("");
+                    $("#repaypassword").val("");
+                });
+            }, function(resData){
+                layer.msg(resData.msg + "，"+ langPkg.getI18N("qingshuruzhengquedejiaoyimima"), { icon: 2, time: 2000 }, function () {
+                    $("#btn_submit").removeAttr("disabled");
+                });
+            });
+        }
+    }
+</script>
+
+
+</body>
+</html>

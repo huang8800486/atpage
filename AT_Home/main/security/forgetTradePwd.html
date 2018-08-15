@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>交易系统</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="keyword" content="比特币价格,比特币交易平台,区块链,数字化资产,比特币行情,AT交易所,USDT,莱特币,BCH,以太坊,ETH,以太经典,进行币币交易" />
+    <meta name="description" content="description:AT交易所是一家集数字化资产、投资服务、资讯服务于一体的国际化区块链资产交易平台。提供比特币,莱特币(LTC),以太坊(ETH),比特币现金(BCH),以太经典(ETC)达世币(DASH)等虚拟货币以比特币(BTC)、USDT进行交易！提供实时比特币价格,比特币行情。">
+    <link rel="stylesheet" href="../../assets/css/reset.css">
+    <link rel="stylesheet" href="../../assets/font/iconfont.css">
+    <link rel="stylesheet" href="../../assets/css/layout.css">
+    <script src="../../script/jquery-3.3.1.min.js"></script>
+    <script src="../../script/tools/crypto-js.js"></script>
+    <script src="../../script/tools/jquery.cookie.js"></script>
+    <script src="../../script/tools/md5.min.js"></script>
+    <script src="../../script/tools/k_tools.js"></script>
+    <script src="../../script/tools/loadSiteInfo.js"></script>
+    <script src="../../script/tools/jquery-ui.js"></script>
+    <script src="../../script/trade/tools.js"></script>
+    <script src="../../script/center_toos/center_tools_new.js"></script>
+    <script src="../../script/template.js"></script>
+    <script src="../../script/layer.js"></script>
+    <script type="text/javascript" charset="utf-8" src="//g.alicdn.com/sd/ncpc/nc.js?t=2015052012"></script>
+    <script type="text/javascript" charset="utf-8" src="//g.alicdn.com/sd/nch5/index.js?t=2015052012"></script>
+    <script src="../../script/common/common.js"></script>
+    <script src="../../assets/js/translate/jquery.i18n.properties/jquery.i18n.properties.min.js" charset="utf-8"></script>
+    <script src="../../assets/js/translate/i18n.config.js" charset="utf-8"></script>
+</head>
+<body>
+<!-- header -->
+    <div class="view_body security_center_view_body forget_trade_pwd_view_body">
+        <header class="header header-other" id="header"></header>
+        <div class="negative_content_page">
+            <div class="dynamic-width negative_content">
+                <div class="leftbar_padding clearfix main-update_trade_pwd">
+                    <div class="safety-leftbar" id="left"></div>
+                    <div class="safety-right">
+                        <div class="safety-top-title">
+                            <div class="safety-top-user">
+                                <h1><i class="iconfont icon-morentouxiang"></i></h1>
+                                <dl>
+                                    <dt id="trueName"></dt>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="safety-list">
+                            <div class="modify_personal_info">
+                                <div class="safety-form">
+                                    <h2 class="per_titl" id="setTradePwd3" translate="">找回交易密码</h2>
+                                    <!--忘记密码第一步-->
+                                    <div class="forgetTraderPwd" id="find_step1">
+                                        <div class="reg-list forget">
+                                            <div class="am-form-group_wrap">
+                                                <!-- <div class="am-form-group">
+                                                    <span class="titl" translate="security_first11"></span>
+                                                    <div class="input_wrap">
+                                                        <input id="phone" type="text" class="frominput" value="" placeholder="">
+                                                    </div>
+                                                </div> -->
+                                                <div class="am-form-group">
+                                                    <span class="titl" translate="mobile_verify"></span>
+                                                    <div class="input_wrap">
+                                                        <input id="moble_verify" type="text" class="frominput" value="" placeholder="">
+                                                        <button id="btn_sendCode" onclick="getCode(this)" type="button" class="secodes" translate="mobile_verify_get"></button>
+                                                    </div>
+                                                </div>
+                                                <div class="am-form-group">
+                                                    <span class="titl" translate="security_first47"></span>
+                                                    <div class="input_wrap">
+                                                        <input id="loginPwd" type="password" class="frominput" value="" placeholder="请输入新的交易密码" maxlength="20" autocomplete="new-password" onkeyup="chckeStrength(this, this.value)">
+                                                        <strong class="pwd_tips"></strong>
+                                                        <p class="pwdstrength" translate="6_20">6～20位，必须包含大小写字母和数字</p>
+                                                    </div>
+                                                </div>
+                                                <div class="am-form-group">
+                                                    <span class="titl" translate="security_first471"></span>
+                                                    <div class="input_wrap">
+                                                        <input id="loginRePwd" type="password" class="frominput" value="" placeholder="" maxlength="20" autocomplete="new-password">
+                                                        <p class="pwdstrength" translate="6_20">6～20位，必须包含大小写字母和数字</p>
+                                                    </div>
+                                                </div>
+                                                <a id="btn_next" onclick="next()" class="new-btn-color" translate="next_step"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--忘记密码第三步-->
+                                    <div class="forgetTraderPwd" id="find_step2" style="display: none">
+                                        <div class="reg-info-tip am-text-center">
+                                            <p><img src="../../images/icon-yes.png" ></p>
+                                            <h1 translate="gongxi_ning"></h1>
+                                            <p class="deep-gray"><span id="wait" class="green">3</span> <em class="translate_em" translate="tiaozhuan"></em></p>
+                                            <p style="width:100%;position:relative;"><a href="javascript:void(0)" style="position:static" onclick="window.location.href='../index.html'" class="am-btn am-radius am-btn-lg new-btn-color" translate="qushouye"></a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer" id="footer"></footer>
+        <div class="am-modal am-modal-no-btn" tabindex="-1" id="modelBox">
+            <div class="am-modal-dialog">
+                <div class="am-modal-hd" translate="yanzheng">
+                    <a id="at_modlog" href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+                </div>
+                <dl class="am-modal-bd" id="sliderBox" style="padding: 10px 20px;">
+                 <div id="aliSliderBox" class="nc-container"></div> 
+                </dl>
+                <button id="btn_slider" onclick="SendCode()" type="button" class="am-btn am-btn-secondary am-radius" style="float: right;margin-right: 20px" translate="make_sure"></button>
+            </div>
+        </div>
+
+        <input type="hidden" id="phone" />
+    </div>
+<!--[if lt IE 9]>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="../../assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+
+<script src="../../assets/js/amazeui.min.js"></script>
+<script src="../../assets/js/count-number.js"></script>
+
+
+
+<script type="text/javascript">
+    $(function () {
+        $("#header").load("../common/commonHeader.html?version=" + $.version);
+        $("#footer").load("../common/commonFooter.html?version=" + $.version);
+        $("#left").load("./left.html");
+        $("#loginRePwd").attr("placeholder",langPkg.getI18N("security_first4_placeholder3"));
+        $("#loginPwd").attr("placeholder",langPkg.getI18N("security_first4_placeholder2"));
+        $("#phone").attr("placeholder",langPkg.getI18N("qingshuruyonghuming"));
+        $("#moble_verify").attr("placeholder",langPkg.getI18N("mobile_verify_placeholder"));
+        var cookieStr = $.getToken();
+
+        //  如果已经登录，则取得财务中心数据
+        if (!$.TokenIsNull(cookieStr)) {
+            getUserInfo();
+        }else {
+            var index = layer.load(2, {
+                time: 10*1000,
+                shade: [0.75,'#000'] //0.1透明度的白色背景
+            });
+            layer.msg(langPkg.getI18N("ningshangweidenglu..."), { time: 1500, icon: 6 }, function () {
+                layer.close(index);
+                window.location.href = "../../login.html";
+            })
+        }
+
+
+    });
+</script>
+
+<!--初始化步骤-->
+<script type="text/javascript">
+    function chckeStrength(obj, objvalue){
+        if($.passwordStrength(objvalue)){
+            $(obj).parents(".am-form-group").find(".pwd_tips").html("")
+            $(obj).removeClass("v_error_new")
+        }else{
+            $(obj).addClass("v_error_new")
+            $(obj).parents(".am-form-group").find(".pwd_tips").html(langPkg.getI18N("mimaqiangdutaidi"))
+        }
+    }
+
+    function getUserInfo() {
+        $.ajaxSendData("", "/api/user/details", function(resData){
+            $("#trueName").html(resData.data.nickname)
+            if(resData.data.moble != ""){
+                sendcodes = resData.data.moble;
+            }else if(resData.data.email != ""){
+                sendcodes = resData.data.email;
+            }
+            $("#phone").val(sendcodes)
+        });
+    }
+
+
+    //  第一步
+    function next() {
+        $("#btn_next").attr("disabled", "");
+        var username = $("#phone").val();
+        var code = $("#moble_verify").val();
+        var loginPwd = $("#loginPwd").val();
+        var loginRePwd = $("#loginRePwd").val();
+        if (code == "") {
+            layer.tips(langPkg.getI18N("mobile_verify_placeholder"), "#moble_verify", {
+                tips: [3, "#0e9e80"], time: 2000, end: function () {
+                    $("#btn_next").removeAttr("disabled");
+                }
+            });
+            return false;
+        }
+
+        if (loginPwd == "") {
+            layer.tips(langPkg.getI18N("financial_first4_placeholder3"), "#loginPwd", {
+                tips: [3, "#0e9e80"], time: 2000, end: function () {
+                    $("#btn_next").removeAttr("disabled");
+                }
+            });
+            return false;
+        }
+        if (loginRePwd == "") {
+            layer.tips(langPkg.getI18N("security_first471"), "#loginRePwd", {
+                tips: [3, "#0e9e80"], time: 2000, end: function () {
+                    $("#btn_next").removeAttr("disabled");
+                }
+            })
+            return false;
+        }
+        if (loginPwd != loginRePwd) {
+            layer.tips(langPkg.getI18N("jiaoyimimayuquerenmimabuyizhi"), "#loginRePwd", {
+                tips: [3, "#0e9e80"], time: 2000, end: function () {
+                    $("#btn_next").removeAttr("disabled");
+                }
+            })
+            return false;
+        }
+
+        if (!$.passwordStrength(loginPwd)) {
+            layer.tips(langPkg.getI18N("mimaqiangdutaidi"), "#loginPwd", {
+                tips: [3, "#0e9e80"], time: 2000, end: function () {
+                    $("#btn_next").removeAttr("disabled");
+                }
+            });
+            return false;
+        }
+        var param = {
+            code: code,
+            paypwd: loginRePwd
+
+        };
+
+        $.ajaxSendData(param, "/api/user/back/paypwd/V2", function(resData){
+            var goBeforeUrl = "";
+            var url = "";
+            if(window.location.href.indexOf("/main") != -1){
+                url = window.location.href.split("/main")[0];
+            }
+            if(window.sessionStorage && sessionStorage.beforeUrl != "" && typeof sessionStorage.beforeUrl != "undefined" && (sessionStorage.beforeUrl == "/c2c/qd.html" || sessionStorage.beforeUrl == "/trade/market.html")){
+                goBeforeUrl = url + "/main" + sessionStorage.beforeUrl;
+                sessionStorage.beforeUrl = "";
+                window.location.href = goBeforeUrl;
+            }else{
+                layer.msg(langPkg.getI18N("zhaohuijiaoyimimachenggong"), { time: 1500, icon: 1 }, function () {
+                    $("#find_step1").hide();
+                    $("#find_step2").show();
+                    toLoginPage();
+                })
+            }
+            
+        }, function(resData){
+            layer.msg(resData.msg, { time: 2000, icon: 5 }, function () {
+                $("#btn_next").removeAttr("disabled");
+            })
+        });
+    }
+    
+    //  获取验证码，只是为了弹出框
+    function getCode(_this) {
+        var moble = $("#phone").val();
+        /*if(moble == ""){
+            layer.tips(langPkg.getI18N("qingshuruyonghuming"), "#phone", {
+                tips: [3, "#0e9e80"], time: 2000
+            });
+            return false;
+        }*/
+        //打开阿里验证
+        OpenAliValidate(_this, moble, 4, $('#btn_sendCode'));
+    }
+    
+    /**
+     *  跳转到首页面
+     */
+    function toLoginPage() {
+        var obj = $('#wait');
+        var wait = 3;
+        var interval = setInterval(function () {
+            obj.html(wait);
+            wait--;
+            if (wait < 0) {
+                clearInterval(interval);
+                var href = window.location.href;
+                //  判断项目所在目录
+                var loginUrl = href.substr(0,href.lastIndexOf("/")+1) +  "../../index.html";
+                window.location.href = loginUrl;
+            }
+        }, 1000);
+    }
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>交易系统</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="keyword" content="比特币价格,比特币交易平台,区块链,数字化资产,比特币行情,AT交易所,USDT,莱特币,BCH,以太坊,ETH,以太经典,进行币币交易" />
+    <meta name="description" content="description:AT交易所是一家集数字化资产、投资服务、资讯服务于一体的国际化区块链资产交易平台。提供比特币,莱特币(LTC),以太坊(ETH),比特币现金(BCH),以太经典(ETC)达世币(DASH)等虚拟货币以比特币(BTC)、USDT进行交易！提供实时比特币价格,比特币行情。">
+    <link rel="stylesheet" href="../../assets/css/reset.css">
+    <link rel="stylesheet" href="../../assets/font/iconfont.css">
+    <link rel="stylesheet" href="../../assets/css/layout.css">
+    <script src="../../script/jquery-3.3.1.min.js"></script>
+    <script src="../../script/tools/crypto-js.js"></script>
+    <script src="../../script/tools/jquery.cookie.js"></script>
+    <script src="../../script/tools/md5.min.js"></script>
+    <script src="../../script/tools/k_tools.js"></script>
+    <script src="../../script/tools/loadSiteInfo.js"></script>
+    <script src="../../script/tools/jquery-ui.js"></script>
+    <script src="../../script/trade/tools.js"></script>
+    <script src="../../script/center_toos/center_tools_new.js"></script>
+    <script src="../../script/template.js"></script>
+    <script src="../../script/layer.js"></script>
+    <script src="../../script/IdCodeValid.js"></script>
+    <script src="../../assets/js/translate/jquery.i18n.properties/jquery.i18n.properties.min.js" charset="utf-8"></script>
+    <script src="../../assets/js/translate/i18n.config.js" charset="utf-8"></script>
+</head>
+<body>
+    <div class="view_body security_center_view_body cardinfo_view_body">
+        <!-- header -->
+        <header class="header header-other" id="header"></header>
+        <div class="negative_content_page">
+            <div class="dynamic-width negative_content">
+                <div class="main-safety leftbar_padding clearfix">
+                    <div class="safety-leftbar" id="left"></div>
+                    <div class="safety-right">
+                        <div class="safety-top-title">
+                            <div class="safety-top-user">
+                                <h1><i class="iconfont icon-morentouxiang"></i></h1>
+                                <dl>
+                                    <dt id="trueName"></dt>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="safety-list">
+                            <div class="safety-cardinfo safety-cardinfo-card">
+                                <!-- <h2 class="safety-cardinfo-card-h2" translate="security_first22">您的身份证信息</h2> -->
+                                <ul>
+                                    <li style="display: none" id="cardInfo-CardInfo" class="card_info_detail">
+                                        <div class="safety-form" id="noCardInfo">
+                                            <div class="cardtype">
+                                                <p><em class="translate_em" translate="security_first26"></em><strong class="newcolor"><em class="translate_em" translate="security_first27"></em></strong></p>
+                                            </div>
+                                            <div class="inputcard_wrap">
+                                                <div class="inputcard">
+                                                    <div class="input_wrap">
+                                                        <span translate="security_first28">真实姓名</span>
+                                                        <input id="trueNames" type="text" class="frominput" value="" data-i18n-placeholder="security_frist28_placeholder1"  autocomplete="new-password">
+                                                    </div>
+                                                </div>
+                                                <div class="inputcard idcard_inputcard">
+                                                    <div class="input_wrap">
+                                                        <span translate="security_first29">身份证号</span>
+                                                        <input id="idcard" type="text" class="frominput" value="" data-i18n-placeholder="security_first29_placeholder1" maxlength="18" autocomplete="new-password" onkeyup="checkIdCard(this.value, event)">
+                                                        <strong class="tips red"></strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="safety-form">
+                                            <div id="cardzs">
+                                                <!-- <div class="cardrzName_img">
+                                                    <img src="../../images/icon-card-person.png">
+                                                </div>
+                                                <div class="cardrzName_wrap">
+                                                    <h2 class="c_blue2" id="cardrzName"></h2>
+                                                    <span class="deep-gray" id="div_showInfo" translate="security_first39">请上传手持身份证照片，身份证正面照， 身份证背面照</span>
+                                                </div>  -->
+                                                <div class="upload_tips">
+                                                    <h2 translate="qingshangchuanziliao">请上传资料</h2>
+                                                    <p translate="security_first42">图片大小&#60;10M，支持.jpg .png .bmp格式</p>
+                                                </div>
+                                            </div>
+                                            <div class="safety-cardup" id="uploadcard"></div>
+                                        </div>
+                                        
+                                        <div class="inputcard_text">
+                                            <span translate="reminder1">温馨提示：</span>
+                                            <p translate="security_first30">1、根据国家反洗钱法，所有在本站交易的用户均需要实名认证，</p>
+                                            <p translate="security_first35">请提供真实有效的手持本人身份证照片，虚假认证可能会导致账户被冻结，</p>
+                                            <p translate="security_first36">由虚假认证产生的一切后果由用户负责！</p>
+                                            <p translate="security_first37">2、用户需要手动填写证件信息，请尽可能保证证件照清晰、</p>
+                                            <p class="red" translate="security_first38">3、照片要求：右手持身份证件，左手持带有AT3.com、认证人签名、认证当天时间的证明文件。</p>
+                                        </div>
+                                    </li>
+                                    <li style="display: none" id="cardInfo-audit" class="card_info_detail wait_cardinfo">
+                                        <div class="info_detail">
+                                            <div class="cardrzName_img">
+                                                <img src="../../images/icon-card-audit.png">
+                                            </div>
+                                            <div class="info_detail_text">
+                                                <span></span>
+                                            </div>
+                                            <div class="info_de">
+                                                <!-- <span class="type-color"><em class="translate_em" translate="security_first25">您的身份证信息</em><em class="translate_em" translate="security_first26"></em></span> -->
+                                                <span id="audit_truename" class="card_truename"></span>
+                                                <span id="audit_idcard" class="idcard-number"></span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li style="display: none" id="cardInfo-unsucceed" class="card_info_detail wait_cardinfo">
+                                        <div class="info_detail">
+                                            <div class="cardrzName_img">
+                                                <img id="img_cardez" src="../../images/icon-card-succeed.png">
+                                            </div>
+                                            <div class="info_detail_text">
+                                                <span translate="shimingrenzhengweitongguo">实名认证未通过</span>
+                                            </div>
+                                            <div class="info_de">
+                                                <!-- <span class="type-color"><em class="translate_em" translate="security_first25">您的身份证信息</em><em class="translate_em" translate="security_first26"></em></span> -->
+                                                <em translate="weitongguoyuanyin">未通过原因：</em>
+                                                <span id="unsucceed_text"></span>
+                                                <a href="javascript:;" class="recard" onclick="reCard()" translate="chongxinrenzheng">重新认证</a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li style="display: none" id="cardInfo-succeed" class="card_info_detail wait_cardinfo">
+                                        <div class="info_detail">
+                                            <div class="cardrzName_img">
+                                                <img id="img_cardez" src="../../images/icon-card-succeed.png">
+                                            </div>
+                                            <div class="info_detail_text">
+                                                <span></span>
+                                            </div>
+                                            <div class="info_de">
+                                                <!-- <span class="type-color"><em class="translate_em" translate="security_first25">您的身份证信息</em><em class="translate_em" translate="security_first26"></em></span> -->
+                                                <span id="succeed_truename" class="card_truename"></span>
+                                                <span id="succeed_idcard" class="idcard-number"></span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer" id="footer"></footer>
+    </div>
+
+
+<!--[if lt IE 9]>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="../../assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+
+<script src="../../assets/js/amazeui.min.js"></script>
+<script src="../../assets/js/count-number.js"></script>
+
+
+
+<script type="text/javascript">
+    $(function () {
+        $("#header").load("../common/commonHeader.html?version=" + $.version);
+        $("#footer").load("../common/commonFooter.html?version=" + $.version);
+        $("#left").load("./left.html");
+        init();
+    });
+</script>
+
+<!--功能函数-->
+<script type="text/javascript">
+    function init() {
+        var cookieStr = $.getToken();
+
+        //  如果已经登录，则取得财务中心数据
+        if (!$.TokenIsNull(cookieStr)) {
+            //  获取用户信息
+            $.ajaxSendData("", "/api/user/details", function(resData){
+                var idcard = resData.data.idcard;
+                $("#trueName").html(resData.data.nickname)
+                $(".card_truename").html(langPkg.getI18N("xingming") + resData.data.truename);
+                if (resData.data.cardrz == 0 || resData.data.cardrz == 3) {
+                    $("#cardInfo-CardInfo").show();
+                    $("#uploadcard").load("uploadcard.html");
+                    $(".safety-cardinfo-card-h2").css("visibility","visible")
+                }
+                else if (resData.data.cardrz == 2) {       // 实名认证审核中
+                    $("#cardInfo-audit").show();
+                    $("#cardInfo-audit .info_detail_text span").html(langPkg.getI18N("zhengzaishenhezhong"));
+                    
+                }else if (resData.data.cardrz == 4) {      // 实名认证失败
+                    $("#cardInfo-unsucceed").show();
+                    $("#cardInfo-unsucceed .info_detail_text span").html();
+                    $("#cardInfo-unsucceed #unsucceed_text").html("<span class='red'>"+ resData.data.refuseCause + "</span>");
+                }  else {       // 实名认证成功
+                    $("#cardInfo-succeed").show();
+                    $("#cardInfo-succeed .info_detail_text span").html(langPkg.getI18N("security_first21"));
+                }
+                if ( idcard != null ){
+                    if (idcard.length > 10) {
+                        $(".idcard-number").html(langPkg.getI18N("security_first24") + idcard.substring(0, 6) + "********" + idcard.substring(idcard.length - 4))
+                    } else {
+                        $(".idcard-number").html(langPkg.getI18N("security_first24") + idcard);
+                    }
+                }
+            });
+        }else {
+            $.toIndex1();
+        }
+    }
+
+    /*$("#trueNames").on("keypress", function(){
+        var namelen = $(this).val();
+        if($(this).val().length > 5){
+            $(this).val(namelen.substring(0, 4));
+        }
+    })*/
+    function reCard(){
+        $(".card_info_detail").hide();
+        $("#cardInfo-CardInfo").show();
+        $("#uploadcard").load("uploadcard.html");
+        $(".safety-cardinfo-card-h2").css("visibility","visible")
+    }
+    // 该身份证号是否绑定
+    function checkIdCard(value, e){
+        var keycode = e.which;          //keycode就是按键的编码,e当前元素element,e.which是当前的编码  
+        if(value == "" || keycode == 32){
+            $("#idcard").parents(".input_wrap").removeClass("active")
+            return;
+        }else{
+            var param = {
+                card: value
+            };
+            $.ajaxSendData(param, "/api/user/card/checkId", function(resData){
+                if (resData.data){      // 身份证没有重复
+                    $("#idcard").parents(".input_wrap").removeClass("active")
+                    $("#save").removeAttr("disabled");
+                }else{
+                    // 该身份证号已绑定
+                    $("#idcard").parents(".input_wrap").addClass("active")
+                    $(".idcard_inputcard .tips").html(resData.msg)
+                    // layer.msg(resData.msg, { icon: 2, time: 2000 });
+                    $("#save").attr("disabled", "disabled");
+                }
+            });
+        }
+        
+    }
+
+    //  实名认证
+    function realInfo() {
+
+    }
+</script>
+
+</body>
+</html>

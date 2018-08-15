@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>充提记录</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" cconsole.log(str.split("/")[0]);ontent="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="keyword" content="比特币价格,比特币交易平台,区块链,数字化资产,比特币行情,AT交易所,USDT,莱特币,BCH,以太坊,ETH,以太经典,进行币币交易" />
+    <meta name="description" content="description:AT交易所是一家集数字化资产、投资服务、资讯服务于一体的国际化区块链资产交易平台。提供比特币,莱特币(LTC),以太坊(ETH),比特币现金(BCH),以太经典(ETC)达世币(DASH)等虚拟货币以比特币(BTC)、USDT进行交易！提供实时比特币价格,比特币行情。">
+    <link rel="stylesheet" href="../../assets/css/reset.css">
+    <link rel="stylesheet" href="../../assets/font/iconfont.css">
+    <link rel="stylesheet" href="../../assets/css/layout.css">
+    <script src="../../script/jquery-3.3.1.min.js"></script>
+    <script src="../../script/tools/crypto-js.js"></script>
+    <script src="../../script/tools/jquery.cookie.js"></script>
+    <script src="../../script/tools/md5.min.js"></script>
+    <script src="../../script/tools/k_tools.js"></script>
+    <script src="../../script/tools/loadSiteInfo.js"></script>
+    <script src="../../script/tools/jquery-ui.js"></script>
+    <script src="../../script/trade/tools.js"></script>
+    <script src="../../script/center_toos/center_tools_new.js"></script>
+    <script src="../../script/template.js"></script>
+    <script src="../../script/layer.js"></script>
+    <script src="../../script/jqPaginator.js"></script>
+    <script src="../../assets/js/translate/jquery.i18n.properties/jquery.i18n.properties.min.js" charset="utf-8"></script>
+    <script src="../../assets/js/translate/i18n.config.js" charset="utf-8"></script>
+</head>
+<body>
+    <div class="view_body coinlist_view_body">
+    <!-- header -->
+    <header class="header header-other" id="header"></header>
+    <div class="negative_content_page">
+        <div class="dynamic-width negative_content">
+            <div class="leftbar_padding clearfix">
+                <div class="finance-leftbar" id="left"></div>
+                <div class="finance-right">
+                    <div class="finance-right-title">
+                        <h2 translate="chongtijilu">充提记录</h2>
+                    </div>
+                    <div class="finance-list am-form">
+                        <div class="coin_category_nav">
+                            <div class="category_nav clearfix">
+                                <a href="javascript:;" class="ecn active" translate="zhuanrujilu">转入记录</a>
+                                <a href="javascript:;" class="ecn" translate="zhuanchujilu">转出记录</a>
+                            </div>
+                            
+                        </div>
+                        <div class="coin_category_wrap">
+                            <div class="coin_category active">
+                                <div class="coin_wrap coin_in">
+                                    <div class="coin_title clearfix">
+                                        <div class="ent_a c_left">
+                                            <div class="ent_wrap">
+                                                <i class="iconfont icon-arrows-down"></i>
+                                                <select onchange="setCoinInfoin($('#in_ul_coin_list').find('option:selected').attr('coinName'))" class="am-form-select am-input-sm am-radius" id="in_ul_coin_list">
+                                                    <option value="option1">BTC</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="ent_a c_center" translate="c2c_trade5">时间</div>
+                                        <div class="ent_a c_left" translate="qukuaiqingkuang">区块情况</div>
+
+                                        <div class="ent_a c_right" translate="financial_first319">转入数量</div>
+                                        <div class="ent_a c_right" translate="financial_first321">状态</div>
+                                    </div>
+                                    <div id="in_tb_list" class="coin_con"></div>
+                                </div>
+                                <ul class="am-pagination am-pagination-centered" id="pageListintocoin"></ul>
+                            </div>
+                            <div class="coin_category">
+                                <div class="coin_wrap coin_out">
+                                    <div class="coin_title clearfix">
+                                        <div class="ent_a c_left">
+                                            <div class="ent_wrap">
+                                                <i class="iconfont icon-arrows-down"></i>
+                                                <select onchange="setCoinInfoOut($('#out_ul_coin_list').find('option:selected').attr('coinName'))" class="am-form-select am-input-sm am-radius" id="out_ul_coin_list">
+                                                    <option value="option1">BTC</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="ent_a c_center" translate="c2c_trade5">时间</div>
+                                        <div class="ent_a c_left" translate="qukuaiqingkuang">区块情况</div>
+
+                                        <div class="ent_a c_right" translate="financial_first421">转出数量</div>
+                                        <div class="ent_a c_right" translate="financial_first66">手续费</div>
+                                        <div class="ent_a c_right" translate="financial_first321">状态</div>
+                                    </div>
+                                    <div id="out_tb_list" class="coin_con"></div>
+                                </div>
+                                <ul class="am-pagination am-pagination-centered" id="pageListouttocoin"></ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer" id="footer"></footer>
+</body>
+<input type="hidden" id="coinName" />
+<input type="hidden" id="coinID" />
+
+<!--[if lt IE 9]>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="../../assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+<script type="text/javascript">
+    $(function () {
+        $("#header").load("../common/commonHeader.html?version=" + $.version);
+        $("#footer").load("../common/commonFooter.html?version=" + $.version);
+        $("#left").load("./left.html");
+        init();
+    });
+</script>
+<script src="../../assets/js/amazeui.min.js"></script>
+<script src="../../assets/js/setdecimals.js"></script>
+<script src="../../assets/js/website/trans-coin.js"></script>
+<!--转入模板辅助方法-->
+<script type="text/javascript">
+    template.helper('_transTxidurl', function (str) {
+        if(str.split("/")[0] == "null" || (str.indexOf("https:///") != -1)){
+            str = "javascript:;"
+        }
+        return str;
+    });
+    template.helper('_transTxid', function (str) {
+        return str.split("/")[str.split("/").length-1];
+    });
+</script>
+
+<!--转入模板辅助方法-->
+<script id="in_coin_list" type="text/html">
+    {{each list as value i}}
+    {{if value.name!= "CNY"}}
+        <option value="{{ value.id }}" coinName="{{value.name}}">{{value.name}}</option>
+    {{/if}}
+    {{/each}}
+</script>
+
+<!--转出模板辅助方法-->
+<script id="out_coin_list" type="text/html">
+    {{each list as value i}}
+    <option value="{{ value.id }}" coinName="{{ value.name }}">{{value.name}}</option>
+    {{/each}}
+</script>
+
+<!--转入模板辅助方法-->
+<script id="rollInListintocoin" type="text/html">
+    {{each list as value i}}
+    {{ if value.address != "管理员后台转入" }}
+    <div class="rollIn clearfix">
+        <div class="tr_str c_left">
+            <div class="tr_s">{{value.coinname}}</div>
+        </div>
+        <div class="tr_str c_center">
+            <div class="tr_s reg-text">{{value.createTime}}</div>
+        </div>
+        <div class="tr_str c_left">
+            <div class="tr_s">
+                <div class="addr">
+                    <span translate="financial_first318"></span>: {{value.address}}
+                </div>
+                <div class="qukuaiqingkuang">
+                   <span>TXID: </span><a href="{{_transTxidurl(value.txid)}}" target="_blank">{{_transTxid(value.txid)}}</a>
+                </div>
+            </div>
+        </div>
+        <div class="tr_str c_right">{{value.num}}</div>
+        <div class="tr_str c_right">
+            {{if value.status==1}}
+            <span class="translate_em" translate="querenzhong">确认中</span>
+            {{/if}}
+            {{if value.status==2}}
+            <span class="newcolor" translate="chenggong">成功</span>
+            {{/if}}
+        </div>
+    </div>
+    {{ /if }}
+    {{/each}}
+</script>
+<!--转出模板辅助方法-->
+<script id="rollInListouttocoin" type="text/html">
+    {{each list as value i}}
+    {{ if value.address != "管理员后台转出" }}
+    <div class="rollOut clearfix">
+        <div class="tr_str c_left">
+            <div class="tr_s">{{value.coinname}}</div>
+        </div>
+        <div class="tr_str c_center">
+            <div class="tr_s reg-text">{{value.createTime}}</div>
+        </div>
+        <div class="tr_str c_left">
+            <div class="tr_s">
+                <div class="addr">
+                    <span translate="financial_first42"></span>: {{value.address}}
+                </div>
+                <div class="qukuaiqingkuang">
+                   <span>TXID: </span><a href="{{_transTxidurl(value.txid)}}" target="_blank">{{_transTxid(value.txid)}}</a>
+                </div>
+            </div>
+        </div>
+        <div class="tr_str c_right">{{value.num}}</div>
+        <div class="tr_str c_right">{{value.fee}}</div>
+        <div class="tr_str c_right">
+            {{ if value.status == 1 }}
+            <em class="translate_em" translate="zhuanchuzhong">转出中</em>
+            {{/if}}
+            {{ if value.status == 2 }}
+            <span class="c_blue2" translate="chenggong">成功</span>
+            {{/if}}
+            {{ if value.status == 3 || value.status == 4 || value.status == 5}}
+            <em class="translate_em" translate="security_first212">审核中</em>
+            {{/if}}
+            {{ if value.status == 6 }}
+            <em class="translate_em" translate="security_first213">审核失败</em><br>
+            <span class="tips_red">{{value.auditRemark}}</span>
+            {{/if}}
+        </div>
+    </div>
+    {{ /if }}
+    {{/each}}
+</script>
+</body>
+</html>

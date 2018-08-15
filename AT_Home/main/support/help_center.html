@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>交易系统</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="keyword" content="比特币价格,比特币交易平台,区块链,数字化资产,比特币行情,AT交易所,USDT,莱特币,BCH,以太坊,ETH,以太经典,进行币币交易" />
+    <meta name="description" content="description:AT交易所是一家集数字化资产、投资服务、资讯服务于一体的国际化区块链资产交易平台。提供比特币,莱特币(LTC),以太坊(ETH),比特币现金(BCH),以太经典(ETC)达世币(DASH)等虚拟货币以比特币(BTC)、USDT进行交易！提供实时比特币价格,比特币行情。">
+    <link rel="stylesheet" href="../../assets/css/reset.css">
+    <link rel="stylesheet" href="../../assets/font/iconfont.css">
+    <link rel="stylesheet" href="../../assets/css/layout.css">
+    <script type="text/javascript" src="../../script/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../../script/tools/crypto-js.js"></script>
+    <script type="text/javascript" src="../../script/tools/jquery.cookie.js"></script>
+    <script type="text/javascript" src="../../script/tools/md5.min.js"></script>
+    <script type="text/javascript" src="../../script/tools/k_tools.js"></script>
+    <script type="text/javascript" src="../../script/tools/loadSiteInfo.js"></script>
+    <script type="text/javascript" src="../../script/trade/tools.js"></script>
+    <script type="text/javascript" src="../../script/center_toos/center_tools_new.js"></script>
+    <script type="text/javascript" src="../../script/template.js"></script>
+    <script type="text/javascript" src="../../script/jqPaginator.js"></script>
+    <script type="text/javascript" src="../../script/layer.js"></script>
+    <script src="../../assets/js/translate/jquery.i18n.properties/jquery.i18n.properties.min.js" charset="utf-8"></script>
+    <script src="../../assets/js/translate/i18n.config.js" charset="utf-8"></script>
+</head>
+<body>
+<!-- header -->
+<div class="view_body help_center_view_body">
+    <header class="header header-other" id="header"></header>
+    <div class="negative_content_page">
+        <div class="dynamic-width negative_content">
+            <div class="leftbar_padding clearfix main-help-center">
+                <div class="help-leftbar">
+                    <!-- <h2 translate="help_first1">公告与下载</h2> -->
+                    <ul id="li_typeList"></ul>
+                </div>
+                <div class="help-right">
+                    <div class="help-right-title">
+                        <h2 id="help_h2"></h2>
+                        <!-- <dl translate="weizhi_guanggao">位置: 首页 > 公告与下载 > <span class="c_blue2" id="help_blue2"></span></dl> -->
+                    </div>
+                    <div class="help-list" id="div_list">
+                        <ul class="list-pic" id="li_list">
+                            <!--<li><a href="#"><span class="icon-help-list1"></span><p>白皮书</p></a></li>
+                            <li><a href="#"><span class="icon-help-list2"></span><p>注册指南</p></a></li>
+                            <li><a href="#"><span class="icon-help-list3"></span><p>交易指南</p></a></li>
+                            <li><a href="#"><span class="icon-help-list4"></span><p>转币指南</p></a></li>
+                            <li><a href="#"><span class="icon-help-list5"></span><p>提现指南</p></a></li>-->
+                            <div class="cl"></div>
+                        </ul>
+                        <div class="cl"></div>
+                        <ul class="am-pagination am-pagination-centered" id="pageList" style="display: none;"></ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer" id="footer"></footer>
+</div>
+
+
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+<script type="text/javascript" src="../../assets/js/amazeui.min.js"></script>
+<script type="text/javascript" src="../../assets/js/count-number.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        $.ajaxSendData("", "/api/article/type/list", function(resData){
+            var da = {"list": resData.data};
+            var _html = template("typelist", da);
+            $("#li_typeList").html(_html);
+            getAboutUsList(1);
+        });
+
+        $("#header").load("../common/commonHeader.html?version=" + $.version);
+        $("#footer").load("../common/commonFooter.html?version=" + $.version);
+        getHByID();
+    });
+
+    function getAboutUsList(pageTo) {
+        var hid_type = $("#hid_type").val();
+        var param = {
+            pageSize: pageSize,
+            pageTo: pageTo,
+            type: hid_type,
+            languageType : langPkg.getAdLanguage(),
+            adaptationtype: 2
+        };
+
+
+        $.ajaxSendData(param, "/api/article/getArticleList", function(resData){
+            if (resData.total > 0) {
+                page(resData.total, pageTo);
+            }
+            else {
+                page(1, 1);
+                $("#pageList").hide();
+            }
+            var da = {"list": resData.data};
+            var _html = template("lists", da);
+            $("#li_list").html(_html)
+        });
+
+    };
+
+    function errorImg(obj) {
+        $.loadDefaultImg3(obj);
+    }
+
+    var pageSize = 6;
+
+    function page(counts, pageTo) {
+        $('#pageList').jqPaginator('option', {
+            totalPages: counts,
+            currentPage: pageTo
+        });
+        if (counts <= 1) {
+            $("#pageList").hide();
+        } else {
+            $("#pageList").show();
+            $("#pageList").css({"display": "block"});
+        }
+    }
+    
+    /*标题位置判断*/
+   function getHByID() {
+        var sort = $.getUrlParam("sort");
+        switch (sort) {
+            case '1':
+                $("#help_h2").html(langPkg.getI18N("help_first2"));
+                $("#help_blue2").html(langPkg.getI18N("help_first2"));
+                return
+            case '2':
+                $("#help_h2").html(langPkg.getI18N("help_first3"));
+                $("#help_blue2").html(langPkg.getI18N("help_first3"));
+                return
+            case '3':
+                 $("#help_h2").html(langPkg.getI18N("last_message_5"));
+                 $("#help_blue2").html(langPkg.getI18N("last_message_5"));
+                return
+            case '4':
+                $("#help_h2").html(langPkg.getI18N("last_message_1"));
+                $("#help_blue2").html(langPkg.getI18N("last_message_1"));
+                return
+            case '6':
+                $("#help_h2").html(langPkg.getI18N("shangxianyuxiazai"));
+                $("#help_blue2").html(langPkg.getI18N("shangxianyuxiazai"));
+                return
+            case '7':
+                $("#help_h2").html(langPkg.getI18N("xiazaizhongxin"));
+                $("#help_blue2").html(langPkg.getI18N("xiazaizhongxin"));
+                return
+            default :
+            	$("#help_h2").html(langPkg.getI18N("help_first2"));
+                $("#help_blue2").html(langPkg.getI18N("help_first2"));
+                return
+        }
+   }   
+
+    function getNewDetailsByID() {
+        var id = $.getUrlParam("id")
+
+        var param = {
+            id: id
+        };
+
+
+        $.ajaxSendData(param, "/api/article/detail", function(resData){
+            $("#help_h2").html(resData.data.title);
+        });
+    }
+
+    //初始化分页器
+    $('#pageList').jqPaginator({
+        totalPages: 1,
+        visiblePages: 10,
+        currentPage: 1,
+        activeClass: 'am-active',
+
+        prev: '<li><a href="javascript:void(0)">&laquo;</a></li>  ',
+        next: '<li><a href="javascript:void(0)">&raquo;</a></li> ',
+        page: ' <li ><a href="javascript:void(0)">{{page}}</a></li>',
+        onPageChange: function (num, status) {
+            if (status == "change") {
+                getAboutUsList(num);
+            }
+        }
+    });
+
+
+    template.helper('_imgPath', function (str) {
+        if (str == '' || str == null) {
+            return "../../images/default/defaultIndexImg.jpg"
+        } else {
+            return $.imgFilePath() + str;
+        }
+    });
+
+    template.helper('_title', function (str) {
+        if (str.length > 15) {
+            return str.substring(0, 15) + "...";
+        }
+        return str;
+    });
+
+    /*内容限制*/
+    template.helper('_content', function (str) {
+        if (str.length > 100) {
+            return str.substring(0, 100) + "...";
+        }
+        return str;
+    });
+
+    template.helper('_aboutcontent', function (str) {
+        if (str.length < 0) {
+            return false;
+        }
+        return str;
+    });
+
+
+    template.helper('_sort', function () {
+        return Number($.getUrlParam("sort"));
+    });
+    template.helper('_TypeIsNotNull', function () {
+        if ($.getUrlParam("type") == '' || $.getUrlParam("type") == null) {
+            return false;
+        } else {
+            return true;
+        }
+    });
+    template.helper('_getType', function () {
+        return $.getUrlParam("type");
+    });
+    template.helper('_typeIsHelp', function (str) {
+        if (str == 'help') {
+            $("#div_list").attr("class", "help-list");
+            return true;
+        } else {
+            return false;
+        }
+    });
+    template.helper('_typeIsNotice', function (str) {
+        if (str == 'notice' || str == 'article') {
+            $("#div_list").attr("class", "news-list");
+            return true;
+        } else {
+            return false;
+        }
+    });
+    template.helper('_typeIsNot', function (str) {
+        if (str != 'notice' && str != 'article' && str != 'news' && str != 'help' && str != 'aboutus' && str != 'download') {
+            $("#div_list").attr("class", "news-list");
+            return true;
+        } else {
+            return false;
+        }
+    });
+    template.helper('_typeIsDownload', function (str) {
+        if (str == 'download') {
+            $("#div_list").attr("class", "down-list");
+            return true;
+        } else {
+            return false;
+        }
+    });
+
+    template.helper('_typeIsAboutus', function (str) {
+        if (str == 'aboutus') {
+            $("#div_list").attr("class", "");
+            return true;
+        } else {
+            return false;
+        }
+    });
+    template.helper('_typeIsNews', function (str) {
+        if (str == 'news') {
+            $("#div_list").attr("class", "news-list-pic");
+            return true;
+        } else {
+            return false;
+        }
+    });
+    template.helper('_getSort', function (str) {
+        return $("#hid_sort").val();
+    });
+    /*文字变*/
+    template.helper('_getListTranslate', function (str) {
+        switch (str) {
+            case 'notice':
+                return 'help_first2';
+            case 'news':
+                return 'help_first3';
+            case 'help':
+                return '';
+            case 'aboutus':
+                return '';
+            case 'article':
+                return 'help_first2';
+            case 'download':
+                return 'xiazaizhongxin';
+            default :
+                return 'help_first2';
+        }
+    }); 
+
+    template.helper('_getListClassName', function (str) {
+        switch (str) {
+            case 'notice':
+                return 'icon-help icon-help1';
+            case 'news':
+                return 'icon-help icon-help2';
+            case 'help':
+                return 'icon-help icon-help3';
+            case 'aboutus':
+                return 'icon-help icon-help4';
+            case 'article':
+                return 'icon-help icon-help5';
+            case 'download':
+                return 'icon-help icon-help6';
+            default :
+                return 'icon-help icon-help1';
+        }
+    }); 
+    /*帮助中心图标判断*/
+    template.helper('_getHelpClassName', function (id) {
+        //alert(id);
+        switch (id + "") {
+            case '143':
+                return 'icon-help-list1';
+            case '117':
+                return 'icon-help-list2';
+            case '115':
+                return 'icon-help-list3';
+            case '114':
+                return 'icon-help-list4';
+            case '113':
+                return 'icon-help-list4';
+            case '112':
+                return 'icon-help-list5';
+            default :
+                return 'icon-help1';
+        }
+    });
+
+
+</script>
+
+<!--右边切换页-->
+
+<script id="lists" type="text/html">
+    <!--通用，公告，上线与下载-->
+    {{each list as value i}}
+    {{if _typeIsNotice(value.type)}}
+    <li>
+        <div class="overh clearfix">
+            <span>{{value.createTime}}</span>
+            <a href="listconter.html?id={{value.id}}&sort={{_getSort()}}">{{value.title}}</a>
+        </div>
+    </li>
+    {{/if}}
+    {{/each}}
+    {{each list as value i}}
+    {{if _typeIsNot(value.type)}}
+    <li>
+        <span>{{value.createTime}}</span>
+        <a href="listconter.html?id={{value.id}}&sort={{_getSort()}}">{{value.title}}</a>
+    </li>
+    {{/if}}
+    {{/each}}
+    <!--帮助中心-->
+    {{each list as value i}}
+    {{if _typeIsHelp(value.type)}}
+    <li>
+        <a href="listconter.html?id={{value.id}}&sort={{_getSort()}}">
+            <span class="{{_getHelpClassName(value.id)}}"></span>
+            <p>{{_title(value.title)}}</p>
+        </a>
+    </li>
+    {{/if}}
+    {{/each}}
+    <!--行业资讯-->
+    {{each list as value i}}
+    {{if _typeIsNews(value.type)}}
+    <li>
+        <a href="listconter.html?id={{value.id}}&sort={{_getSort()}}">
+            <h2><img onerror="errorImg(this)" src="{{_imgPath(value.img)}}" width="258" height="120"></h2>
+            <div class="news-list-pic-info">
+                <h1>{{_title(value.title)}}</h1>
+                <p class="deep-gray">
+                <p class="deep-time">{{value.createTime}}</p>
+                <br>
+                {{#value.content}}
+                </p>
+            </div>
+        </a>
+    </li>
+    {{/if}}
+    {{/each}}
+
+    <!--关于我们-->
+    {{each list as value i}}
+    {{if _typeIsAboutus(value.type)}}
+    <div class="help-content">
+        <h2 class="help-title am-margin-0 am-text-center" id="h2_title">{{_title(value.title)}}</h2>
+        <div class="about-conter" id="div_content">{{#_aboutcontent(value.content)}}</div>
+    </div>
+    {{/if}}
+    {{/each}}
+
+    <!--下载中心-->
+    {{each list as value i}}
+    {{if _typeIsDownload(value.type)}}
+    <li>
+        <div class="down-list-info">
+            <h1>{{_title(value.title)}}</h1>
+            <p class="deep-gray">{{value.createTime}}</p>
+        </div>
+        <h2 translate="quxiazai"><a href="listconter.html?id={{value.id}}&sort={{_getSort()}}" class="am-btn am-btn-secondary am-radius" translate="quxiazai">
+            去下载 </a></h2>
+    </li>
+    {{/if}}
+    {{/each}}
+
+
+</script>
+
+<!--左边导航-->
+<script id="typelist" type="text/html">
+    {{each list as value i}}
+    <!--{{value.name}}-->
+    {{if _TypeIsNotNull()}}
+    {{if value.name == _getType()}}
+    <li class="curr">
+        <a href="help_center.html?sort={{value.sort}}" class="{{_getListClassName(value.name)}}">
+           <em translate="{{_getListTranslate(value.name)}}">{{value.title}}</em>
+           <span></span>
+        </a>
+    </li>
+    <input type="hidden" id="hid_type" value="{{value.name}}"/>
+    <input type="hidden" id="hid_sort" value="{{value.sort}}"/>
+    {{else}}
+    <li>
+        <a href="help_center.html?sort={{value.sort}}" class="{{_getListClassName(value.name)}}" translate="{{_getListTranslate(value.name)}}">
+            <em translate="{{_getListTranslate(value.name)}}">{{value.title}}</em>
+            <span></span>
+        </a>
+    </li>
+    {{/if}}
+    {{else}}
+    {{if value.sort == _sort()}}
+    <li class="curr">
+        <a href="help_center.html?sort={{value.sort}}" class="{{_getListClassName(value.name)}}">
+            <em translate="{{_getListTranslate(value.name)}}">{{value.title}}</em>
+            <span></span>
+        </a>
+    </li>
+    <input type="hidden" id="hid_type" value="{{value.name}}"/>
+    <input type="hidden" id="hid_sort" value="{{value.sort}}"/>
+    {{else}}
+    <li>
+        <a href="help_center.html?sort={{value.sort}}" class="{{_getListClassName(value.name)}}" translate="{{_getListTranslate(value.name)}}">{{value.title}}</a>
+    </li>
+    {{/if}}
+    {{/if}}
+    {{/each}}
+</script>
+</body>
+</html>

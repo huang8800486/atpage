@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>API</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="keyword" content="比特币价格,比特币交易平台,区块链,数字化资产,比特币行情,AT交易所,USDT,莱特币,BCH,以太坊,ETH,以太经典,进行币币交易" />
+    <meta name="description" content="description:AT交易所是一家集数字化资产、投资服务、资讯服务于一体的国际化区块链资产交易平台。提供比特币,莱特币(LTC),以太坊(ETH),比特币现金(BCH),以太经典(ETC)达世币(DASH)等虚拟货币以比特币(BTC)、USDT进行交易！提供实时比特币价格,比特币行情。">
+    <link rel="stylesheet" href="../../assets/css/reset.css">
+    <link rel="stylesheet" href="../../assets/font/iconfont.css">
+    <link rel="stylesheet" href="../../assets/css/layout.css">
+    <script src="../../script/jquery-3.3.1.min.js"></script>
+    <script src="../../script/tools/crypto-js.js"></script>
+    <script src="../../script/tools/jquery.cookie.js"></script>
+    <script src="../../script/tools/md5.min.js"></script>
+    <script src="../../script/tools/k_tools.js"></script>
+    <script src="../../script/tools/loadSiteInfo.js"></script>
+    <script src="../../script/tools/jquery-ui.js"></script>
+    <script src="../../script/trade/tools.js"></script>
+    <script src="../../script/center_toos/center_tools_new.js"></script>
+    <script src="../../script/template.js"></script>
+    <script src="../../script/layer.js"></script>
+    <script type="text/javascript" charset="utf-8" src="//g.alicdn.com/sd/ncpc/nc.js?t=2015052012"></script>
+    <script type="text/javascript" charset="utf-8" src="//g.alicdn.com/sd/nch5/index.js?t=2015052012"></script>
+    <script src="../../script/common/common.js"></script>
+    <script src="../../assets/js/translate/jquery.i18n.properties/jquery.i18n.properties.min.js" charset="utf-8"></script>
+    <script src="../../assets/js/translate/i18n.config.js" charset="utf-8"></script>
+    <script src="../../assets/js/clipboard.min.js"></script>
+</head>
+<body>
+    <div class="view_body security_center_view_body api_view_body">
+        <!-- header -->
+        <header class="header header-other" id="header"></header>
+         <div class="negative_content_page">
+            <div class="dynamic-width negative_content">
+                <div class="clearfix">
+                    <!-- <div class="safety-leftbar" id="left"></div> -->
+                    <div class="safety-right">
+                        <div class="api_content">
+                            <div class="safety-list">
+                                <div class="modify_personal_info">
+                                    <div class="safety-form">
+                                        <div class="createAPI_text" style="display:none">
+                                            <h2 class="per_titl">创建新API Key</h2>
+                                            <a href="javascript:;" class="buy-btn-color">创建</a>
+                                        </div>
+                                        <div class="createAPITwo_text">
+                                            <h2 class="per_titl">API Key</h2>
+                                            <div class="key_box">
+                                                <h2>Access Key：</h2>
+                                                <div class="input_wrap clearfix">
+                                                    <span class="Accesss_Key fl"></span>
+                                                    <a href="javascript:;"  class="Accesss_a fl" translate="security_Google10"></a>
+                                                </div>
+                                            </div>
+                                            <div class="key_box">
+                                                <h2>Secret Key：</h2>
+                                                <div class="input_wrap clearfix">
+                                                    <span class="Secret_Key fl"></span>
+                                                    <a href="javascript:;"  class="Secret_a fl" translate="security_Google10"></a>
+                                                </div>
+                                            </div>
+                                            <div class="key_box">
+                                                <h2>绑定IP：</h2>
+                                                <div class="input_wrap clearfix">
+                                                    <span class="ip_Key fl"></span>
+                                                    <a href="javascript:;"  class="ip_a fl" translate="security_Google10"></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="note">
+                                            <span>提示：</span>
+                                            <p>1、AT 为您提供了强大的API，您可以通过 API 使用行情查询、自动交易等服务。</p>
+                                            <p class="sellcolor">2、请不要泄露您的API Key，以免造成资产损失。</p>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer" id="footer"></footer>
+    </div>
+
+<!--[if lt IE 9]>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="../../assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+
+<script src="../../assets/js/amazeui.min.js"></script>
+<script src="../../assets/js/count-number.js"></script>
+
+
+
+
+<script type="text/javascript">
+    var isGetVerificationCode = 0;
+    $(function () {
+        $("#header").load("../common/commonHeader.html?version=" + $.version);
+        $("#footer").load("../common/commonFooter.html?version=" + $.version);
+        $("#left").load("./left.html");
+        init();
+    });
+</script>
+
+<!--功能函数-->
+<script type="text/javascript">
+    function init() {
+        var cookieStr = $.getToken();
+
+        //  如果已经登录，则取得财务中心数据
+        if (!$.TokenIsNull(cookieStr)) {
+            //  获取用户信息
+            getUserInfo();
+        }else {
+            $.toIndex1();
+        }
+    }
+    /**
+     * 获取用户信息
+     * @constructor
+     */
+    function getUserInfo() {
+
+        var AccesssA = new ClipboardJS('.Accesss_a');
+        var SecretA = new ClipboardJS('.Secret_a');
+        var ipA = new ClipboardJS('.ip_a');
+
+        AccesssA.on('success', function(e) {
+            layer.msg(langPkg.getI18N("fuzhichenggong"), { time: 2000, icon: 1 });
+        });
+        AccesssA.on('error', function(e) {
+            console.log(e);
+        });
+
+        SecretA.on('success', function(e) {
+            layer.msg(langPkg.getI18N("fuzhichenggong"), { time: 2000, icon: 1 });
+        });
+        SecretA.on('error', function(e) {
+            console.log(e);
+        });
+
+        ipA.on('success', function(e) {
+            layer.msg(langPkg.getI18N("fuzhichenggong"), { time: 2000, icon: 1 });
+        });
+        ipA.on('error', function(e) {
+            console.log(e);
+        });
+        getKeys();
+
+    }
+
+    function getKeys(){
+        $.ajax({
+          type: "GET",
+          url: "https://www.at3.com/accessApi/getAccessAndSecretKey",
+          async: false,
+          data: "",
+          dataType: "json",
+          contentType: "application/json;charset=UTF-8",
+          beforeSend: function (xhr) {
+            var Authorization = $.getToken();
+            xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+            xhr.setRequestHeader("Accept", "*/*");
+            xhr.setRequestHeader("Access-Control-Max-Age", "3600");
+            if(Authorization != ""){
+                xhr.setRequestHeader("Authorization", "Bearer " + Authorization);
+            }else{
+                xhr.setRequestHeader("Authorization", "Bearer" + Authorization);
+            }
+          },
+          complete: function (XMLHttpRequest, status) { //请求完成后最终执行参数
+              if (status == 'timeout') {//超时,status还有success,error等值的情况
+                  return { code: -101, msg: "请求超时" }
+              }
+          },
+          error: function (XMLHttpRequest, textStatus, errorThrown) {
+              data = XMLHttpRequest.responseJSON;
+          },
+          success: function (resdata) {
+            $(".Accesss_Key").html(resdata.accessKey);
+            $(".Secret_Key").html(resdata.secretKey);
+            $(".ip_Key").html(resdata.bindingIp);  
+
+            $(".Accesss_a").attr("data-clipboard-text", resdata.accessKey);
+            $(".Secret_a").attr("data-clipboard-text", resdata.secretKey);
+            $(".ip_a").attr("data-clipboard-text", resdata.bindingIp);     
+          }
+        });
+    }
+</script>
+
+
+</body>
+</html>

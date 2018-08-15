@@ -1,0 +1,143 @@
+<!-- 公告 -->
+<div class="top_wrap-article">
+    <div class="top-article">
+        <div class="am_container clearfix">
+            <i class="iconfont icon-bd_laba"></i>
+            <ul id="div_noticeList"></ul>
+        </div>
+    </div>
+</div>
+<!-- 头部 -->
+<div class="top_header_wrap">
+    <div class="top_wrap">
+        <div class="top row">
+            <div class="am-align-left">
+                <div class="logo">
+                    <a href="../../index.html">
+                        <span id="webLogo"></span>
+                        <span id="webLogoWhite"></span>
+                    </a>
+                </div>
+                <div class="nav">
+                    <ul id="navList" class="clearfix">
+                        <li><a href="../../index.html" translate="nav1">首页</a></li>
+                        <li><a href="../trade/market.html" translate="nav2">交易中心</a><!-- <img src="../../images/icon-fire.png"> --></li>
+                        <li><a href="../c2c/qd.html" translate="nav3">C2C交易</a></li>
+                        <li><a href="../usercenter/finance_center.html" translate="nav4">财务中心</a></li>
+                        <li><a href="../invite/index.html" translate="nav9">邀请活动</a></li>
+                        <li><a href="../help/candies.html" translate="tangguozhuanqu">糖果专区</a></li>
+                        <!-- <li><a id="security" href="../security/security_center.html" translate="nav5">安全中心</a></li> -->
+                        <!-- <li><a id="support" href="../support/help_center.html?sort=1" translate="nav6">公告与下载</a></li> -->
+                        <!-- <li><a id="help" href="../help/help.html">帮助中心</a></li> -->
+                    </ul>
+                </div>
+            </div>
+            <!--未登录-->
+            <div class="am-align-right" id="NotLogin">
+                <div id="dropDownList" class="am-dropdown" onclick="dropDownList()">
+                    <div class="am-btn btn-yuyan am-dropdown-toggle clearfix" data-am-dropdown-toggle>
+                        <div class="lang_btn_img fl"></div>
+                        <p class="fl lang_text"> </p>
+                        <i class="iconfont icon-arrows-down"></i>
+                    </div>
+                    <ul class="am-dropdown-content">
+                        <li class="lang_wrap lang_wrap_btn">
+                            <a href="javascript:;" language="zh_CN" class="lang_btn clearfix">
+                                <div class="la_img zh_CN_la_img fl"><img src="../../images/at_icon_china.png"></div>
+                                <p class="la_text zh_CN_la_text fl">简体中文</p>
+                            </a>
+                        </li>
+                        <li class="lang_wrap lang_wrap_btn">
+                            <a href="javascript:;" language="en_US" class="lang_btn clearfix">
+                                <div class="la_img en_US_la_img fl"><img src="../../images/at_icon_us.png"> </div>
+                                <p class="la_text en_US_la_text fl">English</p>
+                            </a>
+                        </li>
+                        <li class="lang_wrap lang_wrap_btn">
+                            <a href="javascript:;" language="ru" class="lang_btn clearfix">
+                                <div class="la_img ru_la_img fl"><img src="../../images/at_icon_russia.png"> </div>
+                                <p class="la_text ru_la_text fl">Русский</p>
+                            </a>
+                        </li>
+                        <li class="lang_wrap lang_wrap_btn">
+                            <a href="javascript:;" language="fr" class="lang_btn clearfix">
+                                <div class="la_img fr_la_img fl"><img src="../../images/at_icon_french.png"> </div>
+                                <p class="la_text fr_la_text fl">Français</p>
+                            </a>
+                        </li>
+                        <li class="lang_wrap lang_wrap_btn">
+                            <a href="javascript:;" language="kr" class="lang_btn clearfix">
+                                <div class="la_img kr_la_img fl"><img src="../../images/at_icon_korea.png"> </div>
+                                <p class="la_text kr_la_text fl">한국어</p>
+                            </a>
+                        </li>
+                        <li class="lang_wrap lang_wrap_btn">
+                            <a href="javascript:;" language="ja" class="lang_btn clearfix">
+                                <div class="la_img ja_la_img fl"><img src="../../images/at_icon_japan.png"> </div>
+                                <p class="la_text ja_la_text fl">日本語</p>
+                            </a>
+                        </li>
+                        <li class="lang_wrap lang_wrap_btn">
+                            <a href="javascript:;" language="es" class="lang_btn clearfix">
+                                <div class="la_img es_la_img fl"><img src="../../images/at_icon_spain.png"> </div>
+                                <p class="la_text es_la_text fl">Español</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="btn-topright userafter" style="display:none;">
+                    <a href="javascript:void(0)" onclick="toRegister()" translate="nav7"></a> | 
+                    <a href="javascript:void(0)" onclick="toLogins()" translate="nav8"></a>
+                </div>
+                <div class="btn-topright userbefore clearfix" style="display:none;">
+                    <!-- <a class="fl signout" href="../security/security_center.html" translate="gerenzhongxin">个人中心</a> -->
+                    <a href="javascript:;" class="fl signout">
+                        <span id="userName"></span>
+                        <i class="iconfont icon-arrows-down"></i>
+                    </a>
+                    <span class=" am-margin-left-sm fl"></span>
+                    <div class="personal_center">
+                        <a href="../security/security_center.html" translate="gerenzhongxin">个人中心</a>
+                        <a href="javascript:;" onclick="signOut()" translate="tuichu"></a>
+                    </div>
+                </div>
+                <!-- <div class="dowload_top_app">
+                    <a href="javascript:;" onclick="switchFunApp()" translate="xiazaiapp">下载APP</a>
+                    <div class="app_center white_box">
+                        <span translate="saomiaoerweima">扫描二维码下载APP</span>
+                        <div class="app_code">
+                            <img src="../../images/wxcode.png" alt="">
+                        </div>
+                    </div>
+                </div> -->
+                <div class="dowload_top_app">
+                    <a href="../help/app.html" translate="xiazaiapp">下载APP</a>
+                </div>
+
+                <div class="header_more">
+                    <a href="../support/help_center.html?sort=1" translate="gonggao">公告</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../assets/js/website/setLang.js"></script>
+<script src="../../assets/js/website/public.js"></script>
+<!--模板-->
+<!--公告-->
+<script id="list_Notice" type="text/html">
+    {{each list as value i}}
+
+    {{ if i < 3 }}
+    <li class="gonggao_wrap">
+        <a href="../support/listconter.html?id={{value.id}}&sort=1" data-d="{{list}}" title="{{ value.title }}">{{ value.title }}</a></li>
+    {{ /if}}
+    {{/each}}
+    <li class="top-ad-more">
+        <a class="top_more" href="../support/help_center.html?sort=1" translate="gengduo">更多</a>
+        <a href="javascript:void(0)" class="am-align-right btn-close"  onclick="closeNotice()">
+            <i class="iconfont icon-guanbigonggao"></i>
+        </a>
+    </li>
+</script>

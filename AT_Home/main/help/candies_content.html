@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>糖果专区</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="keyword" content="比特币价格,比特币交易平台,区块链,数字化资产,比特币行情,AT交易所,USDT,莱特币,BCH,以太坊,ETH,以太经典,进行币币交易" />
+    <meta name="description" content="description:AT交易所是一家集数字化资产、投资服务、资讯服务于一体的国际化区块链资产交易平台。提供比特币,莱特币(LTC),以太坊(ETH),比特币现金(BCH),以太经典(ETC)达世币(DASH)等虚拟货币以比特币(BTC)、USDT进行交易！提供实时比特币价格,比特币行情。">
+    <link rel="stylesheet" href="../../assets/css/reset.css">
+    <link rel="stylesheet" href="../../assets/font/iconfont.css">
+    <link rel="stylesheet" href="../../assets/css/layout.css">
+    <script type="text/javascript" src="../../script/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../../script/tools/crypto-js.js"></script>
+    <script type="text/javascript" src="../../script/tools/jquery.cookie.js"></script>
+    <script type="text/javascript" src="../../script/tools/md5.min.js"></script>
+    <script type="text/javascript" src="../../script/tools/k_tools.js"></script>
+    <script type="text/javascript" src="../../script/tools/loadSiteInfo.js"></script>
+    <script type="text/javascript" src="../../script/trade/tools.js"></script>
+    <script type="text/javascript" src="../../script/center_toos/center_tools_new.js"></script>
+    <script type="text/javascript" src="../../script/template.js"></script>
+    <script type="text/javascript" src="../../script/jqPaginator.js"></script>
+    <script type="text/javascript" src="../../script/layer.js"></script>
+    <script src="../../assets/js/translate/jquery.i18n.properties/jquery.i18n.properties.min.js" charset="utf-8"></script>
+    <script src="../../assets/js/translate/i18n.config.js" charset="utf-8"></script>
+</head>
+<body>
+<!-- header -->
+<div class="view_body candies_content_view_body">
+    <header class="header header-other" id="header"></header>
+    <div class="negative_content_page">
+        <div class="dynamic-width negative_content">
+            <div class="main-help-page">
+                <!-- <div class="apply_top_header"><p><em>糖</em><em>果</em><em>专</em><em>区</em></p></div> -->
+                <div class="candies_content">
+                    <div class="candies_content_box">
+                        <div class="tit_tim">
+                            <h2></h2>
+                            <span></span>
+                        </div>
+                        <div id="candies_box"></div>
+                        <!-- <div id="candies_box">
+                            <div class="candy_title">
+                                <div class="list_ti"><span>糖果名称：</span><span>MIT币</span></div>
+                                <div class="list_ti"><span>糖果数量：</span><span>188枚</span></div>
+                                <div class="list_ti"><span>糖果价值：</span><span>0.24/MIT</span></div>
+                                <div class="list_ti"><span>项目方：</span><span>EOS社区</span></div>
+                            </div>
+                            
+                            <div class="candy_texts">
+                                <p>项目介绍： Mitech是基于区块链的物联网开源系统，现正在空投中。官方称MIT代币将于2018年7月中旬左右上线（已协商好全球前五的两家交易</p>
+                                <p>项目介绍： Mitech是基于区块链的物联网开源系统，现正在空投中。官方称MIT代币将于2018年7月中旬左右上线（已协商好全球前五的两家交易</p>
+                                <p>项目介绍： Mitech是基于区块链的物联网开源系统，现正在空投中。官方称MIT代币将于2018年7月中旬左右上线（已协商好全球前五的两家交易</p>
+                                <p>项目介绍： Mitech是基于区块链的物联网开源系统，现正在空投中。官方称MIT代币将于2018年7月中旬左右上线（已协商好全球前五的两家交易</p>
+                                <img src="../../images/banner1.jpg" alt="">
+                            </div>
+                            
+                            <div class="candy_step">
+                                <h3>吃糖步骤：</h3>
+                                <p>1、点击链接领取 空投币；</p>
+                                <p>2、输入邮箱地址,输入验证码注册；</p>
+                                <p>3、邀请奖励：28枚 MIT币/人。</p>
+                            </div>
+                        </div> -->
+                        <a href="javascript:;" class="candy_btn buy-btn-color" target="_blank" style="display:none;">前往领取</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer" id="footer"></footer>
+</div>
+
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+<script type="text/javascript" src="../../assets/js/amazeui.min.js"></script>
+
+
+
+<script type="text/javascript">
+    $(function () {
+        $("#header").load("../common/commonHeader.html?version=" + $.version);
+        $("#footer").load("../common/commonFooter.html?version=" + $.version);
+        init()
+    });
+
+    function init(){
+        var url = window.location.href.split("=")[window.location.href.split("=").length-1];
+        var param = {
+            languageType : langPkg.getAdLanguage(),
+            type: "candy",
+            adaptationtype: 2
+        }
+
+        $.ajaxSendData(param, "/api/article/getArticleList", function(resData){
+            console.log(resData);
+            var datas = resData.data;
+            var dataArr = [];
+            for(var i = 0; i < datas.length; i++){
+                if(url == datas[i].id){
+                    $(".tit_tim h2").text(resData.data[i].title)
+                    $(".tit_tim span").text(resData.data[i].createTime)
+                    dataArr.push(resData.data[i]);
+                    var da = {"list": dataArr};
+                    var _html = template('list_candy', da);   //template("模版名","数据集")
+                    $("#candies_box").html(_html);
+                    $(".candy_btn").attr("href", resData.data[i].connection).show();
+                }
+            }
+        })
+    }
+</script>
+
+<script type="text/javascript">
+    template.helper('_imgPath', function (str) {
+        if (str == '' || str == null) {
+            return "../../logo.png";
+        } else {
+            return $.imgFilePath() + str;
+        }
+    });
+</script>
+<script id="list_candy" type="text/html">
+    {{each list as value i}}
+        {{#value.content}}
+    {{/each}}
+</script>
+</body>
+</html>

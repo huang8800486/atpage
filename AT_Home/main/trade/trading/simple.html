@@ -1,0 +1,134 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+<title>TradingView Charting Library demo</title>
+
+<!-- Fix for iOS Safari zooming bug -->
+<meta name="viewport"
+	content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+<script type="text/javascript"
+	src="charting_library/charting_library.min.js"></script>
+<script type="text/javascript" src="datafeeds/udf/dist/polyfills.js"></script>
+<script type="text/javascript" src="datafeeds/udf/dist/bundle.js"></script>
+<script src="../../../pluguns/kline/js/jquery.js"></script>
+<script src="../../../script/tools/k_tools.js"></script>
+<script src="../../../assets/js/translate/i18n.config.js" charset="utf-8"></script>
+
+<script type="text/javascript">
+	function getParameterByName(name) {
+		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"), results = regex
+				.exec(location.search);
+		return results === null ? "" : decodeURIComponent(results[1].replace(
+				/\+/g, " "));
+	}
+
+	var symbol = $.getUrlParam('symbol');
+	var lang = langPkg.now_lang;
+	var version = "simple";
+
+	TradingView.onready(function() {
+		var datafeed = new Datafeeds.UDFCompatibleDatafeed(gateways);
+		var widget = window.tvWidget = new TradingView.widget({
+			// debug: true, // uncomment this line to see Library errors and warnings in the console
+			fullscreen : true,
+			symbol : symbol,
+			interval : '15',
+			container_id : "tv_chart_container",
+			//	BEWARE: no trailing slash is expected in feed URL
+			datafeed : datafeed,
+			library_path : "./charting_library/",
+			locale : getParameterByName('lang') || lang,
+			//	Regression Trend-related functionality is not implemented yet, so it's hidden for a while
+			drawings_access : {
+				type : 'black',
+				tools : [ {
+					name : "Regression Trend"
+				} ]
+			},
+			enabled_features: ["hide_last_na_study_output"],
+			charts_storage_url : 'http://saveload.tradingview.com',
+			charts_storage_api_version : "1.1",
+			client_id : 'tradingview.com',
+			user_id : 'public_user_id',
+			timezone : 'Asia/Shanghai',
+			favorites : [ "Area", "Candles" ],
+			localstorage : false,
+			toolbar_bg:'#fff',
+			custom_css_url:'trading.css',
+			//禁用
+			disabled_features : [
+				//用户本地存储
+				"use_localstorage_for_settings",
+				//左边工具栏
+				"left_toolbar",
+				// 顶部工具栏
+				// "header_widget_dom_node",
+				//周围边框
+				"border_around_the_chart",
+				//底部时间栏目
+				"timeframes_toolbar",
+				//k线与销量分开
+				"volume_force_overlay",
+				//图表右键菜单
+				"pane_context_menu",
+				//搜索
+				"header_symbol_search", "symbol_search_hot_key",
+				//左右箭头
+				"header_undo_redo",
+				//compare
+				"header_compare",
+				//图表类型
+				"header_chart_type",
+				//照相机
+				"header_screenshot",
+				//设置按钮
+				"header_settings",
+				//技术指标线
+				"header_indicators",
+				//上传下载按钮
+				"header_saveload",
+				//分辨率
+				"header_resolutions",
+				//全屏
+				"header_fullscreen_button",
+				//显示隐藏商品开灯按钮
+				//show_hide_button_in_legend,
+				"widget_logo"
+				],
+			overrides : {
+				"mainSeriesProperties.style" : 2,
+                "mainSeriesProperties.lineStyle.color": "#7688D4",
+                "mainSeriesProperties.lineStyle.linewidth": 2,
+
+				//-----------------------------------------------------------------------
+				//背景
+				"paneProperties.background" : "#fff",
+				//网格线
+				"paneProperties.vertGridProperties.color" : "#f8f8f9",
+				"paneProperties.vertGridProperties.style" : 0,
+				"paneProperties.horzGridProperties.color" : "#f8f8f9",
+				"paneProperties.horzGridProperties.style" : 0,
+				//默认收缩行情信息
+				"paneProperties.legendProperties.showLegend": false,
+				//坐标轴和刻度标签颜色
+				"scalesProperties.lineColor" : "#EBEBEB",
+				"scalesProperties.textColor" : "#999",
+                "scalesProperties.showRightScale": true,
+
+                        "scalesProperties.backgroundColor": "red"
+			}
+		});
+	});
+</script>
+
+</head>
+
+<body style="margin: 0px;">
+	<div id="tv_chart_container"></div>
+</body>
+
+</html>

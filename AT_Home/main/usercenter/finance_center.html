@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>交易系统</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="keyword" content="比特币价格,比特币交易平台,区块链,数字化资产,比特币行情,AT交易所,USDT,莱特币,BCH,以太坊,ETH,以太经典,进行币币交易" />
+    <meta name="description" content="description:AT交易所是一家集数字化资产、投资服务、资讯服务于一体的国际化区块链资产交易平台。提供比特币,莱特币(LTC),以太坊(ETH),比特币现金(BCH),以太经典(ETC)达世币(DASH)等虚拟货币以比特币(BTC)、USDT进行交易！提供实时比特币价格,比特币行情。">
+    <link rel="stylesheet" href="../../assets/css/reset.css">
+    <link rel="stylesheet" href="../../assets/font/iconfont.css">
+    <link rel="stylesheet" href="../../assets/css/layout.css">
+    <script src="../../script/jquery-3.3.1.min.js"></script>
+    <script src="../../script/tools/crypto-js.js"></script>
+    <script src="../../script/tools/jquery.cookie.js"></script>
+    <script src="../../script/tools/md5.min.js"></script>
+    <script src="../../script/tools/k_tools.js"></script>
+    <script src="../../script/tools/loadSiteInfo.js"></script>
+    <script src="../../script/tools/jquery-ui.js"></script>
+    <script src="../../script/trade/tools.js"></script>
+    <script src="../../script/center_toos/center_tools_new.js"></script>
+    <script src="../../script/template.js"></script>
+    <script src="../../script/layer.js"></script>
+    <script src="../../script/jqPaginator.js"></script>
+    <script type="text/javascript" charset="utf-8" src="//g.alicdn.com/sd/ncpc/nc.js?t=2015052012"></script>
+    <script type="text/javascript" charset="utf-8" src="//g.alicdn.com/sd/nch5/index.js?t=2015052012"></script>
+    <script src="../../script/common/common.js"></script>
+    <script src="../../assets/js/translate/jquery.i18n.properties/jquery.i18n.properties.min.js" charset="utf-8"></script>
+    <script src="../../assets/js/translate/i18n.config.js" charset="utf-8"></script>
+    <script src="../../assets/js/clipboard.min.js"></script>
+</head>
+<body>
+    <div class="view_body finance_center_view_body">
+        <!-- header -->
+        <header id="header" class="header header-other"></header>
+        <div class="negative_content_page">
+            <div class="dynamic-width negative_content">
+                <div class="leftbar_padding clearfix">
+                    <div class="finance-leftbar" id="left"></div>
+                    <div class="finance-right">
+                        <div class="finance-top clearfix">
+                            <div class="fin_total_graph fl">
+                                <div class="canvas" id="fin_total_graph" style="display:none;"></div>
+                                <div class="notcanvas" style="display:none;">
+                                    <img src="../../images/nofinance.png" alt="">
+                                    <div class="notmoney">
+                                        <span>有付出才会有回报</span>
+                                        <p>您没有任何资产</p>
+                                        <a href="../c2c/qd.html">去充值</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="fin_total_assets fl" style="display:none;">
+                                <div class="assets_total_number">
+                                    <em class="translate_em" translate="financial_first21">资产折合：</em>
+                                    <span id="cny_total" class="c_blue2"></span> CNY
+                                </div>
+                                <!-- <div class="assets_coin clearfix">
+                                    
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="finance_page_coin">
+                            <div class="finance-search-wrap clearfix">
+                                <div class="finance-search fl am-form-group am-form-icon">
+                                    <span class="fl" translate="financial_first5_type1">全部</span>
+                                    <div class="input_wrap fl">
+                                        <i class="iconfont icon-sousuo"></i>
+                                        <input id="search" type="text" class="frominput" data-i18n-placeholder="left1_market1_placeholder" onkeyup="EnterPress(event)" >
+                                        <!-- <i class="iconfont icon-arrows-down"></i> -->
+                                    </div>
+                                </div>
+                                <div class="finance-search-search fl clearfix">
+                                    <div class="input_wrap input_wrap_search">
+                                        <label style="cursor: pointer" for="hideZero">&nbsp;&nbsp;<em class="translate_em" translate="financial_first22_1"></em></label>
+                                        <div class="switch-wrap">
+                                            <span></span>
+                                        </div>
+                                        <input id="hideZero" type="checkbox" class="frominput">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="finance-list secu_finance_center-list">
+                                <!-- <p class="finance-top-right" > <a href="assetDetails.html"><img src="../../images/icon-finance-list.png" > <em class="translate_em" translate="financial_first23"></em></a></p> -->
+                                <div class="finance_center_first_wrap">
+                                    <div class="finance_center_first">
+                                        <div class="c_txt c_left" translate="financial_first24">币种</div>
+                                        <div class="c_txt c_right" translate="financial_first25">可用</div>
+                                        <div class="c_txt c_right" translate="financial_first26">冻结</div>
+                                        <div class="c_txt c_right" translate="financial_first27_1">估值()</div>
+                                        <div class="c_txt c_left oper" translate="financial_first27">操作</div>
+                                    </div>
+                                    <div id="dataList"></div>
+                                </div>
+                                <!-- <ul class="am-pagination am-pagination-centered" id="pageList"></ul> -->
+                            </div>
+                        </div>
+
+                        <div class="finance_page_water" style="display:none;">
+                            <div class="water_top">
+                                <div class="water_name">
+                                    <span class="coname"></span>
+                                </div>
+                                <ul class="clearfix">
+                                    <li>
+                                        <p>可用</p>
+                                        <span class="cobalance"></span>
+                                    </li>
+                                    <li>
+                                        <p>冻结</p>
+                                        <span class="cofrozen"></span>
+                                    </li>
+                                    <li>
+                                        <p>估值</p>
+                                        <span class="cocurrentPrice"></span>
+                                    </li>
+                                </ul>
+                                <div class="water_return">
+                                    <!-- <a href="javascript:;" class="translate_in" translate="zhuanru">转入</a> -->
+                                    <!-- <a href="javascript:;" class="translate_out" translate="zhuanchu">转出</a> -->
+                                    <a href="javascript:;" class="return_all" onclick="retrunWater()">返回全部</a>
+                                </div>
+                            </div>
+                            <div class="water_content">
+                                <h2 class="title"><span class="coname"></span><em>流水记录</em></h2>
+                                <div class="water_list_wrap">
+                                    <div class="wlw_tit clearfix">
+                                        <a href="javascript:;" class="c_left">时间</a>
+                                        <a href="javascript:;" class="c_right">类型</a>
+                                        <a href="javascript:;" class="c_right">交易量</a>
+                                        <a href="javascript:;" class="c_right">余额</a>
+                                        <a href="javascript:;" class="c_right">操作</a>
+                                    </div>
+                                    <div class="wlw_content" id="wlw_coin_content">
+                                        
+                                    </div>
+                                    <ul class="am-pagination am-pagination-centered wlwpageList"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer id="footer" class="footer"></footer>
+        
+        <!-- 转入 -->
+        <div class="intocoin-modal" id="intocoin-modal" style="display:none;">
+            <div class="wraipld">
+                <div class="finance-form">
+                    <div class="finance-title clearfix">
+                        <!-- <h2 translate="financial_first31" class="fl">请选择转入币种</h2> -->
+                        <!-- <div class="finance-text"><span translate="financial_first32">可用 </span><strong><span id="name"></span> <span id="num"></span></strong></div> -->
+                    </div>
+                    <div class="finance-money">
+                        <!-- <p translate="financial_first33">钱包地址：</p> -->
+                        <p class="adrep"><em class="translate_em" translate="qingjiang">请将 </em> <em class="coinName">BTC</em> <em class="translate_em" translate="zhuanrudaoruxiadizhi">转入到如下地址</em></p>
+                        <div class="fin-wall">
+                            <span class="walletAddr"></span>
+                            <!-- <textarea id="copy_walletAddr_input"></textarea> -->
+                            <a href="javascript:;" class="copy_walletAddr" translate="financial_first34">复制地址</a>
+                            <a href="javascript:;" class="copy_click">
+                                <p>二维码</p>
+                                <div class="finance-money-code">
+                                    <div class="fin_code">
+                                        <img src="" alt="" class="qrcode">
+                                    </div>
+                                    <!-- <p translate="financial_first35">扫码转入</p> -->
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="finance-tip">
+                    <p class="tips note sellcolor" > 
+                        <em class="translate_em" translate="financial_first37"></em> 
+                        <span class="coinName"></span>
+                        <em class="translate_em" translate="financial_first38"></em> 
+                        <span class="coinName"></span> 
+                        <em class="translate_em" translate="financial_first39"></em>
+                    </p>
+                    <p class="tips">
+                        <em class="translate_em" translate="financial_first310"></em> 
+                        <span class="coinName"></span> 
+                        <em class="translate_em" translate="financial_first311"></em> 
+                        <span class="coinName"></span> 
+                        <em class="translate_em" translate="financial_first312"></em> 
+                        <span id="rollInNum"></span> 
+                        <em class="translate_em" translate="financial_first313"></em>
+                        <span class="coinName"></span> 
+                        <em class="translate_em" translate="financial_first314"></em><br>
+                        <em class="translate_em" translate="financial_first315"></em>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" id="coinNameintocoin" />
+        <input type="hidden" id="coinIDintocoin" />
+        <!-- 转入 -->
+
+        <!-- 转出 -->
+
+        <div class="intocoin-modal" id="outocoin-modal" style="display:none;">
+            <div class="wraipld outocoin">
+                <div class="finance-form finance-rollout am-form">
+                    <div class="finance-form-input am-form-full clearfix">
+                        <div class="itit clearfix">
+                            <div class="iti_left">
+                                <span class="name2_copy"></span><em translate="financial_first42">转出地址</em>
+                                <a href="../security/coinaddress.html" class="newcolor taind" onclick="goCoinaddress()" translate="financial_first43">增加地址</a>
+                            </div>
+                        </div>
+                        <div class="am-form-group am-form-icon select-group">
+                            <!-- <span>转出地址</span> -->
+                            <i class="iconfont icon-arrows-down"></i>
+                            <div class="coinAddress_wrap">
+                                <div class="add_input">
+                                    <input type="text" class="walletsearch" data-i18n-placeholder="qingxuanzeqianbaojieshoudizhi">
+                                </div>
+                                <!-- <select class="am-form-select am-radius" id="myzc_addr"></select> -->
+                                <div id="myzc_addr"></div>
+                            </div>
+                        </div>
+                        <!-- <dl class="finance-dl"><a href="../security/coinaddress.html" class="newcolor">增加地址</a></dl> -->
+                    </div>
+                    <div class="finance-form-input am-form-full clearfix">
+                        <div class="finance-form-left finance-form-lt">
+                            <div class="itit clearfix">
+                                <div class="iti_left"><em translate="financial_first44">转出数量</em></div>
+                                <!-- <div class="iti_right">
+                                    <span class="deep-gray" translate="financial_first45">可用 </span><strong><span class="name2_copy"></span> <span id="money"></span></strong>
+                                </div> -->
+                            </div>
+                            <div class="clearfix clemoney">
+                                <div class="am-form-group am-form-icon">
+                                    <!-- <span>转出数量</span> -->
+                                    <input id="numout" type="text" class="am-form-field am-radius" value="" placeholder=""
+                                           maxlength="18" onkeyup="onlyNumber(this)" onafterpaste="this.value=this.value.replace(/[^\d]/g,'')"  autocomplete="off">
+                                    <span class="name2_copy nametext"></span>
+                                </div>
+                                <div class="question_text">
+                                    <i class="iconfont icon-tishi"></i>
+                                    <div class="finance-tip">
+                                        <!-- <span class="s_fees s_fee_tips" translate="chaochukeyongyue">* 超出可用余额</span> -->
+                                        <div class="lineh tips">
+                                            <em class="translate_em" translate="financial_first411"></em> 
+                                            <span id="rollOutZdNum_copy"></span> 
+                                            <span class="name2_copy"></span>
+                                            <em class="translate_em" translate="financial_first412"></em>
+                                        </div>
+                                        <div class="tips clearfix">
+                                            <p class="lineh fl" translate="financial_first4131"></p>
+                                            <span id="rollOutMax" class="fl"></span> <span id="name4" class="fl"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="s_fees s_fees_fee">
+                                    <em id="s_fee"></em>
+                                    <!-- (<em class="s_fee_text" translate="financial_first414">* 网络手续费优先从账户余额中扣除，余额不足时从转出数量中扣除</em>) -->
+                                </span>
+                            </div>
+                            <!-- <dl class="deep-gray finance-dl"><span id="s_fee"></span></dl> -->
+                        </div>
+                    </div>
+                    <div class="translate_zhangecu">
+                        <button type="button" onclick="zhangecu(this)" class="zhangecu_submit new-btn-color" translate="zhuanchu">
+                        转出</button>
+                    </div>
+                </div>
+                <div class="finance-tip">
+                    <strong translate="financial_first415" class="newcolor">转出说明：</strong>
+                    <p class="note sellcolor" translate="financial_first416">1、请勿直接提现至众筹或ICO地址.我们不会处理未来代币的发放</p>
+                    <p translate="financial_first417">2、为了用户资金安全，平台可能会电话确认您的提币操作，请注意接听；</p>
+                </div>
+                <div class="pop_trade_secret">
+                    <div class="pop_trad">
+                        <div class="tibox">
+                            <h2 translate="financial_first47"></h2>
+                            <a href="javascript: void(0)" class="tra-close">
+                                <i class="iconfont icon-cuowu"></i>
+                            </a>
+                        </div>
+                        <div class="confina">
+                            <div class="finance-form-input am-form-full clearfix">
+                                <div class="finance-form-left finance-form-lt">
+                                    <div class="itit clearfix"><div class="iti_left" translate="financial_first47">交易密码</div></div>
+                                    <div class="clearfix">
+                                        <div class="am-form-group am-form-icon">
+                                            <!-- <span>交易密码</span> -->
+                                            <input id="paypassword" type="password" class="am-form-field am-radius" value="" maxlength="60" autocomplete="new-password" data-i18n-placeholder="security_first4">
+                                        </div>
+                                        <!-- <dl id="rollOutZdNumBox" class="red finance-dl" style="display: none;font-size: 10px">
+                                            * 每天允许自动转出 <span id="rollOutZdNum"></span> <span id="name2"></span>，超过则进入后台审核。
+                                        </dl> -->
+                                        <!--<dl><a href="../forgetTradePwd.html">忘记交易密码?</a></dl>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="finance-form-input am-form-full selectCodePhone clearfix" style="display:none;">
+                                <div class="finance-form-right finance-form-lt">
+                                    <div class="itit clearfix"><div class="iti_left">短信验证码：</div></div>
+                                    <div class="selectCode">
+                                        <div class="am-form-group am-form-icon">
+                                            <!-- <span>短信验证码</span> -->
+                                            <input type="text" class="am-form-field am-radius" id="moble_verify" value="" maxlength="6" onkeyup="onlyInt(this)">
+                                            <button id="btn_sendCode_phone" onclick="getCode(this, 'phone')" type="button"
+                                                    class="am-btn am-btn-secondary btn_sendCode am-radius am-margin-left-sm am-margin-right-0 am-align-left new-am-btn-outcoin" translate="financial_first49">
+                                                获取验证码
+                                            </button> 
+                                        </div>
+                                    </div>
+                                    <div class="lastNum_mobile" style="display:none;">
+                                        <span id="lastNumphone"></span> <em class="translate_em" translate="financial_first410">将会接收验证码</em>
+                                        <input type="hidden" id="hid_mobile" />
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="finance-form-input am-form-full selectCodeEmial clearfix" style="display:none;">
+                                <div class="finance-form-right finance-form-lt">
+                                    <div class="itit clearfix"><div class="iti_left">邮箱验证码：</div></div>
+                                    <div class="selectCode">
+                                        <div class="am-form-group am-form-icon">
+                                            <!-- <span>短信验证码</span> -->
+                                            <input type="text" class="am-form-field am-radius" id="moble_verify_email" value="" maxlength="6" onkeyup="onlyInt(this)">
+                                            <button id="btn_sendCode_email" onclick="getCode(this, 'email')" type="button"
+                                                    class="am-btn am-btn-secondary btn_sendCode am-radius am-margin-left-sm am-margin-right-0 am-align-left new-am-btn-outcoin" translate="financial_first49">
+                                                获取验证码
+                                            </button> 
+                                        </div>
+                                    </div>
+                                    <div class="lastNum_mobile" style="display:none;">
+                                        <span id="lastNumemail"></span> <em class="translate_em" translate="financial_first410">将会接收验证码</em>
+                                        <input type="hidden" id="hid_email" />
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="finance-form-input am-form-full clearfix">
+                                <div class="finance-form-left finance-form-lt">
+                                    <!-- <p class="lineh"><em class="translate_em" translate="financial_first411"></em> <span id="rollOutZdNum_copy"></span> <span id="name2_copy"></span><em class="translate_em" translate="financial_first412"></em></p>
+                                    <p class="lineh" translate="financial_first413"></p> -->
+                                    <!-- <p class="lineh whi" translate="financial_first414"></p> -->
+                                </div>
+                                <div class="finance-form-right finance-form-lt">
+                                    <div class="clearfix">
+                                        <button type="button" onclick="Update()" id="btn_submit" class="new-btn-color" translate="financial_first4_button">提交</button>
+                                        <a class="foge" onclick="goTandPage(this)"><i class="iconfont icon-tishi"></i><em translate="forgetLoginPwd"></em></a>
+                                        <dl id="rollOutDayNumBox finance-dl" class="red" style="display: none;font-size: 10px" translate="financial_first4131">
+                                            * 每天允许转出累计数量为 <span id="rollOutDayNum"></span> <span id="name3"></span>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" id="coinName" />
+        <input type="hidden" id="coinID" />
+        <input type="hidden" id="coinBalance" />
+        <input type="hidden" id="rollOutType">
+        <input type="hidden" id="clickWaterCoinIdValue">
+
+        <!-- 转出 -->
+
+        <div class="am-modal am-modal-no-btn" tabindex="-1" id="modelBox">
+            <div class="am-modal-dialog">
+                <div class="am-modal-hd" translate="verification">验证
+                    <a id="at_modlog" href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+                </div>
+                <dl class="am-modal-bd" id="sliderBox" style="padding: 10px 20px;">
+                    <div id="aliSliderBox" class="nc-container"></div> 
+                </dl>
+                <button id="btn_slider" onclick="SendCode()" type="button" class="am-btn am-btn-secondary am-radius new-btn-color2" style="float: right;margin-right: 20px" translate="make_sure">确定</button>
+            </div>
+        </div>
+
+        <!-- 默认流水 -->
+        <div class="default_water pop_water_detail" style='display:none;'>
+            <div class="wraipld default_wraipld">
+                <h2><em translate="c2c_third3">类型：</em><span class="empty_value default_flowing_text"></span></h2>
+                <div class="userl_detai clearfix">
+                    <div class="des fl">
+                        <span><em translate="c2c_trade5">时间</em>：<i class="empty_value default_flowing_time"></i></span>
+                        <span><em translate="dingdanhao">订单号：</em><i class="empty_value default_flowing_orderno"></i></span>
+                    </div>
+                </div>
+                <div class="despri">
+                    <ul>
+                        <li>
+                            <p translate="jiaoyijinger">交易金额</p>
+                            <span><em class="empty_value default_amount"></em>&nbsp;<i class="water-coin"></i></span>
+                        </li>
+                        <li>
+                            <p translate="">余额</p>
+                            <span><em class="empty_value default_balance"></em>&nbsp;<i class="water-coin"></i></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- 转入虚拟币流水 -->
+        <div class="trans_in_water pop_water_detail" style='display:none;'>
+            <div class="wraipld trans_wraipld">
+                <h2><em translate="c2c_third3">类型：</em><span class="empty_value trans_in_flowing_text"></span></h2>
+                <div class="userl_detai clearfix">
+                    <div class="des fl">
+                        <span><em translate="c2c_trade5">时间</em>：<i class="empty_value trans_in_flowing_time"></i></span>
+                        <span><em translate="financial_first318">转入地址</em>：<i class="empty_value trans_in_flowing_address"></i></span>
+                        <span><em>TXID：</em><i class="empty_value trans_in_txid"></i></span>
+                        <span><em translate="dingdanhao">订单号：</em><i class="empty_value trans_in_flowing_orderno"></i></span>
+                        <span><em translate="financial_first66">手续费</em>：<i class="empty_value trans_in_flowing_fee"></i></span>
+                    </div>
+                </div>
+                <div class="despri">
+                    <ul>
+                        <li>
+                            <p translate="financial_first319">转入数量</p>
+                            <span class="empty_value trans_in_num"></span>
+                        </li>
+                        <li>
+                            <p translate="">余额</p>
+                            <span><em class="empty_value trans_in_amount"></em>&nbsp;<i class="water-coin"></i></span>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- 转出虚拟币流水 -->
+        <div class="trans_out_water pop_water_detail" style='display:none;'>
+            <div class="wraipld trans_wraipld">
+                <h2><em translate="c2c_third3">类型：</em><span class="empty_value trans_out_flowing_text"></span></h2>
+                <div class="userl_detai clearfix">
+                    <div class="des fl">
+                        <span><em translate="c2c_trade5">时间：</em>：<i class="empty_value trans_out_flowing_time"></i></span>
+                        <span><em translate="financial_first42">转出地址</em>：<i class="empty_value trans_out_flowing_address"></i></span>
+                        <span><em>TXID：</em><i class="empty_value trans_out_txid"></i></span>
+                        <span><em translate="dingdanhao">订单号：</em><i class="empty_value trans_out_flowing_orderno"></i></span>
+                        <span><em translate="financial_first66">手续费</em>：<i class="empty_value trans_out_flowing_fee"></i></span>
+                    </div>
+                </div>
+                <div class="despri">
+                    <ul>
+                        <li>
+                            <p translate="financial_first44">转出数量</p>
+                            <span class="empty_value trans_out_num"></span>
+                        </li>
+                        <li>
+                            <p translate="">余额</p>
+                            <span><em class="empty_value trans_out_amount"></em>&nbsp;<i class="water-coin"></i></span>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- 买入成交流水 -->
+        <div class="trade_buy_water pop_water_detail" style='display:none;'>
+            <div class="wraipld trade_wraipld">
+                <h2><em translate="c2c_third3">类型：</em><span class="empty_value trade_buy_flowing_text"></span><i class="water-pair-coin"></i></h2>
+                <div class="userl_detai clearfix">
+                    <div class="des fl">
+                        <span><em translate="xiadanshijian">下单时间：</em><i class="empty_value trade_buy_flowing_time"></i></span>
+                        <span><em translate="financial_first53">委托价格</em>：<i class="empty_value trade_buy_pr"></i></span>
+                    </div>
+                    <div class="des fl">
+                        <span><em translate="">委托单号：</em><i class="empty_value trade_buy_flowing_orderno"></i></span>
+                        <span><em translate="financial_first66">手续费</em>：<i class="empty_value trade_buy_flowing_fee"></i><em class="last-coin"></em></span>
+                    </div>
+                </div>
+                <div class="despri">
+                    <ul>
+                        <li>
+                            <p translate="middle2_market6">成交均价</p>
+                            <span class="empty_value trade_buy_price"></span>
+                        </li>
+                        <li>
+                            <p translate="middle2_market7">成交量</p>
+                            <span class="empty_value trade_buy_num"></span>
+                        </li>
+                        <li>
+                            <p translate="jiaoyijinger">交易金额</p>
+                            <span><em class="empty_value trade_buy_amount"></em></span>
+                        </li>
+                        <li>
+                            <p translate="">余额</p>
+                            <span><em class="empty_value trade_buy_balance"></em>&nbsp;<i class="water-coin"></i></span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="son_wrap">
+                    <h3>交易详情：</h3>
+                    <div class="son_box">
+                        <div class="son_title clearfix">
+                            <a href="javascript:;">时间</a>
+                            <a href="javascript:;">成交价</a>
+                            <a href="javascript:;">成交量</a>
+                            <a href="javascript:;">成交额</a>
+                            <a href="javascript:;">手续费</a>
+                        </div>
+                        <div class="son_con">
+                            <div class="son_dis clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 卖出成交流水 -->
+        <div class="trade_sell_water pop_water_detail" style='display:none;'>
+            <div class="wraipld trade_wraipld">
+                <h2><em translate="c2c_third3">类型：</em><span class="empty_value trade_sell_flowing_text"></span><i class="water-pair-coin"></i></h2>
+                <div class="userl_detai clearfix">
+                    <div class="des fl">
+                        <span><em translate="xiadanshijian">下单时间：</em><i class="empty_value trade_sell_flowing_time"></i></span>
+                        <span><em translate="financial_first53">委托价格</em>：<i class="empty_value trade_sell_pr"></i></span>
+                    </div>
+                    <div class="des fl">
+                        <span><em translate="">委托单号：</em><i class="empty_value trade_sell_flowing_orderno"></i></span>
+                        <span><em translate="financial_first66">手续费</em>：<i class="empty_value trade_sell_flowing_fee"></i><em class="last-coin"></em></span>
+                    </div>
+                </div>
+                <div class="despri">
+                    <ul>
+                        <li>
+                            <p translate="middle2_market6">成交均价</p>
+                            <span class="empty_value trade_sell_price"></span>
+                        </li>
+                        <li>
+                            <p translate="middle2_market7">成交量</p>
+                            <span class="empty_value trade_sell_num"></span>
+                        </li>
+                        <li>
+                            <p translate="jiaoyijinger">交易金额</p>
+                            <span><em class="empty_value trade_sell_amount"></em></span>
+                        </li>
+                        <li>
+                            <p translate="">余额</p>
+                            <span><em class="empty_value trade_sell_balance"></em>&nbsp;<i class="water-coin"></i></span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="son_wrap">
+                    <h3>交易详情：</h3>
+                    <div class="son_box">
+                        <div class="son_title clearfix">
+                            <a href="javascript:;">时间</a>
+                            <a href="javascript:;">成交价</a>
+                            <a href="javascript:;">成交量</a>
+                            <a href="javascript:;">成交额</a>
+                            <a href="javascript:;">手续费</a>
+                        </div>
+                        <div class="son_con">
+                            <div class="son_dis clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- C2C买入流水 -->
+        <div class="c2c_buy_water pop_water_detail" style='display:none;'>
+            <div class="wraipld c2c_wraipld">
+                <h2><em translate="c2c_third3">类型：</em><span class="empty_value c2cbuyflowing_text"></span></h2>
+                <div class="userl_detai clearfix">
+                    <div class="des fl">
+                        <span><em translate="xiadanshijian">下单时间：</em><i class="empty_value c2cbuyflowing_time"></i></span>
+                        <span class="updates"><em>到帐时间：</em><b class="empty_value c2cbuyupdateTime"></b></span>
+                        <span><em translate="dingdanhao">订单号：</em><i class="empty_value c2cbuyflowing_orderno"></i></span>
+                    </div>
+                    <div class="des fl">
+                        <span><em translate="c2c_trade_info3">收款方户名</em>:<i class="empty_value c2cbuyname"></i></span>
+                        <span><em translate="c2c_trade_info5">收款方账号：</em><i class="empty_value c2cbuybankCard"></i></span>
+                        <span><em translate="c2c_trade_info4">收款方开户行：</em><i class="empty_value c2cbuybank"></i></span>
+                    </div>
+                </div>
+                <div class="despri">
+                    <ul>
+                        <li>
+                            <p translate="middle1_market1_placeholder2">单价</p>
+                            <span class="empty_value c2cbuyprice"></span>
+                        </li>
+                        <li>
+                            <p translate="c2c_trade7">数量</p>
+                            <span class="empty_value c2cbuynum"></span>
+                        </li>
+                        <li>
+                            <p translate="jiaoyijinger">交易金额</p>
+                            <span><em class="empty_value c2cbuyamount"></em>&nbsp;<i class="water-coin"></i></span>
+                        </li>
+                        <li>
+                            <p translate="">余额</p>
+                            <span><em class="empty_value c2cbuybalance"></em>&nbsp;<i class="water-coin"></i></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- C2C卖出流水 -->
+        <div class="c2c_sell_water pop_water_detail" style='display:none;'>
+            <div class="wraipld c2c_wraipld">
+                <h2><em translate="c2c_third3">类型：</em><span class="empty_value c2csellflowing_text"></span></h2>
+                <div class="userl_detai clearfix">
+                    <div class="des fl">
+                        <span><em translate="xiadanshijian">下单时间：</em><i class="empty_value c2csellflowing_time"></i></span>
+                        <span><em translate="dingdanhao">订单号：</em><i class="empty_value c2csellflowing_orderno"></i></span>
+                    </div>
+                    <div class="des fl">
+                        <span><em translate="c2c_trade_info5">收款方账号：</em><i class="empty_value c2csellbankCard"></i></span>
+                    </div>
+                </div>
+                <div class="despri">
+                    <ul>
+                        <li>
+                            <p translate="middle1_market1_placeholder2">单价</p>
+                            <span class="empty_value c2csellprice"></span>
+                        </li>
+                        <li>
+                            <p translate="c2c_trade7">数量</p>
+                            <span class="empty_value c2csellnum"></span>
+                        </li>
+                        <li>
+                            <p translate="jiaoyijinger">交易金额</p>
+                            <span><em class="empty_value c2csellamount"></em>&nbsp;<i class="water-coin"></i></span>
+                        </li>
+                        <li>
+                            <p translate="">余额</p>
+                            <span><em class="empty_value c2csellbalance"></em>&nbsp;<i class="water-coin"></i></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- 赠送流水 -->
+        <div class="presented_water pop_water_detail" style='display:none;'>
+            <div class="wraipld presented_wraipld">
+                <h2><em translate="c2c_third3">类型：</em><span class="empty_value presented_flowing_text"></span></h2>
+                <div class="userl_detai clearfix">
+                    <div class="des fl">
+                        <span><em translate="left2_market5">时间</em>：<i class="empty_value presented_flowing_time"></i></span>
+                        <!-- <span><em translate="liushuihao">流水号：</em><i class="presented_flowing_orderno"></i></span> -->
+                    </div>
+                    <div class="des fl">
+                        <span><em>活动标题：</em><i class="empty_value presented_flowing_title"></i></span>
+                        <span><em>活动编号：</em><i class="empty_value presented_flowing_no"></i></span>
+                    </div>
+                </div>
+                <div class="despri">
+                    <ul>
+                        <li>
+                            <p>交易数量</p>
+                            <span><em class="empty_value presented_amount"></em>&nbsp;<i class="water-coin"></i></span>
+                        </li>
+                        <li>
+                            <p translate="">余额</p>
+                            <span><em class="empty_value presented_balance"></em>&nbsp;<i class="water-coin"></i></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 手续费 -->
+        <div class="fee_water pop_water_detail" style='display:none;'>
+            <div class="wraipld fee_wraipld">
+                <h2><em translate="c2c_third3">类型：</em><span class="empty_value fee_flowing_text"></span></h2>
+
+                <div class="userl_detai clearfix">
+                    <div class="des fl">
+                        <span><em translate="xiadanshijian">下单时间：</em><i class="empty_value fee_flowing_time"></i></span>
+                        <span><em translate="financial_first53">委托价格</em>：<i class="empty_value fee_flowing_pr"></i></span>
+                    </div>
+                    <div class="des fl">
+                        <span><em translate="">委托单号：</em><i class="empty_value fee_flowing_orderno"></i></span>
+                        <span><em translate="financial_first66">手续费</em>：<i class="empty_value fee_flowing_flowing_fee"></i>&nbsp;<i class="water-coin"></i></span>
+                    </div>
+                </div>
+                <div class="despri">
+                    <ul>
+                        <li>
+                            <p translate="middle2_market6">成交均价</p>
+                            <span class="empty_value fee_flowing_price"></span>
+                        </li>
+                        <li>
+                            <p translate="middle2_market7">成交量</p>
+                            <span class="empty_value fee_flowing_num"></span>
+                        </li>
+                        <li>
+                            <p translate="jiaoyijinger">交易金额</p>
+                            <span><em class="empty_value fee_flowing_amount"></em></span>
+                        </li>
+                        <li>
+                            <p translate="">余额</p>
+                            <span><em class="empty_value fee_flowing_balance"></em>&nbsp;<i class="water-coin"></i></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- loading -->
+        <div class="shadow_layer"></div>
+        <div class="shadow_loading">
+            <div class="loadEffect"></div>  
+        </div>
+    </div>
+<!--[if lt IE 9]>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="../../assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+
+<script src="../../assets/js/amazeui.min.js"></script>
+<script src="../../assets/js/setdecimals.js"></script>
+<script src="../../assets/js/echarts.min.js"></script>
+<script src="../../assets/js/website/finance-center.js"></script>
+<!--模板辅助函数-->
+<script>
+    template.helper('_toFixed', function (num) {
+        return Number(num).toFixed(2);
+    });
+
+    template.helper('_cutRoundNum8', function (str) {
+        return $.cutRoundNum(str,8);
+    });
+
+    template.helper('_imgPath', function (str) {
+        if (str == '' || str == null) {
+            return '../../../logo.png';
+        } else {
+            return $.imgFilePath() + str;
+        }
+    });
+
+    template.helper('_toUpperCase', function (str) {
+        return str.toUpperCase();
+    });
+
+    template.helper('_IsCheck', function () {
+        return $("#hideZero").is(":checked");
+    });
+
+    template.helper('_toUpperCaseS', function (str) {
+        return str.toUpperCase().replace('_','/');
+    });
+
+    template.helper('_getFloatNumber', function (str) {
+        if(str.indexOf("-") !== -1){
+            return str.replace(".00", "")
+        }
+        var value = returnFloat(str, 2);
+        return value;
+    });
+
+    template.helper('_getFloatPrice', function (str) {
+        var value = returnFloat(str, 2);
+        return value;
+    });
+
+    template.helper('_getzero', function (str) {
+        if(parseFloat(str) == 0){
+            str = 0;    
+        }
+        return str;
+    });
+    template.helper('_percent', function (str) {
+        return str = str * 100;
+    });
+</script>
+<!--模板赋值-->
+<script id="CoinFinanceDtoList" type="text/html">
+    {{each list as value i}}
+    {{if _IsCheck()}}
+        {{if value.currentPrice >= 100 }}
+            <div class="coin_fin">
+                <div class="coin_box clearfix">
+                    <div class="c_txt fl c_left">{{ _toUpperCase(value.name) }}</div>
+                    <div class="c_txt fl c_right">{{_getzero(value.balance)}}</div>
+                    <div class="c_txt fl c_right">{{_getzero(value.frozen)}}</div>
+                    <div class="c_txt fl c_right">{{_getFloatNumber(value.currentPrice)}}</div>
+                    <div class="c_txt fl c_left operation">
+                        <a href="javascript:;" class="flowRecord" onclick="clickWater('{{value.coinId}}', '{{value.name}}','{{value.balance}}','{{value.frozen}}','{{value.currentPrice}}', this)">流水记录</a>
+                        {{if value.name != "QD"}}
+                            <a href="javascript:;" class="outcoin" onclick="getCoinListoutocoin('{{value.name}}', this)" translate="zhuanchu">转出</a>
+                            <a href="javascript:;" class="intocoin" onclick="getCoinListintocoin('{{value.name}}', this)" translate="zhuanru">转入</a>
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="user-list-append intocoin_append"></div>
+                <input type="hidden" id="hid_coin_{{value.name}}" value="{{value.coinId}}"/>
+            </div>
+        {{/if}}
+    {{else}}
+        <div class="coin_fin">
+            <div class="coin_box clearfix">
+                <div class="c_txt fl c_left">{{ _toUpperCase(value.name) }}</div>
+                <div class="c_txt fl c_right">{{_getzero(value.balance)}}</div>
+                <div class="c_txt fl c_right">{{_getzero(value.frozen)}}</div>
+                <div class="c_txt fl c_right">{{_getFloatNumber(value.currentPrice)}}</div>
+                <div class="c_txt fl c_left operation">
+                    <a href="javascript:;" class="flowRecord" onclick="clickWater('{{value.coinId}}', '{{value.name}}','{{value.balance}}','{{value.frozen}}','{{value.currentPrice}}', this)">流水记录</a>
+                    {{if value.name != "QD"}}
+                        <a href="javascript:;" class="outcoin" onclick="getCoinListoutocoin('{{value.name}}', this)" translate="zhuanchu">转出</a>
+                        <a href="javascript:;" class="intocoin" onclick="getCoinListintocoin('{{value.name}}', this)" translate="zhuanru">转入</a>
+                    {{/if}}
+                </div>
+            </div>
+            <div class="user-list-append intocoin_append"></div>
+            <input type="hidden" id="hid_coin_{{value.name}}" value="{{value.coinId}}"/>
+        </div>
+    {{/if}}
+    {{/each}}
+</script>
+<!--模板赋值-->
+<script id="waterTypeContent" type="text/html">
+    {{each list as value i}}
+        <div class="wlw_coin_c_wrap">
+            <div class="wlw_coin_c clearfix">
+                <a href="javascript:;" class="c_left">2018/11/11 05:14</a>
+                <a href="javascript:;" class="c_right">C2C买入</a>
+                <a href="javascript:;" class="c_right">2700.28</a>
+                <a href="javascript:;" class="c_right">2674.57</a>
+                <a href="javascript:;" class="c_right">查看详情</a>
+            </div>
+            <div class="pop_wlw_coin"></div>
+        </div>
+    {{/each}}
+</script>
+<!--模板赋值-->
+<script id="CoinFinancepercent" type="text/html">
+    {{each list as value i}}
+        <a href="javascript:;" class="coin_names coin_names_{{value.name}}"></a>
+    {{/each}}
+</script>
+<!--模板赋值-->
+<script id="wlwCoinContent" type="text/html">
+    {{each list as value i}}
+    <div class="finance_user">
+        <div class="wlw_text clearfix">
+            <div class="txt c_left">{{value.createTime}}</div>
+            <div class="txt c_right">{{value.tradeTypeDesc}}</div>
+            <div class="txt c_right">{{value.num}}</div>
+            <div class="txt c_right">{{value.balance}}</div>
+            <div class="txt c_right"><a href="javascript:;" class="chewater" onclick="buyTypeWater('{{value.id}}', '{{value.tradeType}}', this)"><em translate="chakanxiangqing"></em><i class="iconfont icon-arrows-down"></i></a></div>
+        </div>
+        <div class="user-list-append"></div>
+    </div>
+    {{/each}}
+</script>
+<!--模板辅助函数-->
+<script type="text/javascript">
+    template.helper('_toUpperCase', function (str) {
+        return str.toUpperCase();
+    });
+</script>
+<!--模板辅助-->
+<script id="coin_listintocoin" type="text/html">
+    {{each list as value i}}
+    <option value="{{ value.id }}" coinName="{{ value.name }}">{{ _toUpperCase(value.name) }}</option>
+    {{/each}}
+</script>
+<!--模板辅助函数-->
+<script type="text/javascript">
+    template.helper('_toUpperCase', function (str) {
+        return str.toUpperCase();
+    });
+</script>
+<!--模板辅助-->
+<script id="coin_list" type="text/html">
+    {{each list as value i}}
+    <option value="{{ value.id }}" coinName="{{ value.name }}">{{ _toUpperCase(value.name) }}</option>
+    {{/each}}
+</script>
+<script id="list_Address" type="text/html">
+    <div class="add_text">
+        {{each list as value i}}
+        {{if searchwalletAddress(value.walletAddress)}}
+            <a href="javascript:;" value="{{value.id}}" ref="{{value.walletAddress}}" onclick="selectwalletAddress(this)">
+                <em>{{value.tag}}</em>
+                <p>{{value.walletAddress}}</p>
+                <i class="iconfont icon-dagou"></i>
+            </a>
+        {{/if}}
+        {{/each}}
+    </div>
+</script>
+
+<script id="inCoinrich" type="text/html">
+    {{each list as value i}}
+        {{#value.content}}
+    {{/each}}
+</script>
+
+<script id="outCoinrich" type="text/html">
+    {{each list as value i}}
+        {{#value.content}}
+    {{/each}}
+</script>
+
+<!--模板赋值-->
+<script id="waterBuySon" type="text/html">
+    {{each list as value i}}
+    <div class="finance_user">
+        <a href="javascript:;">{{value.create_time}}</a>
+        <a href="javascript:;">{{value.price}}</a>
+        <a href="javascript:;">{{value.num}}</a>
+        <a href="javascript:;">{{value.mum}}</a>
+        {{if value.tradeType == 1}}
+        <a href="javascript:;">{{value.fee_buy}}</a>
+        {{/if}}
+        {{if value.tradeType == 2}}
+        <a href="javascript:;">{{value.fee_sell}}</a>
+        {{/if}}
+    </div>
+    {{/each}}
+</script>
+<!--模板赋值-->
+<script id="waterSellSon" type="text/html">
+    {{each list as value i}}
+    <div class="finance_user">
+        <a href="javascript:;">{{value.create_time}}</a>
+        <a href="javascript:;">{{value.price}}</a>
+        <a href="javascript:;">{{value.num}}</a>
+        <a href="javascript:;">{{value.mum}}</a>
+        {{if value.tradeType == 1}}
+        <a href="javascript:;">{{value.fee_buy}}</a>
+        {{/if}}
+        {{if value.tradeType == 2}}
+        <a href="javascript:;">{{value.fee_sell}}</a>
+        {{/if}}
+    </div>
+    {{/each}}
+</script>
+</body>
+</html>

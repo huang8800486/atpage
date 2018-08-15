@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>邀请活动</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="keyword" content="比特币价格,比特币交易平台,区块链,数字化资产,比特币行情,AT交易所,USDT,莱特币,BCH,以太坊,ETH,以太经典,进行币币交易" />
+    <meta name="description" content="description:AT交易所是一家集数字化资产、投资服务、资讯服务于一体的国际化区块链资产交易平台。提供比特币,莱特币(LTC),以太坊(ETH),比特币现金(BCH),以太经典(ETC)达世币(DASH)等虚拟货币以比特币(BTC)、USDT进行交易！提供实时比特币价格,比特币行情。">
+    <link rel="stylesheet" href="../../assets/css/reset.css">
+    <link rel="stylesheet" href="../../assets/font/iconfont.css">
+    <link rel="stylesheet" href="../../assets/css/layout.css">
+    <link rel="stylesheet" href="../../assets/css/daterangepicker.min.css"/>
+    <script type="text/javascript" src="../../script/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../../script/tools/crypto-js.js"></script>
+    <script type="text/javascript" src="../../script/tools/jquery.cookie.js"></script>
+    <script type="text/javascript" src="../../script/tools/md5.min.js"></script>
+    <script type="text/javascript" src="../../script/tools/k_tools.js"></script>
+    <script type="text/javascript" src="../../script/tools/loadSiteInfo.js"></script>
+    <script type="text/javascript" src="../../script/trade/tools.js"></script>
+    <script type="text/javascript" src="../../script/center_toos/center_tools_new.js"></script>
+    <script type="text/javascript" src="../../script/template.js"></script>
+    <script type="text/javascript" src="../../script/jqPaginator.js"></script>
+    <script type="text/javascript" src="../../script/layer.js"></script>
+    <script src="../../assets/js/qrcode.min.js"></script>
+    <script src="../../assets/js/moment.js"></script>
+    <script src="../../assets/js/jquery.daterangepicker.min.js"></script>
+    <script src="../../assets/js/translate/jquery.i18n.properties/jquery.i18n.properties.min.js" charset="utf-8"></script>
+    <script src="../../assets/js/translate/i18n.config.js" charset="utf-8"></script>
+    <script src="../../assets/js/es6-promise.min.js"></script>
+    <script src="../../assets/js/es6-promise.auto.min.js"></script> 
+    <script src="../../assets/js/html2canvas.min.js"></script>
+    <script src="../../assets/js/translate/jquery.i18n.properties/jquery.i18n.properties.min.js" charset="utf-8"></script>
+    <script src="../../assets/js/translate/i18n.config.js" charset="utf-8"></script>
+    <script src="../../assets/js/clipboard.min.js"></script>
+</head>
+<body>
+    <div class="view_body invite_view_body">
+        <!-- header -->
+        <header class="header header-other" id="header"></header>
+        <div class="invite_banner">
+            <div class="wrap">
+                <div class="inv_banner">
+                    <a href="javascript:;" class="swiper">
+                        <img alt="">
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="negative_content_page">
+            <div class="dynamic-width negative_content">
+                <div class="main-invite">
+                    <div class="invite_content">
+                        <div class="invite_title_box">
+                            <div class="am_container">
+                                <div class="inv_con inv_person clearfix">
+                                    <div class="clearfix">
+                                        <div class="per per_user" style="display:none;">
+                                            <h2><span><i></i><em class="translate_em" translate="invite1">充值/交易用户</em></span></h2>
+                                            <span class="tr_deta"><em class="trade_user">0</em><em class="translate_em" translate="ren"></em></span>
+                                        </div>
+                                        <div class="per per_commission">
+                                            <h2><span><i class="iconfont icon-yongjin"></i><em class="translate_em" translate="invite2">邀请佣金</em>(QD)</span></h2>
+                                            <span class="tr_deta"><em class="trader_commission">0</em></span>
+                                        </div>
+                                        <div class="per per_number">
+                                            <h2><span><i class="iconfont icon-renshu"></i><em class="translate_em" translate="invite3">邀请总人数</em></span></h2>
+                                            <span class="tr_deta"><em class="trader_number">0</em></span>
+                                        </div>
+                                    </div>
+                                    <div class="my_link clearfix">
+                                        <div class="clearfix">
+                                            <a href="javascript:;" class="copy_link new-btn-color" translate="invite4">邀请链接</a>
+                                            <a href="javascript:;" class="images_invite new-btn-color" translate="invite5">图片邀请</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="invite_list_show">
+                            <div class="am_container">
+                                <div class="inv_con inv_list_wrap clearfix">
+                                    <div class="inv_list_box">
+                                        <!-- <div class="inv_list_tit clearfix">
+                                            <h2 translate="invite6">邀请列表</h2>
+                                        </div> -->
+                                        <div class="list_item_wrap clearfix">
+                                            <div class="list_li clearfix">
+                                                <a href="javascript:;" class="nav active" translate="invite7">邀请充值</a>
+                                                <a href="javascript:;" class="nav" translate="invite8">邀请交易</a>
+                                                <div class="inv_search clearfix">
+                                                    <div class="input_box input_user">
+                                                        <input id="usernameInvite" type="text" class="am-form-field am-radius" value="" placeholder="">
+                                                    </div>
+                                                    <div class="input_box input_time">
+                                                        <input id="select_choose_date" type="text" class="am-form-field am-radius" value="" placeholder="">
+                                                    </div>
+                                                    <div class="input_box input_choose" style="display:none;">
+                                                        <span class="choose_title" data-title="0" translate="quanbu">全部</span>
+                                                        <div class="choose_list" style="display:none;">
+                                                            <a href="javascript:;" data-title="0" translate="quanbu">全部</a>
+                                                            <a href="javascript:;" data-title="1" translate="chongzhiyonghu">充值用户</a>
+                                                            <a href="javascript:;" data-title="2" translate="weichongzhiyonghu">未充值用户</a>
+                                                        </div>
+                                                    </div>
+                                                    <a class="input_search new-btn-color" href="javascript:;" onclick="searchList(1)" translate="sousuo">搜索</a>
+                                                </div>
+                                            </div>
+                                            <div class="list_content">
+                                                <div class="list_tab list_recharge active">
+                                                    <div class="finance-list am-form">
+                                                        <table class="am-table am-table-striped am-table-hover">
+                                                            <thead>
+                                                            <tr>
+                                                                <th translate="yaoqingriqi">邀请日期</th>
+                                                                <th translate="security_first11">用户名</th>
+                                                                <th translate="invite9">充值(QD)</th>
+                                                                <th translate="invite10">佣金(QD)</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody id="inviteList"></tbody>
+                                                        </table>
+                                                        <ul class="am-pagination am-pagination-centered" id="pageList"></ul>
+                                                    </div>
+                                                </div>
+                                                <div class="list_tab list_trade">
+                                                    <div class="finance-list am-form">
+                                                        <table class="am-table am-table-striped am-table-hover">
+                                                            <thead>
+                                                            <tr>
+                                                                <th class="c_left" translate="invite11">邀请规则</th>
+                                                                <th class="c_center" translate="invite12">邀请人数</th>
+                                                                <th class="c_center" translate="invite10">佣金(QD)</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody id="inviteTrade"></tbody>
+                                                        </table>
+                                                        <ul class="am-pagination am-pagination-centered" id="pageList"></ul>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="inv_note_wrap">
+                                    <div class="inv_con inv_note active">
+                                        <div class="inv_list_tit clearfix">
+                                            <h2 translate="invite13">活动细则</h2>
+                                        </div>
+                                        <div class="list_item_wrap clearfix">
+                                            <div class="text">
+                                                <p translate="invite14">活动时间：2018.06.26—2018.07.31</p>
+                                                <p translate="invite15">中间商通过二维码推介新用户注册并充值，即享受相应奖励。首次充值2000元起，中间商获奖励6QD，后续充值按照充值金额的3‰奖励（100QD起充）。</p>
+                                                <p class="note" translate="invite16">本次活动的最终解释权归AT交易所所有。</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="inv_con inv_note">
+                                        <div class="inv_list_tit clearfix">
+                                            <h2 translate="invite13">活动细则</h2>
+                                        </div>
+                                        <div class="list_item_wrap clearfix">
+                                            <div class="text">
+                                                <p translate="invite14">活动时间：2018.06.26—2018.07.31</p>
+                                                <p translate="invite17">1.好友接受邀请注册成为新用户后，每产生一笔真实交易手续费，您将获得15%的交易佣金奖励；</p>
+                                                <p translate="invite18">2.本活动支持多级奖励。若被推荐用户继续推荐新用户，您可继续获得间接推荐的交易佣金奖励。依次为1级间接推荐返5%，2级间接推荐返4%，3级间接推荐返3%，4级间接推荐返2%，5级间接推荐返1%，最多可获得5级间接奖励。</p>
+                                                <p translate="invite19">（例：您推荐的用户A在平台中达成交易，您可获得用户A交易佣金的15%作为奖励。若用户A继续推荐用户B，您可获得用户B交易佣金5%的间接推荐奖励，以此类推。）</p>
+                                                <p translate="invite20">3.活动期间，新注册用户均享受免交易费政策，最长可达30天。凡在活动期间新注册的用户，在活动结束后将继续享受150天30%交易费的奖励；</p>
+                                                <p translate="invite21">4.同一用户ID仅能被邀请一次，重复、虚假账户以及共享自己的行为，一经发现，将不会支付返佣，并取消其今后参与各类奖励活动的资格；</p>
+                                                <p class="note" translate="invite16">6.本次活动的最终解释权归AT交易所所有。</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <a href="javascript:;" class="investment investment2"></a> -->
+                </div>
+            </div>
+        </div>
+        <footer class="footer" id="footer"></footer>
+        <div class="am-modal am-modal-alert am-modal-pop-inv" tabindex="-1" id="pop_inv_img">
+            <div class="am-modal-dialog">
+                <div class="am-modal-hd">
+                    <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>
+                        <img src="../../images/btn-close2.png">
+                    </a>
+                </div>
+                <div class="am-modal-bd" id="capture">
+                    <div class="imgs">
+                        <img src="../../images/invite/invite_code.jpg" alt="">
+                    </div>
+                    <div class="qrcode_box">
+                        <div class="qrcode_wrap">
+                            <a id="qrcode" href="javascript:;" download=""></a>
+                        </div>
+                        <div class="downloadLink_wrap">
+                            <a href="javascript:;" id="downloadLink"></a>
+                        </div>
+                    </div>
+                    <p class="coddddd"><em class="translate_em" translate="yaoqingma">邀请码: </em><span class="user_code_ma"></span></p>
+                    <div id="canvas_box"></div>
+                </div>
+                <p translate="dianjibaocun">点击保存</p>
+                <a href="javascript:;" class="downimg" onclick="downloadClick()"></a>
+            </div>
+        </div>
+
+        <div class="am-modal am-modal-alert am-modal-pop-inv" tabindex="-1" id="pop_inv_link">
+            <div class="am-modal-dialog">
+                <div class="am-modal-hd">
+                    <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>
+                        <img src="../../images/btn-close2.png">
+                    </a>
+                    <div class="link_img">
+                        <img src="../../images/link.png" alt="">
+                    </div>
+                </div>
+                <div class="am-modal-bd">
+                    <h2 translate="invite4">邀请链接</h2>
+                    <div class="link_code"><a href="javascript:;" class="link_text"></a></div>
+                    <textarea id="copy_link_input"></textarea>
+                    <a href="javascript:;" class="copy_link_btn new-btn-color" translate="fuzhilianjie">复制链接</a>
+                    <p><em class="translate_em" translate="yaoqingma">邀请码: </em><span class="user_code_ma"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+<script type="text/javascript" src="../../assets/js/amazeui.min.js"></script>
+<script type="text/javascript" src="../../assets/js/count-number.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        $("#header").load("../common/commonHeader.html?version=" + $.version);
+        $("#footer").load("../common/commonFooter.html?version=" + $.version);
+        $("#left").load("./left.html");
+        $("#usernameInvite").attr("placeholder",langPkg.getI18N("qingshuruyonghuming"));
+    	$("#select_choose_date").attr("placeholder",langPkg.getI18N("qingxuanzeriqi"));
+         init();
+    });
+</script>
+
+<script type="text/javascript">
+    // 判断语言加载不同的图片
+    /*judgelang($(".invite_banner").find(".swiper img"), "../../images/invite/banner_", "_01.jpg");
+    judgelang($("#pop_inv_recharge2").find(".imgs img"), "../../images/invite/invite_", "_02.jpg");
+    function judgelang(obj, startImg, endImg){
+        var nowLang = langPkg.now_lang;
+        if(nowLang == "zh"){
+            obj.attr("src", setImg(startImg, "zh", endImg));
+        }else{
+            obj.attr("src", setImg(startImg, "en", endImg));
+        }
+    }
+
+    function setImg(startImg, lang, endImg){
+        return startImg + lang + endImg;
+    }*/
+
+    //  判断是否登录
+    function init() {
+        var cookieStr = $.getToken();
+
+        //  如果已经登录，则取得财务中心数据
+        if (!$.TokenIsNull(cookieStr)) {
+            //  获取用户信息
+            getUserAssets();
+            searchList(1);
+            getPageImgactiveBanner2();
+            getPageImgactiveBanner4();
+            // getPageImgactiveBanner4();
+        }else {
+            $.toIndex1();
+        }
+    }
+    var languageTypes = 0;
+    if( langPkg.getAdLanguage() == 1){
+        languageTypes = 1
+    }else{
+        languageTypes = 2;
+    }
+    function getPageImgactiveBanner2(){
+        var parma = {
+            pageSize: 0,
+            pageTo: 0,
+            languageType : languageTypes,
+            bannertype: 2,
+            adaptationtype:2
+        };
+
+        $.ajaxSendData(parma, "/api/adver/getAdverList/v2", function(resData){
+            var list = resData.data;
+            var imgs = $.getLogo + list[0].img;
+            $(".invite_banner .swiper img").attr("src", imgs);
+        });
+
+    }
+
+    function getPageImgactiveBanner4(){
+        var parma = {
+            pageSize: 0,
+            pageTo: 0,
+            languageType : languageTypes,
+            bannertype: 4,
+            adaptationtype:2
+        };
+
+        $.ajaxSendData(parma, "/api/adver/getAdverList/v2", function(resData){
+            var list = resData.data;
+            var imgs = $.getLogo + list[0].img;
+            $("#pop_inv_img .imgs img").attr("src", imgs);
+        });
+
+    }
+
+    /*function getPageImgactiveBanner(num){
+        var parma = {
+            pageSize: 0,
+            pageTo: 0,
+            languageType : languageTypes,
+            bannertype: num,
+            adaptationtype:2
+        };
+
+        $.ajaxSendData(parma, "/api/adver/getAdverList/v2", function(resData){
+            var list = resData.data;
+            if(num == 2){
+                var imgs = $.getLogo + list[0].img;
+                $(".invite_banner .swiper img").attr("src", imgs);
+            }
+            if(num == 3){
+                var imgs = $.getLogo + list[0].img;
+                $("#pop_inv_img .imgs img").attr("src", imgs);
+            }
+            if(num == 4){
+                var imgs = $.getLogo + list[0].img;
+                $("#pop_inv_recharge2 .imgs img").attr("src", imgs);
+            }
+        });
+
+    }*/
+    function getUserAssets() {
+        $.ajaxSendData("", "/api/user/invitation/home", function(resData){
+            var url = window.location.href.split(/\/main/)[0];
+            var linkText = url + "/register.html?user_id=" + resData.data.code;
+            $(".link_text").html(linkText);
+            $(".copy_link_btn").attr("data-clipboard-text", linkText);
+            $("#qrcode").attr("src", linkText);
+            $(".user_code_ma").html(resData.data.code);
+            $(".trade_user").html(parseFloat(resData.data.numRecharged).toFixed(2));
+            $(".trader_number").html(resData.data.numSum);
+            $(".trader_commission").html(parseFloat(resData.data.amount).toFixed(2));
+            var da = {"list": resData.data.detailMap};
+            var _html = template('invite_trade', da);//top12
+            $("#inviteTrade").html(_html);
+        });
+    }
+
+/*    function downloadClick () {
+        // 获取base64的图片节点
+        var img = $('#qrcode img')[0];
+        // var img = $('.swiper img')[0];
+        // 构建画布
+        var canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        canvas.getContext('2d').drawImage(img, 0, 0);
+        // 构造url
+        url = canvas.toDataURL('image/png');
+        // 构造a标签并模拟点击
+        var downloadLink = $('#downloadLink').attr("href", url).attr("download", "download.png");
+        downloadLink[0].click();
+    }*/
+    var borwser = (function(){
+    var s = navigator.userAgent.toLowerCase();
+        /*var match = /(webkit)[ \/]([\w.]+)/.exec(s);                  //chrome
+        var match2 = /(opera)(?:.*version)?[ \/]([\w.]+)/.exec(s);      //旧版opera,新版opear已转chrome了
+        var match3 = (!!window.ActiveXObject || "ActiveXObject" in window) && /(msie\s|rv:)([\w.]+)/.exec(s);                   //IE10以下,判断MSIE,IE11才判断rv是不是11,注意不要与firefox混在一起,
+        var match4 = !/compatible/.test(s) && /(mozilla)(?:.*? rv:([\w.]+))?/.exec(s);*/        //firefox判断mozilla
+        var match = /(webkit)[ \/]([\w.]+)/.exec(s)||/(opera)(?:.*version)?[ \/]([\w.]+)/.exec(s)||(!!window.ActiveXObject || "ActiveXObject" in window) && /(msie\s|rv:)([\w.]+)/.exec(s)||!/compatible/.test(s) && /(mozilla)(?:.*? rv:([\w.]+))?/.exec(s) ||[];
+        return {name : match[1] || "",version : match[2] || "0"};
+    })();
+
+    function downloadClick() {
+        html2canvas(document.getElementById('capture'), {
+            // useCORS:true,
+            logging: true,   //日志开关，发布的时候记得改成false
+        }).then(function(canvas) {
+            document.getElementById('canvas_box').appendChild(canvas);
+            if(borwser.name == "msie" || borwser.name == "rv:"){
+                var blob = canvas.msToBlob();
+                window.navigator.msSaveBlob(blob,'download.png')
+                return;
+            }
+            $('#downloadLink').attr("href", canvas.toDataURL()).attr("download", "download.png")
+            $('#downloadLink')[0].click();
+        });
+    }
+
+    /*
+    * 邀请
+    */
+    $(".investment2").on("click", function(){
+        $('#pop_inv_recharge2').modal({
+            relatedTarget: this 
+        });
+    })
+
+    /*
+    * 点击复制
+    */
+    
+    $(".copy_link").on("click", function(){
+        $('#pop_inv_link').modal({
+            relatedTarget: this 
+        });
+    })
+
+    var clipboard = new ClipboardJS('.copy_link_btn');
+    clipboard.on('success', function(e) {
+        layer.msg(langPkg.getI18N("fuzhichenggong"), { time: 2000, icon: 1 });
+    });
+    clipboard.on('error', function(e) {
+        console.log(e);
+    });
+    /*$(".copy_link_btn").on("click", function(){
+        document.designMode = "on";
+        var bool = document.execCommand("copy")
+        if(!bool){
+            alert(langPkg.getI18N("buzhichifuzhi"))
+        }else{
+            var text = $(".link_text").text();
+            $("#copy_link_input").val(text);
+            $("#copy_link_input").select();
+            document.execCommand("copy");
+            layer.msg(langPkg.getI18N("fuzhichenggong"), { time: 2000, icon: 1 });
+        }
+
+        document.designMode = "off";
+    })*/
+
+
+    /*
+    * 生成二维码
+    * @ 获取url地址
+    */
+    $(".images_invite").on("click", function(){
+        $("#qrcode").html("");
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+            text: $("#qrcode").attr("src"),
+            width: 108,
+            height: 108,
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.H
+        });
+
+        $('#pop_inv_img').modal({
+            relatedTarget: this 
+        });
+        $("#capture .downimg").height($("#capture").height());
+    })
+
+    // 列表切换
+    var listItem = $(".list_li a");
+    var listContent = $(".list_content .list_tab");
+    var invNote = $(".inv_note");
+    var iThis = 1;      // 隐藏搜索的索引
+    listItem.on("click", function(){
+        var i = $(".list_li a").index(this);
+        triggerClass(listItem, i, "active");
+        triggerClass(listContent, i, "active");
+        triggerClass(invNote, i, "active");
+        showSearch();
+        if(i == iThis){
+            hideSearch(i);
+        }
+    })
+
+    function triggerClass(obj, i, sClass){
+        obj.eq(i).addClass(sClass).siblings().removeClass(sClass)
+    }
+
+    // 隐藏搜索
+    function hideSearch(){
+        $(".inv_search").hide();
+    }
+
+    function showSearch(){
+        $(".inv_search").show();
+    }
+
+    /*
+    * 选择时间
+    */
+    startDate();
+    function startDate(){
+        var dateConfig = {
+            language: "cn",
+            startDate: "2017-10-31",
+            autoClose: true,
+            singleDate: true,
+            showShortcuts: false,
+            singleMonth: true,
+            endDate: "2019-10-31",
+            container: '.input_time',
+        }
+
+        $(".input_time").dateRangePicker(dateConfig)
+        .on('datepicker-change', function (event, obj) {
+            $("#select_choose_date").val(obj.value);
+        })
+
+        function initEquip(){
+            
+        }
+
+        function getformatTime(obj) {
+            var d = new Date(String(obj));
+            var time = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + ("0" + d.getDate()).slice(-2);
+            return time;
+        }
+    }
+
+    /*
+    *选择用户
+    */
+    /*var tradeFlag = true;
+    $(".input_choose").off().on("click", ".choose_title", function(){
+        if(tradeFlag){
+            $(this).parent().find(".choose_list").show();
+            tradeFlag = false;  
+        }else{
+            $(this).parent().find(".choose_list").hide();
+            tradeFlag = true;  
+        }
+        
+    })
+
+    $(".choose_list").off().on("click", "a", function(){
+        var idx = $(this).index();
+        tradeValue = $(this).attr("data-trade");
+        $(this).parents(".input_choose").find(".choose_title").attr("data-trade", tradeValue);
+        $(this).parents(".input_choose").find(".choose_title").text($(this).text());
+        $(".choose_list").hide();
+        tradeFlag = true;
+        return false;
+    })*/
+
+    var pageSize = 10;
+    function page(counts, pageTo) {
+        $('#pageList').jqPaginator('option', {
+            totalCounts: counts,
+            currentPage: pageTo
+        });
+        if (counts <= 1) {
+            $("#pageList").hide();
+        }
+    }
+
+    //初始化分页器
+    $('#pageList').jqPaginator({
+        totalCounts: 1,
+        visiblePages: 10,
+        pageSize: pageSize,
+        currentPage: 1,
+        activeClass: 'am-active',
+
+        //first: '<a href="javascript:void(0)">首页</a>',
+        prev: '<li><a href="javascript:void(0)">&laquo;</a></li>  ',
+        next: '<li><a href="javascript:void(0)">&raquo;</a></li> ',
+        //last: '<a href="javascript:void(0)">最后一页</a>',
+        page: ' <li ><a href="javascript:void(0)">{{page}}</a></li>',
+        onPageChange: function (num, status) {
+            if (status == "change") {
+                searchList(num);
+            }
+        }
+    });
+
+    function searchList(pageTo){
+        var name = $("#usernameInvite").val();
+        var time = $("#select_choose_date").val();
+        var type = parseInt($(".choose_title").attr("data-title"));
+        var parma = {
+            name: name,
+            pageSize: pageSize,
+            pageTo: pageTo,
+            time: time,
+            type: type
+        };
+        $.ajaxSendData(parma, "/api/user/invitation/search", function(resData){
+            if(resData.data.length > 0){
+                page(resData.total, pageTo);
+                var da = {"list": resData.data};
+                var _html = template('invite_list', da);
+                $("#inviteList").html(_html);
+                $("#pageList").show();
+            }else {
+                $("#inviteList").html("<td colspan='4' style='text-align:center;padding-top:50px;'>"+ langPkg.getI18N("zanwushuju") +"</td>");
+                $("#pageList").hide();
+            }
+        }, function(){
+            $("#pageList").hide();
+            layer.msg( resData.msg, { time: 1500 } );
+        });
+    }
+
+    /**
+     *  将手机号中间的弄为 *
+     * @param phone
+     * @returns {string}
+     */
+    template.helper('_formatPhone', function (str) {
+        return str.substr(0, 3) + '****' + str.substr(7, 11);
+    });
+</script>
+<script id="invite_list" type="text/html">
+    {{each list as value i}}
+    <tr>
+        <td>{{ value.time }}</td>
+        <td>{{ _formatPhone(value.userName) }}</td>
+        <td>{{ value.recharge }}</td>
+        <td>{{ value.reward }}</td>
+    </tr>
+    {{/each}}
+</script>
+
+<script id="invite_trade" type="text/html">
+    {{each list as value i}}
+    <tr>
+        <td class="c_left">{{i}}</td>
+        <td class="c_center">{{ value.num }}</td>
+        <td class="c_center">{{ value.money }}</td>
+    </tr>
+    {{/each}}
+</script>
+</body>
+</html>

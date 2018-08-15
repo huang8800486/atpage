@@ -1,0 +1,63 @@
+<!-- <h2 translate="last_message_3">财务中心</h2> -->
+<ul id="navList">
+    <li>
+        <a href="finance_center.html" class="icon-finance icon-finance1" >
+            <i class="iconfontunactive iconfont icon-zichanzhongxinweixuanzhong"></i>
+            <i class="iconfontactive iconfont icon-zichanzhongxinxuanzhong"></i>
+            <p class="center_p" translate="financial_first2">资产中心</p>
+            <span></span>
+        </a>
+    </li>
+    <li>
+        <a href="entrustlist.html" class="icon-finance icon-finance2" >
+            <i class="iconfontunactive iconfont icon-weituoweixuanzhong"></i>
+            <i class="iconfontactive iconfont icon-weituoxuanzhong"></i>
+            <p class="center_p" translate="financial_first5">委托管理</p>
+            <span></span>
+        </a>
+    </li>
+    <li>
+        <a href="coinlist.html" class="icon-finance icon-finance2" >
+            <i class="iconfontunactive iconfont icon-chongtijiluweixuanzhong"></i>
+            <i class="iconfontactive iconfont icon-chongtijiluxuanzhong"></i>
+            <p class="center_p" translate="chongtijilu">充提记录</p>
+            <span></span>
+        </a>
+    </li>
+    <!-- <li><a id="assets" href="finance_center.html" class="icon-finance1" ><p translate="financial_first2" class="center_p">资产中心</p></a></li>
+    <li><a href="intocoin.html" class="icon-finance2" ><p translate="financial_first3" class="center_p">转入虚拟币</p></a></li>
+    <li><a href="outcoin.html" class="icon-finance3" ><p translate="financial_first4" class="center_p">转出虚拟币</p></a></li>
+    <li><a href="entrustlist.html" class="icon-finance4" ><p translate="financial_first5" class="center_p">委托管理</p></a></li> -->
+    <!-- <li><a href="deallist.html" class="icon-finance5" ><p translate="financial_first6" class="center_p">成交查询</p></a></li> -->
+    <!-- <li><a href="financial_details.html" class="icon-finance5">明细记录</a></li> -->
+</ul>
+
+<script type="text/javascript">
+    $(function () {
+        navStyle();
+    });
+
+    //  动态设置左边导航样式
+    function navStyle() {
+        var pathname = window.location.pathname;
+        //  拿到最后的网页链接
+        var url = pathname.substr(pathname.lastIndexOf('/')+1,pathname.length);
+
+        $("#navList li").each(function (index,element) {
+            //  获得索引
+            var index = ++index;
+            //  取得A标签
+            var oA = $(this).children("a");
+            //  取得A 标签里面的链接
+            var link = $(this).children("a").attr("href");
+
+            if ( link == url ){
+                oA.parent().addClass("curr");
+            }
+
+            if ( url == "assetDetails.html" ){
+                $("#assets").addClass("curr");
+            }
+        })
+    }
+</script>

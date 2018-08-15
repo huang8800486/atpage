@@ -1,0 +1,28 @@
+body{width:100%;background:#191919;}
+.wrap{width:1200px;margin:0 auto;position:relative;}
+.AT_activity_page{width:100%;min-width:1200px;max-width:1920px;overflow:hidden;position:relative;margin:0 auto;}
+.AT_activity_page .activity_view{width:100%;}
+.activity_upline .con{width:100%;height:320px;position:relative;}
+.activity_upline .con_01{background:url(../images/img_01.jpg) no-repeat center center;z-index:1;}
+.activity_upline .con_02{background:url(../images/img_02.jpg) no-repeat center center;}
+.activity_upline .con_03{background:url(../images/img_03.jpg) no-repeat center center;}
+.activity_upline .con_04{background:url(../images/img_04.jpg) no-repeat center center;}
+.activity_upline .con_05{background:url(../images/img_05.jpg) no-repeat center center;}
+.activity_upline .con_06{background:url(../images/img_06.jpg) no-repeat center center;}
+.activity_upline .con_07{background:url(../images/img_07.jpg) no-repeat center center;}
+.activity_upline .con_08{background:url(../images/img_08.jpg) no-repeat center center;}
+.activity_upline .con_09{background:url(../images/img_09.jpg) no-repeat center center;}
+.activity_upline .con_10{background:url(../images/img_10.jpg) no-repeat center center;}
+.activity_upline .con_11{background:url(../images/img_11.jpg) no-repeat center center;}
+.activity_upline .con_12{background:url(../images/img_12.jpg) no-repeat center center;}
+.activity_upline .con_13{background:url(../images/img_13.jpg) no-repeat center center;}
+.activity_upline .con_14{background:url(../images/img_14.jpg) no-repeat center center;}
+.activity_upline .con_15{background:url(../images/img_15.jpg) no-repeat center center;}
+.activity_upline .con_16{background:url(../images/img_16.jpg) no-repeat center center;}
+.activity_upline .con_17{background:url(../images/img_17.jpg) no-repeat center center;}
+.activity_upline .con_18{background:url(../images/img_18.jpg) no-repeat center center;}
+.activity_upline .con_19{background:url(../images/img_19.jpg) no-repeat center center;}
+.activity_upline .con_20{background:url(../images/img_20.jpg) no-repeat center center;}
+
+.activity_upline .con_01 .logo{position:absolute;left:0;top:26px;width:150px;height:40px;background:#fff;opacity:0;filter:alpha(opacity=0);}
+.activity_upline .con_01 .banner_target{position:absolute;left:0;top:26px;width:100%;height:735px;background:#fff;opacity:0;filter:alpha(opacity=0);}

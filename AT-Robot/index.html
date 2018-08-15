@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>首页-市场统计</title>
+		<link rel="stylesheet" href="css/back.css" />
+		<link rel="stylesheet" href="css/layer.css" />
+		<script type="text/javascript" src="js/jquery-2.1.0.min.js" ></script>
+		<script type="text/javascript" src="js/back.js" ></script>
+		<script type="text/javascript" src="js/md5.min.js" ></script>
+		<script type="text/javascript" src="js/jquery.cookie.js" ></script>
+		<script type="text/javascript" src="js/k_tools.js" ></script>
+		<script type="text/javascript" src="js/center_tools.js" ></script>
+		<script type="text/javascript" src="js/crypto-js.js" ></script>
+		<script type="text/javascript" src="js/template.js" ></script>
+		<script type="text/javascript" src="js/layer.js" ></script>
+		<script type="text/javascript" src="laydate/laydate.js"></script>
+		<script type="text/javascript" src="js/g2.min.js" ></script>
+		<script type="text/javascript" src="js/data-set.min.js" ></script>
+	</head>	
+	<body class="body_color">
+		<div class="nav clearfix">
+			<div class="nav_logo">
+				<i><img src="images/dl_3.png"/></i>
+				<span>FFK DEMO</span>
+			</div>
+			<div class="nav_right clearfix">
+				<p>欢迎登录FFK DEMO机器人刷单系统！</p>
+				<ul class="user clearfix">
+					<li class="name">
+						<i><img src="images/sy_7.png"/></i>
+						<span id="userName"></span>
+						<em><img src="images/sy_9.png"/></em>
+					
+					</li>
+					<li class="out">
+						<i><img src="images/sy_10.png"/></i>
+						<a onclick="delt()">退出</a>
+					</li>
+				</ul>				
+			</div>
+		</div>
+		<div class="meau">
+			<ul class="list_one">
+				<li class="list_bgroud"><a href="#" class="inactive inactives"><i><img src="images/sy_2.png"/></i>首页</a>
+					<ul class="list_two">
+						<li><a href="index.html" class="curr">系统概览</a></li>
+						<!--<li><a href="#" >市场统计</a></li>-->
+					</ul>
+				</li>
+				<li><a href="#" class="inactive"><i><img src="images/sy_3.png"/></i>配置</a>
+					<ul class="list_two" style="display: none">
+						<li><a href="Deploy.html">刷单计划配置</a></li> 
+						<li><a href="list.html">刷单计划列表</a></li> 
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<div class="xt_cont">
+			<div class="sc_search">
+				<ul class="sc_sear clearfix">
+					<li>
+						<select id="sc_marketList"></select>
+					</li>
+					<li>
+						<span>
+							<input type="text" value="" id="datetime_stard"/>
+						</span>
+						<i>至</i>
+						<span>
+							<input type="text" value="" id="datetime_endd"/>
+						</span>
+					</li>
+					<li>
+						<button id="sc_searchbtn" onclick="serch();">搜 索</button>
+					</li>
+					<li class="red" id="sc_sercts">* 搜索时间超过一年，只显示一年内数据！ </li>
+				</ul>
+			</div>
+			<ul class="xt_contul clearfix">
+				<li class="xt_bj1">
+					<p class="number" id="sucss"></p>
+					<p class="xt_name">刷单成功数</p>
+				</li>
+				<li class="xt_bj2">
+					<p class="number"><span id="totalSales"></span></p>
+					<p class="xt_name">交易额</p>
+				</li>
+				<li class="xt_bj3">
+					<p class="number"><span id="volume"></span></p>
+					<p class="xt_name">成交量</p>
+				</li>
+				<li class="xt_bj4">
+					<p class="number" id="numb"></p>
+					<p class="xt_name">成交笔数</p>
+				</li>
+			</ul>
+			<div class="xt_chart clearfix">
+				<div class="sc_recharge">
+					<div class="sc_rechtop clearfix">
+						<p>充值走势图</p>
+					<!--	<ul class="clearfix">
+							<li>
+								<i><img src="images/sy_16.png" /></i>
+								<span class="color1">交易额</span>
+							</li>
+							<li>
+								<i><img src="images/sy_17.png" /></i>
+								<span class="color2">刷单成功数</span>
+							</li>
+							<li>
+								<i><img src="images/sy_18.png" /></i>
+								<span class="color3">成交量</span>
+							</li>
+							<li>
+								<i><img src="images/sy_19.png" /></i>
+								<span class="color4">成交笔数</span>
+							</li>							
+						</ul>-->
+					</div>					
+					<div id="recharge"></div>
+				</div>
+			</div>
+		</div>
+	</body>	
+	<script>
+		$(function(){			
+			var cookieStr = $.getToken();			
+			var _nme = $.getCookies("deployname");
+			if (!$.TokenIsNull(cookieStr)) {
+				getMarketnum();
+				getMarketist();
+				getKChart();
+	        }else{
+	        	window.location.href = "login.html"
+	        }
+			$("#userName").html(_nme);			
+		})
+		
+		/*退出*/
+		function delt() {
+			$.loginOut();
+		}
+		/*时间控件*/
+		laydate.render({
+		  	elem: '#datetime_stard'
+		});
+		laydate.render({
+		  	elem: '#datetime_endd'
+		});
+		
+		/*获取市场列表*/
+	    function getMarketist() {
+	        var id = "";
+	        var param = {id: id};
+	        var resData = $.sendData(param,"/api/automatic/market/list");
+	        if (resData.code == 200) {
+	            if (resData.data.length > 0) {
+	                var da = { "list": resData.data };
+	                var _html = template('market_list', da);
+	                $("#sc_marketList").html(_html);
+	            }
+	        }
+	    }
+		
+	    /*获取刷单次数*/
+	   function getMarketnum() {
+			var marketId = $("#sc_marketList").val();
+	        var fromDate = $("#datetime_stard").val();
+		   	var toDate = $("#datetime_endd").val();		   	
+		   	var param = {
+                marketId : marketId,
+                fromDate : fromDate,
+                toDate : toDate
+        	};
+	        var resData = $.sendData(param,"/api/automatic/total");	
+	        if (resData.code == 200) {
+	            $("#sucss").html(parseInt(resData.data.automaticCount));
+	            $("#totalSales").html(parseFloat(resData.data.tradeMum).toFixed(2));
+	            $("#volume").html(parseFloat(resData.data.tradeNum).toFixed(2));
+	            $("#numb").html(parseInt(resData.data.tradeCount));
+	        }
+	   };
+	   
+	   /*搜索*/
+	   function serch() {
+		   	var marketId = $("#sc_marketList").val();
+	        var fromDate = $("#datetime_stard").val();
+		   	var toDate = $("#datetime_endd").val();		   	
+		   	var param = {
+                marketId : marketId,
+                fromDate : fromDate,
+                toDate : toDate
+        	};
+	       var resData = $.sendData(param, "/api/automatic/total");
+	       if (resData.code == 200) {
+	            $("#sucss").html(parseInt(resData.data.automaticCount));
+	            $("#totalSales").html(parseFloat(resData.data.tradeMum).toFixed(2));
+	            $("#volume").html(parseFloat(resData.data.tradeNum).toFixed(2));
+	            $("#numb").html(parseInt(resData.data.tradeCount));	            
+	            /*计算时间差*/
+	            var datestar = $("#datetime_stard").val();
+	            var dateend = $("#datetime_endd").val();
+	            var date1 = "\"" + datestar + "\"";
+			    var date2 = "\"" + dateend + "\"";
+			    var date3 = new Date(date2).getTime() - new Date(date1).getTime(); 
+			    var days = Math.floor(date3/(24*3600*1000));			    
+			    if(days>365){
+			    	$("#sc_sercts").show()
+			    }else{
+			    	$("#sc_sercts").hide()
+			    };
+	       }else{
+	       	        alert(resData.msg);
+	       	        return;
+	       };
+       getKChart();
+	   };
+	   
+	   /*获取刷单统计制作K线图*/
+	  function getKChart() {
+			var marketId = $("#sc_marketList").val();
+	        var fromDate = $("#datetime_stard").val();
+		   	var toDate = $("#datetime_endd").val();		   	
+		   	var param = {
+                marketId : marketId,
+                fromDate : fromDate,
+                toDate : toDate
+        };
+	        var resData = $.sendData(param, "/api/automatic/total/list");
+	        if (resData.code == 200) {
+	        	 $('#recharge').html("");//清空
+	        	 var dataEx=resData.data;
+	        	 if(dataEx.length==0){
+	        	 var objEx = "{\"date\":\"" +"0.000" + "\",\"automaticCount\":"+"\"" + "0.000" +"\""+ ",\"tradeCount\":" +"\"" + "0.000" +"\""+ ",\"tradeMum\":"+"\"" + "0.000" +"\""+ ",\"tradeNum\":" +"\""+ "0.000" +"\"" + "}";
+	        	 dataEx.push(JSON.parse(objEx));
+	        	 }
+	        	var str = "[";
+	            for (var i=0; i<dataEx.length; i++) {
+	            	var datas = dataEx[i];
+	            	var date = datas.date;
+	            	var automaticCount = datas.automaticCount;
+	            	var tradeCount = datas.tradeCount;
+	            	var tradeMum = datas.tradeMum;
+	            	var tradeNum = datas.tradeNum;
+	            	
+	            	automaticCount = parseFloat(datas.automaticCount.substr(0,automaticCount.lastIndexOf(".")+3));
+	            	tradeCount = parseFloat(datas.tradeCount.substr(0,tradeCount.lastIndexOf(".")+3));
+	            	tradeMum = parseFloat(datas.tradeMum.substr(0,tradeMum.lastIndexOf(".")+3));
+	            	tradeNum = parseFloat(datas.tradeNum.substr(0,tradeNum.lastIndexOf(".")+3));            	
+	            	var obj = "{\"date\":\"" + date + "\",\"刷单成功数\":" + automaticCount + ",\"交易额\":"  + tradeMum + ",\"成交量\":" + tradeNum + ",\"成交笔数\":" + tradeCount  + "}"		            	            
+					str = str + obj + ",";
+	            }
+	            str = str.substr(0,str.lastIndexOf(",")) + "]"
+	            var jsonStr = JSON.parse(str);     
+	            const data = jsonStr;
+				const ds = new DataSet();
+				const dv = ds.createView().source(data);
+				dv.transform({
+				    type: 'fold',
+				    fields: [ '刷单成功数', '交易额', '成交量','成交笔数' ], // 展开字段集
+				    key: 'city', // key字段
+				    value: 'temperature', // value字段
+				});
+				const chart = new G2.Chart({
+				    container: 'recharge',
+				    forceFit: true,
+				    width: 1080,
+  					height: 400
+				});
+				chart.source(dv, {
+				   month: {
+				      range: [ 0, 1 ]
+				   }
+				});
+				chart.tooltip({
+				   crosshairs: {
+				      type: 'line'
+				   }
+				});
+				chart.axis('temperature', {
+				   label: {
+				      formatter: val => {
+				        return val;
+				     }
+				   }
+				});
+				chart.line().position('date*temperature').color('city');
+				/*chart.point().position('date*temperature').color('city').size(4).shape('circle').style({
+				    stroke: '#fff',
+				    lineWidth: 1
+				});*/
+				chart.render();	  	            
+	        }
+	    }; 
+	</script>
+	
+<script id="market_list" type="text/html">
+    <option value="" selected="selected">选择市场</option>
+    {{each list as value i}}
+    <option value="{{value.id}}">{{value.name_en}}</option>
+    {{/each}}
+</script>
+</html>

@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>配置-刷单计划配置</title>
+    <link rel="stylesheet" href="css/amazeui.min.css"/>
+    <link rel="stylesheet" href="css/jquery.datetimepicker.css"/>
+    <link rel="stylesheet" href="css/back.css"/>
+    <link rel="stylesheet" href="css/layer.css"/>
+    <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="js/md5.min.js"></script>
+    <script type="text/javascript" src="js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="js/k_tools.js"></script>
+    <script type="text/javascript" src="js/center_tools.js"></script>
+    <script type="text/javascript" src="js/crypto-js.js"></script>
+    <script type="text/javascript" src="js/template.js"></script>
+    <script type="text/javascript" src="js/layer.js"></script>
+    <script type="text/javascript" src="js/amazeui.min.js"></script>
+    <script type="text/javascript" src="js/back.js"></script>
+    <script type="text/javascript" src="laydate/laydate.js"></script>
+    <style>
+        #radio label,
+        #radio2 label,
+        #radio3 label {
+            border: 0;
+        }
+
+        #radio label:nth-child(1),
+        #radio label:nth-child(2) {
+            width: 10%
+        }
+
+        #radio label:nth-child(3) {
+            width: 25%
+        }
+
+        #radio input[type="text"],
+        #radio2 input[type="text"] {
+            border: 1px solid #e6e6e6;
+            line-height: 35px !important;
+        }
+
+        #radio2 label {
+            width: 30%
+        }
+
+        #radio3 label {
+            width: 10%
+        }
+    </style>
+</head>
+<body class="body_color">
+<div class="nav clearfix">
+    <div class="nav_logo">
+        <i><img src="images/dl_3.png"/></i>
+        <span>FFK DEMO</span>
+    </div>
+    <div class="nav_right clearfix">
+        <p>欢迎登录FFK DEMO机器人刷单系统！</p>
+        <ul class="user clearfix">
+            <li class="name">
+                <i><img src="images/sy_7.png"/></i>
+                <span id="userName"></span>
+                <em><img src="images/sy_9.png"/></em>
+
+            </li>
+            <li class="out">
+                <i><img src="images/sy_10.png"/></i>
+                <a onclick="delt()">退出</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="meau">
+    <ul class="list_one">
+        <li><a href="#" class="inactive"><i><img src="images/sy_2.png"/></i>首页</a>
+            <ul class="list_two" style="display: none">
+                <li><a href="index.html">系统概览</a></li>
+            </ul>
+        </li>
+        <li class="list_bgroud"><a href="#" class="inactive inactives"><i><img src="images/sy_3.png"/></i>配置</a>
+            <ul class="list_two">
+                <li><a href="Deploy.html" class="curr">刷单计划配置</a></li>
+                <li><a href="list.html">刷单计划列表</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<div class="pz_cont">
+    <h2>刷单计划配置</h2>
+    <ul>
+        <li>
+            <span>市场选择</span>
+            <select id="ddl_marketList" onchange="changeMarket();">
+                <!--<option>QD/BTC</option>
+                <option>BTC/QD</option>
+                <option>ETH/BTC</option>-->
+            </select>
+        </li>
+        <li id="radio" style="display: flex">
+            <span>设置价格</span>
+            <label style="width: auto;">
+            	<input type="radio" name="priceType" value="9" id="priceType9"> AT价格
+            	<input type="radio" name="priceType" value="2" id="priceType2"> ZB价格
+            	<input type="radio" name="priceType" value="6" id="priceType6"> HB价格
+            	<input type="radio" name="priceType" value="7" id="priceType7"> OK价格
+            	<input type="radio" name="priceType" value="8" id="priceType8"> 币安价格
+            	
+            </label>
+            <label style="width: auto;"><input type="radio" name="priceType" value="1" id="priceType1" checked> 默认<span
+                    style="width:200px;"> （0.1%-0.5%）</span></label>
+        </li>
+        <li id="radio2" style="display: flex">
+            <span></span>
+            <label>
+                <input type="radio" name="priceType" value="5" id="priceType5">
+                <span>自定义</span>
+                <input type="text" id="price2"> + <input type="text" id="percentage2"> %
+            </label>
+        </li>
+         <li id="radio2" style="display: flex">
+         	<span></span>
+          <label style="width: auto;">
+                <input type="radio" name="priceType" value="3" id="priceType3">
+                <span>自定义</span>
+                <input class="text" type="text" id="price1"> ± <input type="text" id="percentage1"> %
+            </label>
+        </li>
+         <li id="radio2" style="display: flex">
+         <span></span>
+          <label>
+                <input type="radio" name="priceType" value="4" id="priceType4">
+                <span>自定义</span>
+                <input type="text" id="price3"> - <input type="text" id="percentage3"> %
+            </label>
+        </li>
+        <li id="radio3">
+            <span>成交记录</span>
+            <label><input type="radio" name="showTrade" value="1" id="showTrade1" checked>显示</label>
+            <label><input type="radio" name="showTrade" value="2" id="showTrade2">不显示</label>
+        </li>
+        
+        <li>
+        	<div>
+        		<table id="task-table">
+        			<tr>
+        				<td>
+        					时间节点<input type="text" value="" id="datetime" class="datetimes" placeholder="请注意输入时分"/>
+        				</td>
+        				<td style="width: 20px;"></td>
+        				<td>
+        					总成交量<input placeholder="请输入总成交量" type="text" onBlur="overFormat(this)" id="datecjl" name=""
+                          maxlength="12">
+        				</td>
+        				<td style="width: 20px;"></td>
+        				<td>
+        					成交笔数<input placeholder="请输入成交笔数" type="text" maxlength="9"
+                          onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                          onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                          id="datecjbs" name="">
+        				</td>
+        				<td style="width: 20px;"></td>
+        				<td>
+        					最小成交量<input placeholder="请输入最小成交量" type="text" maxlength="12" onBlur="overFormat(this)"
+                          id="smallcjl" name="">
+        				</td>
+        				<td style="width: 20px;"></td>
+        				<td>
+        					<input  type="button" value="+" style="width: 30px;" onclick="addtr();">
+        				</td>
+        			</tr>
+        		
+        		</table>
+        	
+        	</div>
+        	
+        </li>
+        
+        
+        
+        <!-- <li class="time">
+            <span>时间节点</span>
+            <label><input type="text" value="" id="datetime"/></label>
+            <span style="width:200px;">*时分秒请注意填写</span>
+        </li>
+        <li>
+            <span>总成交量</span>
+            <label><input class="text" placeholder="请输入总成交量" type="text" onBlur="overFormat(this)" id="datecjl" name=""
+                          maxlength="12"></label>
+            <span style="width:200px;">*最多4位小数且必须大于0</span>
+        </li>
+        <li>
+            <span>成交笔数</span>
+            <label><input class="text" placeholder="请输入成交笔数" type="text" maxlength="9"
+                          onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                          onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                          id="datecjbs" name=""></label>
+            <span style="width:200px;">*只能正整数</span>
+        </li>
+        <li>
+            <span>最小成交量</span>
+            <label><input class="text" placeholder="请输入最小成交量" type="text" maxlength="12" onBlur="overFormat(this)"
+                          id="smallcjl" name=""></label>
+            <span style="width:200px;">*最多4位小数且必须大于0</span>
+        </li> -->
+    </ul>
+    <ul class="subm clearfix">
+        <li>
+            <button onclick="AddList()" data-am-modal="{target: '#my-alert'}">提 交</button>
+        </li>
+        <li class="btn_qx">
+            <a href="Deploy.html">取 消</a>
+        </li>
+    </ul>
+</div>
+
+<div class="am-modal am-modal-alert" tabindex="2" id="my-alert">
+    <div class="am-modal-dialog" id="scus">
+        <div class="am-modal-hd"><img src="images/cg.png"/></div>
+        <div class="am-modal-bd pz_modal">
+            <p>提交成功</p>
+            <p>恭喜您，您提交的信息已成功保存</p>
+        </div>
+        <div class="am-modal-footer">
+            <a href="list.html" class="pz_modalbtn">我知道了</a>
+        </div>
+    </div>
+
+    <div class="am-modal-dialog" id="difunt">
+        <div class="am-modal-hd"><img src="images/sb.png"/></div>
+        <div class="am-modal-bd pz_modal">
+            <p>提交失败</p>
+            <p id="errorMsg"></p>
+        </div>
+        <div class="am-modal-footer">
+            <a href="#" class="am-modal-btn pz_modalbtn">我知道了</a>
+        </div>
+    </div>
+</div>
+</body>
+
+<script>
+	laydate.render({
+	    elem: '.datetimes',
+	    type: 'datetime'
+	});
+	var index = 0;
+	function addtr(){
+		$("#task-table tbody").append($("#task-table tr").eq(0).clone().addClass("datetimes_"+(index+1)));
+		index++;
+		/* for(var i = 0; i < $("#task-table tr").length; i++){
+			$("#task-table tr").eq(i).find(".datetimes").addClass("datetimes_" + i)
+			laydate.render({
+		        elem: '.datetimes_' + i,
+		        type: 'datetime'
+		    });
+		} */
+	}
+
+    $(function () {
+        var cookieStr = $.getToken();
+        var _nme = $.getCookies("deployname",);
+        var cookieStr = $.getToken();
+        $("#userName").html(_nme);
+        if (!$.TokenIsNull(cookieStr)) {
+            getMarketist();
+            //  初始化拿值
+            var id = $.getUrlParam("id");
+            var marketid = $.getUrlParam("marketid");
+            var time = $.getUrlParam("time");
+            var volume = $.getUrlParam("volume");
+            var tradeNum = $.getUrlParam("tradenum");
+            var minVolume = $.getUrlParam("minvolume");
+            var maxPriceChange = $.getUrlParam("maxPriceChange");
+            var minPriceChange = $.getUrlParam("minPriceChange");
+            var price = $.getUrlParam("price");
+            var priceType = $.getUrlParam("priceType");
+
+            var showTrade = $.getUrlParam("showTrade");
+
+
+
+            if (id != "" || marketid != "" || time != "" || volume != "" || tradeNum != ""
+                || minVolume != "" || maxPriceChange != "" || minPriceChange != "" || price != ""
+                || priceType != "" || showTrade != "")  {
+                $("#datetime").val(time);
+                $("#datecjl").val(volume);
+                $("#datecjbs").val(tradeNum);
+                $("#smallcjl").val(minVolume);
+
+                switch (priceType){
+                    case '1':
+                        $("#priceType1").click();
+                        break;
+                    case '2':
+                        $("#priceType2").click();
+                        break;
+                    case '3':
+                        $("#priceType3").click();
+                        $("#price1").val(price);
+                        $("#percentage1").val(maxPriceChange);
+                        break;
+                    case '4':
+                        $("#priceType4").click();
+                        $("#price3").val(price);
+                        $("#percentage3").val(maxPriceChange);
+                        break;
+                    case '5':
+                        $("#priceType5").click();
+                        $("#price2").val(price);
+                        $("#percentage2").val(maxPriceChange);
+                        break;
+                    default:
+                        break;
+                }
+
+                switch (showTrade){
+                    case '1':
+                        $("#showTrade1").click();
+                        break;
+                    case '2':
+                        $("#showTrade2").click();
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+        } else {
+            window.location.href = "login.html"
+        }
+		
+        changeMarket();
+    });
+    
+  	//获取中币价格，如果没有获取到，priceType2不可选择
+    function changeMarket(){
+    	var param = {marketName:$("#ddl_marketList").val()}
+		var resData = $.sendData(param, "/api/automatic/getThirdPrice");
+       	if(resData.data.ZB<=0){
+       		$("#priceType2").attr("disabled","disabled");
+       		$("#priceType2").attr("checked",false);
+        }else{
+        	$("#priceType2").removeAttr("disabled");
+        }
+       	
+       	if(resData.data.AT<=0){
+       		$("#priceType9").attr("disabled","disabled");
+       		$("#priceType9").attr("checked",false);
+        }else{
+        	$("#priceType9").removeAttr("disabled");
+        }
+       	
+       	if(resData.data.HUOBI<=0){
+       		$("#priceType6").attr("disabled","disabled");
+       		$("#priceType6").attr("checked",false);
+        }else{
+        	$("#priceType6").removeAttr("disabled");
+        }
+       	
+       	if(resData.data.OKCOIN<=0){
+       		$("#priceType7").attr("disabled","disabled");
+       		$("#priceType7").attr("checked",false);
+        }else{
+        	$("#priceType7").removeAttr("disabled");
+        }
+       	
+       	if(resData.data.BIAN<=0){
+       		$("#priceType8").attr("disabled","disabled");
+       		$("#priceType8").attr("checked",false);
+        }else{
+        	$("#priceType8").removeAttr("disabled");
+        }
+    }
+
+    /*退出*/
+    function delt() {
+        $.loginOut();
+    }
+
+    /*输入限制*/
+    function amount(th) {
+        var regStrs = [
+            ['^(\\d+\\.\\d{0}).+', '$1'] //禁止录入小数点后两位以上
+        ];
+        for (i = 0; i < regStrs.length; i++) {
+            var reg = new RegExp(regStrs[i][0]);
+            th.value = th.value.replace(reg, regStrs[i][1]);
+        }
+        ;
+    };
+
+    function overFormat(th) {
+        var v = th.value;
+        if (v === '') {
+            v = '0.00';
+        } else if (v === '0') {
+            v = '0.00';
+        }
+        else if (v === '0.') {
+            v = '0.00';
+        } else if (/^0+\d+\.?\d*.*$/.test(v)) {
+            v = v.replace(/^0+(\d+\.?\d*).*$/, '$1');
+            v = inp.getRightPriceFormat(v).val;
+        } else if (/^0\.\d$/.test(v)) {
+            v = v + '0';
+        } else if (!/^\d+\.\d{2}$/.test(v)) {
+            if (/^\d+\.\d{2}.+/.test(v)) {
+                v = v.replace(/^(\d+\.\d{4}).*$/, '$1');
+            } else if (/^\d+$/.test(v)) {
+                v = v + '.00';
+            } else if (/^\d+\.$/.test(v)) {
+                v = v + '00';
+            } else if (/^\d+\.\d$/.test(v)) {
+                v = v + '0';
+            } else if (/^[^\d]+\d+\.?\d*$/.test(v)) {
+                v = v.replace(/^[^\d]+(\d+\.?\d*)$/, '$1');
+            } else if (/\d+/.test(v)) {
+                v = v.replace(/^[^\d]*(\d+\.?\d*).*$/, '$1');
+                ty = false;
+            } else if (/^0+\d+\.?\d*$/.test(v)) {
+                v = v.replace(/^0+(\d+\.?\d*)$/, '$1');
+                ty = false;
+            } else {
+                v = '0.00';
+            }
+        }
+        th.value = v;
+    };
+
+    /*时间控件*/
+    laydate.render({
+        elem: '.datetimesinit',
+        type: 'datetime'
+    });
+    
+
+    var marketId = $.getUrlParam("marketid");
+
+    /*获取市场列表*/
+    function getMarketist() {
+        var id = "";
+        var param = {id: id};
+        var resData = $.sendData(param, "/api/automatic/market/list");
+        if (resData.code == 200) {
+            var length = resData.data.length;
+            var datas = resData.data;
+            if (length > 0) {
+                for (var i = 0; i < length; i++) {
+                    var id = datas[i].id;
+                    if (id == marketId) {
+                        datas[i].isSelect = 1;
+                    } else {
+                        datas[i].isSelect = 0;
+                    }
+                }
+
+                var da = {"list": resData.data};
+                var _html = template('market_list', da);
+                $("#ddl_marketList").html(_html);
+            }
+        }
+    }
+
+    /*获取和传递文本框输入内容*/
+    function AddList() {
+        var pId = $.getUrlParam("id");
+        var id = '';
+        if ( pId != "" || pId != null ){
+            id = pId;
+        } else {
+            id = "";
+        }
+
+        // var id = ""
+        if ($.getUrlParam("id") != "") {
+            id = $.getUrlParam("id");
+        }
+        if ($("#datecjl").val() == '') {
+            $("#scus").hide();
+            $("#difunt").show();
+            $("#errorMsg").html("成交量不能为空！");
+            return;
+        }
+        if ($("#datecjbs").val() == '') {
+            $("#scus").hide();
+            $("#difunt").show();
+            $("#errorMsg").html("成交笔数不能为空！");
+            return;
+        }
+        if ($("#smallcjl").val() == '') {
+            $("#scus").hide();
+            $("#difunt").show();
+            $("#errorMsg").html("最小成交量不能为空！");
+            return;
+        }
+        var marketId = $('#ddl_marketList option:selected').val();
+        var marketName = $('#ddl_marketList option:selected').text();
+        var dateTime = $("#datetime").val();
+        var dateCjl = $("#datecjl").val();
+        var dateCjbs = $("#datecjbs").val();
+        var smallCjl = $("#smallcjl").val();
+
+        var price = 0;
+        var minPrice = 0;
+        var maxPrice = 0;
+
+        //  获得刷单类型
+        var priceType = $("input[name='priceType']:checked").val();
+
+        switch (priceType){
+            case '1':
+                price = 0;
+                break;
+            case '2':
+                price = 0;
+                break;
+            case '3':
+                price = $("#price1").val();
+                minPrice = 0;
+                maxPrice = $("#percentage1").val();
+                break;
+            case '4':
+                price = $("#price3").val();
+                minPrice = 0;
+                maxPrice = $("#percentage3").val();
+                break;
+            case '5':
+                price = $("#price2").val();
+                minPrice = 0;
+                maxPrice = $("#percentage2").val();
+                break;
+            default:
+                break;
+        }
+
+        //  是否显示成交记录
+        var showTrade = $("input[name='showTrade']:checked").val();
+
+        if (parseFloat(dateCjl) <= 0) {
+            $("#scus").hide();
+            $("#difunt").show();
+            $("#errorMsg").html("成交量必须要大于0！");
+            return;
+        }
+        if (parseInt(dateCjbs) <= 0) {
+            $("#scus").hide();
+            $("#difunt").show();
+            $("#errorMsg").html("成交笔数必须要大于0！");
+            return;
+        }
+        if (parseFloat(smallCjl) <= 0) {
+            $("#scus").hide();
+            $("#difunt").show();
+            $("#errorMsg").html("最小成交量必须要大于0！");
+            return;
+        }
+        if (accMul(parseInt(dateCjbs), parseFloat(smallCjl)) > parseFloat(dateCjl)) {
+            $("#scus").hide();
+            $("#difunt").show();
+            $("#errorMsg").html("成交笔数乘以最小成交量不能大于成交量！");
+            return;
+        }
+        //executeTime: dateTime,//1
+        //volume: dateCjl,//2
+        //tradeNum: dateCjbs,//3
+        //minVolume: smallCjl,//4
+        
+        var array = new Array();
+        $("#task-table tr").each(function(i){
+        	var json = {
+        			executeTime:$(this).find("#datetime").val(),
+        			volume:$(this).find("#datecjl").val(),
+        			tradeNum:$(this).find("#datecjbs").val(),
+        			minVolume:$(this).find("#smallcjl").val()
+        	}
+        	array.push(json);
+        });
+        var param = {
+            id: id,
+            marketId: marketId,
+            minPriceChange : minPrice,
+            maxPriceChange : maxPrice,
+            price : price,
+            priceType : priceType,
+            showTrade : showTrade,
+            batch:JSON.stringify(array)
+        };
+
+        var resData = $.sendData(param, "/api/automatic/save");
+        if (resData.code == 200) {
+            $("#scus").show();
+            $("#difunt").hide();
+        } else {
+            //layer.msg(resData.msg);
+            //alert(123);
+            $("#scus").hide();
+            $("#difunt").show();
+            $("#errorMsg").html(resData.msg);
+        }
+    }
+
+    /*js 小数乘法计算 */
+    function accMul(arg1, arg2) {
+        var m = 0, s1 = arg1.toString(),
+            s2 = arg2.toString();
+        try {
+            m += s1.split(".")[1].length;
+        } catch (e) {
+        }
+        try {
+            m += s2.split(".")[1].length;
+        } catch (e) {
+        }
+        return Number(s1.replace(".", "")) * Number(s2.replace(".", "")) / Math.pow(10, m);
+    }
+</script>
+
+<!--模板-->
+<script id="market_list" type="text/html">
+    <option value="-1" selected="selected">全部</option>
+	<optgroup label="QD市场">
+			{{each list as value i}}
+    		{{ if value.isSelect == 1 && value.name_en.split('/')[1] == "QD"}}
+    		<option value="{{value.id}}" selected>{{value.name_en}}</option>
+    		{{else if value.name_en.split('/')[1] == "QD"}}
+    		<option value="{{value.id}}">{{value.name_en}}</option>
+    		{{/if}}
+    		{{/each}}
+	</optgroup>
+	<optgroup label="USDT市场">
+			{{each list as value i}}
+    		{{ if value.isSelect == 1 && value.name_en.split('/')[1] == "USDT"}}
+    		<option value="{{value.id}}" selected>{{value.name_en}}</option>
+    		{{else if value.name_en.split('/')[1] == "USDT"}}
+    		<option value="{{value.id}}">{{value.name_en}}</option>
+    		{{/if}}
+    		{{/each}}
+	</optgroup>
+	<optgroup label="BTC市场">
+			{{each list as value i}}
+    		{{ if value.isSelect == 1 && value.name_en.split('/')[1] == "BTC"}}
+    		<option value="{{value.id}}" selected>{{value.name_en}}</option>
+    		{{else if value.name_en.split('/')[1] == "BTC"}}
+    		<option value="{{value.id}}">{{value.name_en}}</option>
+    		{{/if}}
+    		{{/each}}
+	</optgroup>
+	<optgroup label="ETH市场">
+			{{each list as value i}}
+    		{{ if value.isSelect == 1 && value.name_en.split('/')[1] == "ETH"}}
+    		<option value="{{value.id}}" selected>{{value.name_en}}</option>
+    		{{else if value.name_en.split('/')[1] == "ETH"}}
+    		<option value="{{value.id}}">{{value.name_en}}</option>
+    		{{/if}}
+    		{{/each}}
+	</optgroup>
+	<optgroup label="其他">
+			{{each list as value i}}
+    		{{ if value.isSelect == 1 && value.name_en.split('/')[1] != "ETH" && value.name_en.split('/')[1] != "BTC" && value.name_en.split('/')[1] != "USDT" && value.name_en.split('/')[1] != "QD"}}
+    		<option value="{{value.id}}" selected>{{value.name_en}}</option>
+    		{{else if value.name_en.split('/')[1] != "ETH" && value.name_en.split('/')[1] != "BTC" && value.name_en.split('/')[1] != "USDT" && value.name_en.split('/')[1] != "QD"}}
+    		<option value="{{value.id}}">{{value.name_en}}</option>
+    		{{/if}}
+    		{{/each}}
+	</optgroup>
+</script>
+</html>

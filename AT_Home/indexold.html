@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="keyword" content="比特币价格,比特币交易平台,区块链,数字化资产,比特币行情,AT交易所,USDT,莱特币,BCH,以太坊,ETH,以太经典,进行币币交易" />
+    <meta name="description" content="description:AT交易所是一家集数字化资产、投资服务、资讯服务于一体的国际化区块链资产交易平台。提供比特币,莱特币(LTC),以太坊(ETH),比特币现金(BCH),以太经典(ETC)达世币(DASH)等虚拟货币以比特币(BTC)、USDT进行交易！提供实时比特币价格,比特币行情。">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <script type="text/javascript" src="script/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="script/tools/jquery.cookie.js"></script>
+</head>
+<body>
+
+<script>
+    /*currentLang = navigator.language;   //判断除IE外其他浏览器使用语言
+    if (!currentLang) {//判断IE浏览器使用语言
+        currentLang = navigator.browserLanguage;
+    }
+    currentLang = currentLang.toLowerCase();*/
+
+    // var name = getCookie("ATcoinAcceptLanguage");
+    var name = "";
+
+    //  网站默认访问网站
+    var defaultLanguage = "main/index.html";
+
+    if ( name != "" ){
+        switch (name){
+            case 'zh-CN':
+                window.location.href = "zh_cn/index.html";
+                break;
+
+            case 'en-US':
+                window.location.href = "en_us/index.html";
+                break;
+
+            default:
+                window.location.href = "zh_cn/index.html";;
+                break;
+        }
+    }else {
+        // setCookie("ATcoinAcceptLanguage",'zh-CN');
+        window.location.href = defaultLanguage;
+    }
+
+    /**
+     * 创建Cookie
+     * @param key
+     * @param value
+     */
+    function setCookie(key, value) {
+        $.cookie(key, value,{path:'/',expires: 1});
+    }
+
+    function getCookie(key) {
+        try {
+            var value = $.cookie(key);
+            return undefinedCheck(value);
+        } catch (e) {
+            return "";
+        }
+    }
+
+    function undefinedCheck(reValue) {
+        if (typeof (reValue) == "undefined") {
+            return "";
+        } else if (reValue == null || typeof (reValue) == "null" || reValue == "null") {
+            return "";
+        } else {
+            return reValue;
+        }
+    }
+</script>
+
+</body>
+</html>

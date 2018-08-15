@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>交易系统</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="keyword" content="比特币价格,比特币交易平台,区块链,数字化资产,比特币行情,AT交易所,USDT,莱特币,BCH,以太坊,ETH,以太经典,进行币币交易" />
+    <meta name="description" content="description:AT交易所是一家集数字化资产、投资服务、资讯服务于一体的国际化区块链资产交易平台。提供比特币,莱特币(LTC),以太坊(ETH),比特币现金(BCH),以太经典(ETC)达世币(DASH)等虚拟货币以比特币(BTC)、USDT进行交易！提供实时比特币价格,比特币行情。">
+    <link rel="stylesheet" href="../../assets/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="../../assets/css/app.css">
+    <script src="../../script/jquery-3.3.1.min.js"></script>
+    <script src="../../script/tools/crypto-js.js"></script>
+    <script src="../../script/tools/jquery.cookie.js"></script>
+    <script src="../../script/tools/md5.min.js"></script>
+    <script src="../../script/tools/k_tools.js"></script>
+    <script src="../../script/tools/loadSiteInfo.js"></script>
+    <script src="../../script/tools/jquery-ui.js"></script>
+    <script src="../../script/trade/tools.js"></script>
+    <script src="../../script/center_toos/center_tools_new.js"></script>
+    <script src="../../script/template.js"></script>
+    <script src="../../assets/js/amazeui.min.js"></script>
+    <script src="../../script/layer.js"></script>
+    <script src="../../script/jqPaginator.js"></script>
+    <script type="text/javascript" charset="utf-8" src="//g.alicdn.com/sd/ncpc/nc.js?t=2015052012"></script>
+    <script type="text/javascript" charset="utf-8" src="//g.alicdn.com/sd/nch5/index.js?t=2015052012"></script>
+    <script src="../../script/common/common.js"></script>
+    <script src="../../assets/js/translate/jquery.i18n.properties/jquery.i18n.properties.min.js" charset="utf-8"></script>
+    <script src="../../assets/js/translate/i18n.config.js" charset="utf-8"></script>
+</head>
+<body class="setbg">
+<!-- header -->
+<header class="header header-other" id="header"></header>
+
+<div class="am-container am-margin-top-sm main-finance main-outcoin main-intocoin-outcoin">
+    <div class="finance-leftbar" id="left"></div>
+    <div class="finance-right finance-outcoin">
+        <div class="finance-right-title">
+            <h2 translate="financial_first4">转出虚拟币</h2>
+            <dl translate="financial_first12">位置: 首页 > 财务中心 > <span class="c_blue2" translate="financial_first4">转出虚拟币</span></dl>
+        </div>
+        <div class="finance-form finance-rollout am-form">
+            <div class="finance-title">
+                <h2 translate="financial_first41">请选择转出币种</h2>
+            </div>
+            <div class="finance-form-input am-form-full clearfix">
+                <div class="am-form-group am-form-icon">
+                    <!-- <span>虚拟币</span> -->
+                    <i></i>
+                    <select
+                            class="am-form-select am-radius"
+                            id="ul_coin_list"
+                            onchange="setCoinInfo($('#ul_coin_list').find('option:selected').attr('coinName'))"></select>
+                </div>
+                <!-- <dl class="finance-dl"><span class="deep-gray">可用 </span><strong><span id="name"></span> <span id="money"></span></strong></dl> -->
+
+            </div>
+            <div class="finance-form-input am-form-full clearfix">
+                <div class="itit clearfix"><div class="iti_left" translate="financial_first42">转出地址</div></div>
+                <a href="../security/coinaddress.html" class="newcolor am-form-full-a" translate="financial_first43">增加地址</a>
+                <div class="am-form-group am-form-icon">
+                    <!-- <span>转出地址</span> -->
+                    <i></i>
+                    <select class="am-form-select am-radius" id="myzc_addr"></select>
+                </div>
+                <!-- <dl class="finance-dl"><a href="../security/coinaddress.html" class="newcolor">增加地址</a></dl> -->
+            </div>
+            <div class="finance-form-input am-form-full clearfix">
+                <div class="finance-form-left finance-form-lt">
+                    <div class="itit clearfix"><div class="iti_left" translate="financial_first44">转出数量</div><div class="iti_right"><span class="deep-gray" translate="financial_first45">可用 </span><strong><span id="name"></span> <span id="money"></span></strong></div></div>
+                    <div class="clearfix clemoney">
+                        <div class="am-form-group am-form-icon">
+                            <!-- <span>转出数量</span> -->
+                            <input id="num" type="text" class="am-form-field am-radius" value="" placeholder=""
+                                   maxlength="18" onkeyup="onlyNumber(this)" onafterpaste="this.value=this.value.replace(/[^\d]/g,'')"  autocomplete="new-password">
+                        </div>
+                        <span id="s_fee"></span>
+                        <span class="s_fee_tips" translate="chaochukeyongyue">* 超出可用余额</span>
+                        <span class="s_fee_text" translate="financial_first414">* 网络手续费优先从账户余额中扣除，余额不足时从转出数量中扣除</span>
+                        <div class="clemoney_text">
+                            <i></i>
+                            <p class="lineh"><em class="translate_em" translate="financial_first411"></em> <span id="rollOutZdNum_copy"></span> <span id="name2_copy"></span><em class="translate_em" translate="financial_first412"></em></p>
+                            <div class="clearfix">
+                                <p class="lineh fl" translate="financial_first4131"></p>
+                                <span id="rollOutMax" class="fl"></span> <span id="name4" class="fl"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <dl class="deep-gray finance-dl"><span id="s_fee"></span></dl> -->
+                </div>
+            </div>
+            <div class="finance-form-input am-form-full clearfix">
+                <div class="finance-form-left finance-form-lt">
+                    <div class="itit clearfix"><div class="iti_left" translate="financial_first47">交易密码</div></div>
+                    <div class="clearfix">
+                        <div class="am-form-group am-form-icon">
+                            <!-- <span>交易密码</span> -->
+                            <input id="paypassword" type="password" class="am-form-field am-radius" value="" placeholder="" maxlength="60" autocomplete="new-password">
+                        </div>
+                        <!-- <dl id="rollOutZdNumBox" class="red finance-dl" style="display: none;font-size: 10px">
+                            * 每天允许自动转出 <span id="rollOutZdNum"></span> <span id="name2"></span>，超过则进入后台审核。
+                        </dl> -->
+                        <!--<dl><a href="../security/forgetTradePwd.html">忘记交易密码?</a></dl>-->
+                    </div>
+                </div>
+            </div>
+            <div class="finance-form-input am-form-full clearfix">
+                <div class="finance-form-right finance-form-lt">
+                    <div class="itit clearfix"><div class="iti_left" translate="financial_first48">验证码</div></div>
+                    <div class="clearfix" style="position:relative;">
+                        <div class="am-form-group am-form-icon">
+                        <!-- <span>短信验证码</span> -->
+                        <input type="text" class="am-form-field am-radius" id="moble_verify" value="" placeholder="" maxlength="6" onkeyup="onlyInt(this)">
+                    </div>
+                    <button id="btn_sendCode" onclick="getCode(this)" type="button"
+                            class="am-btn am-btn-secondary am-radius am-margin-left-sm am-margin-right-0 am-align-left new-am-btn-outcoin" translate="financial_first49">
+                        获取验证码
+                    </button> 
+                    </div>
+                    <div class="lastNum_mobile">
+                        <span id="lastNum"></span> <em class="translate_em" translate="financial_first410">将会接收验证码</em>
+                        <input type="hidden" id="hid_mobile" />
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="finance-form-input am-form-full clearfix">
+                <div class="finance-form-left finance-form-lt">
+                    <!-- <p class="lineh"><em class="translate_em" translate="financial_first411"></em> <span id="rollOutZdNum_copy"></span> <span id="name2_copy"></span><em class="translate_em" translate="financial_first412"></em></p>
+                    <p class="lineh" translate="financial_first413"></p> -->
+                    <!-- <p class="lineh whi" translate="financial_first414"></p> -->
+                </div>
+                <div class="finance-form-right finance-form-lt">
+                    <div class="clearfix">
+                        <div class="am-form-group">
+                            <button type="button" onclick="Update()" id="btn_submit" class="am-btn am-btn-secondary am-btn-block am-radius new-am-btn-outcoin" translate="financial_first4_button">提交</button>
+                        </div>
+                        <dl id="rollOutDayNumBox finance-dl" class="red" style="display: none;font-size: 10px" translate="financial_first4131">
+                            * 每天允许转出累计数量为 <span id="rollOutDayNum"></span> <span id="name3"></span>
+                        </dl>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="cl"></div>
+        </div>
+
+        <div class="finance-tip">
+            <strong translate="financial_first415" class="newcolor">转出说明：</strong>
+            <p class="note" translate="financial_first416">1、请勿直接提现至众筹或ICO地址.我们不会处理未来代币的发放</p>
+            <p translate="financial_first417">2、为了用户资金安全，平台可能会电话确认您的提币操作，请注意接听；</p>
+        </div>
+        <div class="finance-list">
+            <div class="tit">
+                <h2 translate="zhuanchujulu">转出记录</h2>
+            </div>
+            <table class="am-table am-table-striped am-table-hover">
+                <thead>
+                <tr>
+                    <th translate="c2c_trade5">转出时间</th>
+                    <th translate="qukuaiqingkuang">区块情况</th>
+                    <!-- <th translate="financial_first419">转出币种</th> -->
+                    <!-- <th translate="financial_first420">转出地址</th> -->
+                    <th translate="financial_first421">转出数量</th>
+                    <th translate="financial_first66">手续费</th>
+                    <!-- <th translate="financial_first423">实际扣除</th> -->
+                    <th translate="financial_first424">状态</th>
+                </tr>
+                </thead>
+                <tbody id="tb_list"></tbody>
+
+            </table>
+            <ul class="am-pagination am-pagination-centered" id="pageList"></ul>
+        </div>
+
+    </div>
+
+</div>
+
+
+<br><br>
+
+<footer class="footer" id="footer"></footer>
+
+<div class="am-modal am-modal-no-btn" tabindex="-1" id="modelBox">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd" translate="verification">验证
+            <a id="at_modlog" href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+        </div>
+        <dl class="am-modal-bd" id="sliderBox" style="padding: 10px 20px;">
+         	<div id="aliSliderBox" class="nc-container"></div> 
+        </dl>
+        <button id="btn_slider" onclick="SendCode()" type="button" class="am-btn am-btn-secondary am-radius new-btn-color2" style="float: right;margin-right: 20px" translate="make_sure">确定</button>
+    </div>
+</div>
+<input type="hidden" id="coinName" />
+<input type="hidden" id="coinID" />
+<input type="hidden" id="coinBalance" />
+<input type="hidden" id="rollOutType">
+
+<!--[if lt IE 9]>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="../../assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+
+
+
+<script type="text/javascript">
+    $(function () {
+        $("#header").load("../common/commonHeader.html?version=" + $.version);
+        $("#footer").load("../common/commonFooter.html?version=" + $.version);
+        $("#left").load("./left.html");
+        $("#num").attr("placeholder",langPkg.getI18N("financial_first4_placeholder2"));
+        $("#paypassword").attr("placeholder",langPkg.getI18N("financial_first4_placeholder3"));
+        $("#text").attr("placeholder",langPkg.getI18N("financial_first4_placeholder4"));
+        init();
+    });
+
+</script>
+<!--功能函数-->
+<script type="text/javascript">
+    function init() {
+        var cookieStr = $.getToken();
+        
+        var status = null;
+        var cardrz = null;
+        //
+        function getUserInfo() {
+            var resData = $.sendData("", "", "/api/user/details");
+            if (resData.code == 200) {
+                status = resData.data.status;
+                cardrz = resData.data.cardrz;
+            }
+        }
+        //  如果已经登录，则取得财务中心数据
+        if (!$.TokenIsNull(cookieStr)) {
+            getUserInfo();
+            //  如果用户未实名认证，也不允许到达财务中心
+            if ( cardrz == 0 || cardrz == 3 || cardrz == 4){
+                var index = layer.load(2, {
+                    time: 10*1000,
+                    shade: [0.75,'#000'] //0.1透明度的白色背景
+                });
+                layer.msg(langPkg.getI18N("ningshangweishimingrenzheng_zhengzai"), { time: 1500, icon: 6 }, function () {
+                    layer.close(index);
+                    window.location.href = "../security/cardinfo.html";
+                })
+            }
+            else if ( cardrz == 2 ){
+                var index = layer.load(2, {
+                    time: 10*1000,
+                    shade: [0.75,'#000'] //0.1透明度的白色背景
+                });
+                layer.msg(langPkg.getI18N("ningdeshenfenxinxizhengzaishenhe"), { time: 1500, icon: 6 }, function () {
+                    layer.close(index);
+                    window.location.href = "../security/cardinfo.html";
+                })
+            }
+            else {
+                getFinanceCore();
+                getCoinList();
+            }
+        }else {
+            $.toIndex1();
+        }
+    }
+</script>
+
+<!--功能函数-->
+<script type="text/javascript">
+    //  可以允许小数和整数
+    function onlyNumber(obj) {
+        obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符
+        obj.value = obj.value.replace(/^\./g,"");  //验证第一个字符是数字而不是.
+        obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的.
+        obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+
+        var val = obj.value;
+
+        if ( obj.value.indexOf(".") != -1 ){
+            var lastStr = val.substr(val.indexOf(".")+1,val.length);
+
+            if ( lastStr.length > 8 ){
+                var firstStr = val.substr(0,val.indexOf("."));
+                lastStr = lastStr.replace(lastStr,val.substr(val.indexOf(".")+1,val.indexOf(".")+7));
+                var str = firstStr + "." + lastStr;
+                obj.value = str;
+            }else {
+                obj.value = obj.value;
+            }
+        }
+        if((val > parseFloat($("#money").text()))){
+            $(obj).addClass("v_error_new")
+            $(".s_fee_tips").show();
+        }else{
+            $(obj).removeClass("v_error_new")
+            $(".s_fee_tips").hide();
+        }
+        
+        
+    }
+
+    //  不允许有小数
+    function onlyInt(obj) {
+        obj.value = obj.value.replace(/[^0-9]/g,'')
+    }
+
+    //  获得币种列表
+    function getCoinList() {
+        var param = { coinName: "" };
+        var strObgect = $.toBase64(param);
+        var strSign = $.toSign(strObgect);
+        var resData = $.sendData(strObgect, strSign, "/api/coin/list");
+
+        if (resData.code == 200) {
+            if (resData.data.length > 0) {
+                var da = { "list": resData.data };
+                $("body").data("coin_list", resData.data);//获取到的数据存入data，方便后面使用
+                var _html = template('coin_list', da);
+                $("#ul_coin_list").html(_html);
+
+                //  设置默认数据
+                setCoinInfo(resData.data[0].name);
+            }
+        } else {
+            layer.msg(resData.msg);
+        }
+    }
+    Getassets();
+    function Getassets() {
+        var resData = $.sendData("", "", "/api/user/details");
+        if (resData.code == 200) {
+            var moble = resData.data.moble;
+            var username = moble;
+            $("#hid_mobile").val(moble);
+            var lastNum = "";
+
+            lastNum = $.usernameType(username);
+            $("#lastNum").html(moble);
+        }
+    }
+
+
+    //  设置币种信息
+    function setCoinInfo(name) {
+        var coinList = $("body").data("coin_list");
+        console.log(coinList)
+        for (var i = 0; i < coinList.length; i++) {
+            if (name == coinList[i].name) {
+                $("#coinName").val(coinList[i].name);
+                $("#coinID").val(coinList[i].id);
+                $("#name").html(coinList[i].name.toUpperCase());
+
+                var status = coinList[i].rollOutType;
+                $("#rollOutType").val(status);
+
+                var rollOutZdNum = coinList[i].rollOutZdNum;
+                var rollOutDayNum = coinList[i].rollOutDayNum;
+                var rollOutMax = coinList[i].rollOutMax;
+
+                var oRollOutZdNum = $("#rollOutZdNum, #rollOutZdNum_copy");
+                var oRollOutZdNumBox = $("#rollOutZdNumBox");
+
+                var oRollOutDayNum = $("#rollOutDayNum");
+                var oRollOutMax = $("#rollOutMax");
+                var oRollOutDayNumBox = $("#rollOutDayNumBox");
+
+                var name2 = $("#name2, #name2_copy, #name4");
+                var name3 = $("#name3");
+
+                oRollOutZdNumBox.hide();
+                oRollOutDayNumBox.hide();
+
+                if ( rollOutZdNum > 0 ){
+                    name2.html(coinList[i].name.toUpperCase());
+                    oRollOutZdNum.html(parseFloat(rollOutZdNum));
+                    oRollOutZdNumBox.show();
+                }
+
+                if ( rollOutDayNum > 0 ){
+                    oRollOutDayNum.html(parseFloat(rollOutDayNum));
+                    name3.html(coinList[i].name.toUpperCase());
+                    oRollOutDayNumBox.show();
+                }
+                oRollOutMax.html(parseFloat(rollOutMax));
+                $("#s_fee").html(langPkg.getI18N("financial_first66") + " <span class='newcolor'>" + coinList[i].rollOutFee + "</span> " + coinList[i].name.toUpperCase())
+                getCoinNum(coinList[i].name);
+                myOutList(1);
+                //获取转出地址列表
+                getBankList();
+                // coinPath();
+                
+                return;
+            }
+        }
+    }
+
+    var pageSize = 10;
+    function page(counts, pageTo) {
+        $('#pageList').jqPaginator('option', {
+            totalCounts: counts,
+            currentPage: pageTo
+        });
+        if (counts <= 1) {
+            $("#pageList").hide();
+        }
+    }
+
+    //初始化分页器
+    $('#pageList').jqPaginator({
+        totalCounts: 1,
+        visiblePages: 10,
+        pageSize: pageSize,
+        currentPage: 1,
+        activeClass: 'am-active',
+
+        //first: '<a href="javascript:void(0)">首页</a>',
+        prev: '<li class="am-disabled"><a href="javascript:void(0)">&laquo;</a></li>  ',
+        next: '<li><a href="javascript:void(0)">&raquo;</a></li> ',
+        //last: '<a href="javascript:void(0)">最后一页</a>',
+        page: ' <li ><a href="javascript:void(0)">{{page}}</a></li>',
+        onPageChange: function (num, status) {
+            if (status == "change") {
+                myOutList(num)
+            }
+        }
+    });
+
+    //  转出虚拟币
+    function Update() {
+        $("#btn_submit").attr("disabled", "");
+        var addrID = Number($('#myzc_addr option:selected').val());
+        var address = $('#myzc_addr').find('option:selected').attr("ref");
+        var amount = Number($("#num").val());
+        var coidID = $("#coinID").val();
+        var moble_verify = $("#moble_verify").val();
+        var paypassword = $("#paypassword").val();
+
+        if (coidID <= 0 || coidID == null) {
+            layer.tips(langPkg.getI18N("qingxuanzexunibi"), '#ul_coin_list', { tips: [3, "#0e9e80"], time: 2000, end: function () { $("#btn_submit").removeAttr("disabled"); } });
+            return false;
+        }
+
+        if (addrID < 1 || addrID == null) {
+            layer.tips(langPkg.getI18N("qingxuanzeqianbaojieshoudizhi"), '#myzc_addr', { tips: [3, "#0e9e80"], time: 2000, end: function () { $("#btn_submit").removeAttr("disabled"); } });
+            return false;
+        }
+
+        if (amount == "" || amount == null) {
+            layer.tips(langPkg.getI18N("financial_first4_placeholder2"), '#num', { tips: [3, "#0e9e80"], time: 2000, end: function () { $("#btn_submit").removeAttr("disabled"); } });
+            return false;
+        }
+        if (moble_verify == "" || moble_verify == null) {
+            layer.tips(langPkg.getI18N("mobile_verify_placeholder"), '#moble_verify', { tips: [3, "#0e9e80"], time: 2000, end: function () { $("#btn_submit").removeAttr("disabled"); } });
+            return false;
+        }
+        if (paypassword == "" || paypassword == null) {
+            layer.tips(langPkg.getI18N("financial_first4_placeholder3"), '#paypassword', { tips: [3, "#0e9e80"], time: 2000, end: function () { $("#btn_submit").removeAttr("disabled"); } });
+            return false;
+        }
+
+        var balance = Number($("#coinBalance").val());
+        if (amount > balance) {
+            layer.tips(langPkg.getI18N("yuebuzu"), '#num', { tips: [3, "#0e9e80"], time: 2000, end: function () { $("#btn_submit").removeAttr("disabled"); } });
+            return false;
+        }
+
+        var status = $("#rollOutType").val();
+        if ( status == 2 ){
+            layer.tips(langPkg.getI18N("dangqianbizhongjinzhizhuanchu"), '#num', { tips: [3, "#0e9e80"], time: 2000, end: function () { $("#btn_submit").removeAttr("disabled"); } });
+            return false;
+        }
+
+        var param = {
+            address: address,
+            amount: amount,
+            code: moble_verify,
+            coinId: coidID,
+            password: paypassword
+        }
+
+        var strObgect = $.toBase64(param);
+        var strSign = $.toSign(strObgect);
+
+        var resData = $.sendData(strObgect, strSign, "/api/asset/transfer/out");
+
+        if (resData.code == 200) {
+            layer.msg(resData.msg, { time: 2000, icon: 1 }, function () {
+                //$('#myzc_addr option:selected').val(0);
+                $("#num").val("");
+                $("#moble_verify").val("");
+                $("#paypassword").val("");
+                $("#btn_submit").removeAttr("disabled");
+            });
+            myOutList(1);
+            getFinanceCore();
+            var coinName = $("#coinName").val();
+            getCoinNum(coinName);
+        } else {
+            layer.msg(resData.msg, { time: 2000, icon: 5 }, function () {
+                $("#btn_submit").removeAttr("disabled");
+            });
+        }
+
+    }
+
+    //  转入虚拟币列表
+    function myOutList(pageTo) {
+        if (pageTo == 1) {
+            $("#tb_list").html("");
+        }
+        var coidID = Number($("#coinID").val());
+
+        var param = {
+            coinId: coidID,
+            pageSize: pageSize,
+            pageTo: pageTo
+        };
+
+        var strObgect = $.toBase64(param);
+        var strSign = $.toSign(strObgect);
+
+        var resData = $.sendData(strObgect, strSign, "/api/asset/transfer/out/list");
+        if (resData.code == 200) {
+            if (resData.data.length > 0) {
+                //动态处理分页器
+                page(resData.total, pageTo)
+                var da = { "list": resData.data }
+                var _html = template('rollInList', da);   //template("模版名","数据集")
+                $("#tb_list").html(_html);
+                $.weakenText($("#tb_list .reg-text"));
+
+                $("#pageList").show();
+            }
+            else {
+                $("#tb_list").html("");
+                $("#pageList").hide();
+                page(1, 1)
+            }
+
+        }
+        
+        langPkg.loadLanguage("financial_first318")
+        langPkg.loadLanguage("zhuanchuzhong")
+        langPkg.loadLanguage("security_first212")
+        langPkg.loadLanguage("security_first213")
+    }
+
+
+    //  获取财务中心数据
+    function getFinanceCore() {
+        var resData = $.sendData("", "", "/api/finance/core");
+
+        if (resData.code == 200) {
+            $("body").data("financ_core", resData.data.userCoinFinanceDtoList);//获取到的数据存入data，方便后面使用
+        }
+    }
+
+    //  获得相应币种数量
+    function getCoinNum(coinName) {
+        var FinanceCore = $("body").data("financ_core");
+        for (var i = 0; i < FinanceCore.length; i++) {
+            if (coinName == FinanceCore[i].name) {
+                $("#money").html(parseFloat(FinanceCore[i].balance).toFixed(6));
+                $("#coinBalance").val(parseFloat(FinanceCore[i].balance).toFixed(6));
+                return;
+            }
+        }
+        $("#FinanceCore").html(parseFloat(0).toFixed(6));
+    }
+
+    //  获得转出地址列表
+    function getBankList() {
+        var coin_ID = $("#coinID").val();
+
+        var param = {
+            coinId: coin_ID,
+        };
+
+        var strObgect = $.toBase64(param);
+        var strSign = $.toSign(strObgect);
+        var resData = $.sendData(strObgect, strSign, "/api/assets/wallet/list");
+        if (resData.code == 200) {
+            var da = { "list": resData.data }
+            var _html = template('list_Address', da);   //template("模版名","数据集")
+            $("#myzc_addr").html(_html);
+        }
+    }
+    //  获取验证码，只是为了弹出框
+    function getCode(_this) {
+    	 var amount = Number($("#num").val());
+         var balance = Number($("#coinBalance").val());
+         var addrID = Number($('#myzc_addr option:selected').val());
+         var coidID = $("#coinID").val();
+
+         if (coidID <= 0 || coidID == null) {
+             layer.tips(langPkg.getI18N("qingxuanzeqianbao"), '#moremoney', { tips: [3, "#0e9e80"]});
+             return false;
+         }
+
+         if (addrID < 1 || addrID == null) {
+             layer.tips(langPkg.getI18N("qingxuanzeqianbaojieshoudizhi"), '#myzc_addr', { tips: [3, "#0e9e80"]});
+             return false;
+         }
+         if (amount > balance) {
+             layer.tips(langPkg.getI18N("yuebuzu"), '#num', { tips: [3, "#0e9e80"] });
+             return false;
+         }
+         
+         var moble = $("#hid_mobile").val();
+         OpenAliValidate(_this, moble, 6, $('#btn_sendCode'));
+    }
+
+    $("#at_modlog").off('closed.modal.amui').click(function(){
+        $("#btn_sendCode").removeAttr("disabled");
+        $("#slider").slider("restore");
+    })
+    
+</script>
+
+
+<!--模板辅助函数-->
+<script type="text/javascript">
+    template.helper('_toUpperCase', function (str) {
+        return str.toUpperCase();
+    });
+</script>
+
+
+<!--模板辅助-->
+<script id="coin_list" type="text/html">
+    {{each list as value i}}
+    <option value="{{ value.id }}" coinName="{{ value.name }}">{{ _toUpperCase(value.name) }}</option>
+    {{/each}}
+</script>
+
+<script id="rollInList" type="text/html">
+    {{each list as value i}}
+    {{ if value.address != "管理员后台转出" }}
+    <tr>
+        <td class="reg-text" class="reg-text">{{value.createTime}}</td>
+        <!-- <td>{{value.coinname}}</td> -->
+        <td>
+            <div class="qukuaiqingkuang">
+                <span translate="financial_first318"></span>: {{value.address}}
+            </div>
+            {{ if value.txid != "" && value.coinname == "ETH"}}
+            <div class="qukuaiqingkuang">
+               <span>TXID</span>: <a href="https://etherscan.io/tx/{{value.txid}}" target="_blank">{{value.txid}}</a>
+            </div>
+            {{ /if}}
+            {{ if value.txid != "" && value.coinname == "BTC"}}
+            <div class="qukuaiqingkuang">
+               <span>TXID</span>: <a href="https://blockchain.info/tx/{{value.txid}}" target="_blank">{{value.txid}}</a>
+            </div>
+            {{ /if}}
+            {{ if value.txid != "" && value.coinname != "BTC" && value.coinname != "ETH"}}
+            <div class="qukuaiqingkuang">
+               <span>TXID</span>: <a href="javascript:;">{{value.txid}}</a>
+            </div>
+            {{ /if}}
+        </td>
+        <td>{{value.num}}</td>
+        <td>{{value.fee}}</td>
+        <!-- <td>{{value.mum}}</td> -->
+        <td>
+            {{ if value.status == 1 }}
+            <em class="translate_em" translate="zhuanchuzhong">转出中</em>
+            {{/if}}
+            {{ if value.status == 2 }}
+            <span class="c_blue2" translate="zhuanchuchenggong">转出成功</span>
+            {{/if}}
+            {{ if value.status == 3 || value.status == 4 || value.status == 5}}
+            <em class="translate_em" translate="security_first212">审核中</em>
+            {{/if}}
+            {{ if value.status == 6 }}
+            <em class="translate_em" translate="security_first213">审核失败</em><br>
+            <span class="tips_red">{{value.auditRemark}}</span>
+            {{/if}}
+        </td>
+    </tr>
+    {{ /if }}
+    {{/each}}
+</script>
+
+<script id="list_Address" type="text/html">
+    <option value="0" selected="selected" translate="qingxuanzeqianbaojieshoudizhi">请选择钱包接收地址</option>
+    {{each list as value i}}
+    <option value="{{value.id}}" ref="{{value.walletAddress}}">{{value.tag}}</option>
+    {{/each}}
+</script>
+
+</body>
+</html>

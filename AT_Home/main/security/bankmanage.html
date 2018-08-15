@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>交易系统</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta name="keyword" content="比特币价格,比特币交易平台,区块链,数字化资产,比特币行情,AT交易所,USDT,莱特币,BCH,以太坊,ETH,以太经典,进行币币交易" />
+    <meta name="description" content="description:AT交易所是一家集数字化资产、投资服务、资讯服务于一体的国际化区块链资产交易平台。提供比特币,莱特币(LTC),以太坊(ETH),比特币现金(BCH),以太经典(ETC)达世币(DASH)等虚拟货币以比特币(BTC)、USDT进行交易！提供实时比特币价格,比特币行情。">
+    <link rel="stylesheet" href="../../assets/css/reset.css">
+    <link rel="stylesheet" href="../../assets/font/iconfont.css">
+    <link rel="stylesheet" href="../../assets/css/layout.css">
+    <script src="../../script/jquery-3.3.1.min.js"></script>
+    <script src="../../script/tools/crypto-js.js"></script>
+    <script src="../../script/tools/jquery.cookie.js"></script>
+    <script src="../../script/tools/md5.min.js"></script>
+    <script src="../../script/tools/k_tools.js"></script>
+    <script src="../../script/tools/loadSiteInfo.js"></script>
+    <script src="../../script/tools/jquery-ui.js"></script>
+    <script src="../../script/trade/tools.js"></script>
+    <script src="../../script/center_toos/center_tools_new.js"></script>
+    <script src="../../script/template.js"></script>
+    <script src="../../script/layer.js"></script>
+    <script src="../../pluguns/jquery-city-select/dist/jquery.city.select.min.js"></script>
+    <script src="../../pluguns/jquery-city-select/demo/assets/js/prettify.js"></script>
+    <script src="../../pluguns/jquery-city-select/demo/assets/js/data.js"></script>
+    <script src="../../assets/js/translate/jquery.i18n.properties/jquery.i18n.properties.min.js" charset="utf-8"></script>
+    <script src="../../assets/js/translate/i18n.config.js" charset="utf-8"></script>
+</head>
+<body>
+    <div class="view_body security_center_view_body bankmanage_view_body">
+    <!-- header -->
+    <header class="header header-other" id="header"></header>
+    <div class="negative_content_page">
+        <div class="dynamic-width negative_content">
+            <div class="leftbar_padding clearfix main-bankmanage">
+                <div class="safety-leftbar" id="left"></div>
+                <div class="safety-right">
+                    <!-- <div class="safety-right-title">
+                        <h2 translate="c2c_first1">银行卡管理</h2>
+                        <p><button class="am-btn am-btn-secondary am-btn-xs am-radius new-btn-color2" data-am-modal="{target: '#card-form'}" translate="security_first51">添加银行卡</button></p>
+                        <dl translate="weizhi_anquanzhongxin">位置: 首页 > 安全中心 > <span class="c_blue2"><em class="translate_em" translate="c2c_first1"></em>银行卡管理</span></dl>
+                    </div> -->
+                    <div class="safety-top-title">
+                        <div class="safety-top-user">
+                            <h1><i class="iconfont icon-morentouxiang"></i></h1>
+                            <dl>
+                                <dt id="trueName_top"></dt>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="safety-list">
+                        <div class="modify_personal_info">
+                            <div class="bankmanage-detail">
+                                <!--添加银行卡-->
+                                <div class="bankmanage-card-form" id="card-form">
+                                    <div class="bankmanage-card-content">
+                                        <h2 class="bank_h2"><span translate="security_first51">添加银行卡</span><em translate="zhinengshiyongbenrenyinhangkashoukuan">只能使用本人银行卡收款</em></h2>
+                                        <div class="bank-top">
+                                            <div class="am-form-group">
+                                                <span class="titl" translate="security_first52">备注名称</span>
+                                                <div class="input_wrap">
+                                                    <input id="tb_Memo" type="text" class="frominput" value="" data-i18n-placeholder="qingshurubeizhumingcheng" maxlength="30" autocomplete="new-password">
+                                                </div>
+                                            </div>
+                                            <div class="am-form-group clearfix">
+                                                <div class="am-form-group-select">
+                                                    <span class="titl" translate="security_first53">开户银行</span>
+                                                    <div class="input_wrap">
+                                                        <i class="iconfont icon-arrows-down"></i>
+                                                        <select id="ddl_BankList" class="am-form-select am-btn-block am-radius">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="am-form-group-select">
+                                                    <span class="titl" translate="security_first541">开户省份</span>
+                                                    <div class="input_wrap">
+                                                        <!--<input id="tb_bankprov" type="text" class="frominput" value="" placeholder="请输入省份" maxlength="30">-->
+                                                        <i class="iconfont icon-arrows-down"></i>
+                                                        <select id="tb_bankprov" class="am-form-select am-btn-block am-radius">
+                                                            <option value="载入中" translate="zairuzhong">载入中</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="am-form-group-select">
+                                                    <span class="titl" translate="security_first542">开户城市</span>
+                                                    <div class="input_wrap">
+                                                        <!--<input id="tb_bankcity" type="text" class="frominput" value="" placeholder="请输入城市" maxlength="30">-->
+                                                        <i class="iconfont icon-arrows-down"></i>
+                                                        <select id="tb_bankcity" class="am-form-select am-btn-block am-radius">
+                                                            <option value="zairuzhong">载入中</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="am-form-group">
+                                                <span class="titl" translate="security_first543">开户支行</span>
+                                                <div class="input_wrap">
+                                                    <input id="tb_bankaddr" type="text" class="frominput" value="" data-i18n-placeholder="qingshurukaihuzhihang" maxlength="30" autocomplete="new-password">
+                                                </div>
+                                            </div>
+                                            <div class="am-form-group">
+                                                <span class="titl form-txt-title" translate="security_first54">开户姓名</span>
+                                                <div class="input_wrap">
+                                                    <!-- <span class="form-txt-cont" id="truename"></span> -->
+                                                    <input id="khtruename" type="text" class="frominput" value="" placeholder="" maxlength="30" autocomplete="new-password" disabled>
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="am-form-group">
+                                                <span class="titl" translate="security_first55">银行卡号</span>
+                                                <div class="input_wrap">
+                                                    <input id="tb_bankcard" type="text" class="frominput" value="" autocomplete="new-password" data-i18n-placeholder="qingshuruyinhangkahao" maxlength="30"
+                                                           onKeyUp="value=value.replace(/[^\d]/g,'')"
+                                                           onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"/>
+                                                </div>
+                                            </div>
+                                            <div class="am-form-group" style="display:none;">
+                                                <span class="titl" translate="middle1_market1_placeholder6">交易密码</span>
+                                                <div class="input_wrap">
+                                                    <input id="tb_payPwd" type="password" class="frominput" value="" data-i18n-placeholder="qingshurujiaoyimima" maxlength="30" autocomplete="new-password">
+                                                </div>
+                                            </div>
+                                            <a type="button" class="new-btn-color" onclick="AddBank()" translate="lijitianji">立即添加 </a>
+                                            <input type="hidden" id="hid_truename" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="bankmanage-list">
+                                    <h2 class="bigtitl" translate="wodeyinhangka">我的银行卡</h2>
+                                    <table class="new-color-table">
+                                        <thead>
+                                        <tr>
+                                            <th translate="security_first52">备注名称</th>
+                                            <th translate="security_first53">开户银行</th>
+                                            <th translate="security_first54">开户姓名</th>
+                                            <th translate="security_first55">银行卡号</th>
+                                            <th translate="security_first56">添加时间</th>
+                                            <th translate="security_first57">操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="MyBank_List"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer" id="footer"></footer>
+</div>
+
+
+
+
+<!--[if lt IE 9]>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="../../assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+
+<script src="../../assets/js/amazeui.min.js"></script>
+
+<script type="text/javascript">
+    jQuery(document).ready(function(){
+        $(".btn-close").click(function() {
+            $(".top-ad").hide();
+        });
+
+    });
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        $("#header").load("../common/commonHeader.html?version=" + $.version);
+        $("#footer").load("../common/commonFooter.html?version=" + $.version);
+        $("#left").load("./left.html");
+        init();
+    });
+</script>
+
+<script type="text/javascript" id="main">
+    $(function () {
+        $("#tb_bankprov,#tb_bankcity").citylist({
+            data    : data,
+            id      : 'id',
+            children: 'cities',
+            name    : 'name',
+            metaTag : 'name'
+        })
+    });
+</script>
+
+<!--功能函数-->
+<script type="text/javascript">
+    function init() {
+        var cookieStr = $.getToken();
+
+        //  如果已经登录，则取得财务中心数据
+        if (!$.TokenIsNull(cookieStr)) {
+            Getassets();
+            getBakeList();
+            getMyBankList();
+        }else {
+            $.toIndex1();
+        }
+    }
+</script>
+
+<!--功能函数-->
+<script type="text/javascript">
+    
+    var status = null;
+    var bankcardrz = null;
+    function Getassets() {
+        $.ajaxSendData("", "/api/user/details", function(resData){
+            $("#userName").html(resData.data.username);
+            $("#trueName_top").html(resData.data.nickname);
+            $(".truename").html(resData.data.truename);
+            $("#khtruename").val(resData.data.truename);
+            $("#hid_truename").val(resData.data.truename);
+
+            status = resData.data.status;
+            bankcardrz = resData.data.cardrz;
+            /*if ( status == 3 ){
+                var index = layer.load(1, {
+                    time: 10*1000,
+                    shade: [0.75,'#000'] //0.1透明度的白色背景
+                });
+                layer.msg(langPkg.getI18N("ning_shang_wei_shezhi"), { time: 1000, icon: 6 }, function () {
+                    layer.close(index);
+                    window.location.href = "./update_trade_pwd.html";
+                })
+            }*/
+
+            if(bankcardrz == 0 || bankcardrz == 3 || bankcardrz == 4){
+                var index = layer.load(1, {
+                    time: 10*1000,
+                    shade: [0.75,'#000'] //0.1透明度的白色背景
+                });
+                layer.msg(langPkg.getI18N("ningshangweishimingrenzheng_zhengzai"), { time: 2000, icon: 6 }, function () {
+                    layer.close(index);
+                    window.location.href = "./cardinfo.html";
+                })
+            }
+        });
+    }
+
+    function getBakeList() {
+        $.ajaxSendData("", "/api/user/bank/bankType/list", function(resData){
+            if (resData.data.length > 0) {
+                var da = { "list": resData.data };
+                var _html = template('bank_list', da);
+                $("#ddl_BankList").html(_html);
+            }
+
+        });
+    }
+
+    function AddBank() {
+        var bankName = $('#ddl_BankList option:selected').text();;
+        var bankaddr = $("#tb_bankaddr").val();
+        var bankcard = $("#tb_bankcard").val();
+
+        var bankcity = $("#tb_bankcity option:selected").val();
+        var bankprov = $("#tb_bankprov option:selected").val();
+
+        var Memo = $("#tb_Memo").val();
+        var payPwd = $("#tb_payPwd ").val();
+
+        if (Memo == "") {
+            layer.tips(langPkg.getI18N("qingtianxiebeizhumingcheng"), '#tb_Memo', { tips: [3, "#0e9e80"], time: 2000, end: function () {} });
+            return;
+        }
+        if (bankName == "") {
+            layer.tips(langPkg.getI18N("qingxuanzeyinhang"), '#ddl_BankList', { tips: [3, "#0e9e80"], time: 2000, end: function () {} });
+            return;
+        }
+        if (bankprov == "") {
+            layer.tips(langPkg.getI18N("qingshurukaihuhangsheng"), '#tb_bankprov', { tips: [3, "#0e9e80"], time: 2000, end: function () {} });
+            return;
+        }
+        if (bankcity == "") {
+            layer.tips(langPkg.getI18N("qingshurukaihuhangshi"), '#tb_bankcity', { tips: [3, "#0e9e80"], time: 2000, end: function () {} });
+            return;
+        }
+        if (bankcard == "") {
+            layer.tips(langPkg.getI18N("qingshuruyinhangkahao"), '#tb_bankcard', { tips: [3, "#0e9e80"], time: 2000, end: function () {} });
+            return;
+        }
+
+        var isBankCard = $.luhmCheck(bankcard);
+
+        if ( !isBankCard ){
+            layer.msg(langPkg.getI18N("yinhangkageshibuzhengque"), { icon: 2, time: 2000 });
+            return;
+        }
+        
+        /*if (payPwd == "") {
+            layer.msg(langPkg.getI18N("financial_first4_placeholder3"), { icon: 2, time: 2000 });
+            return;
+        }*/
+
+
+        var param = {
+            bank: bankName,
+            bankaddr: bankaddr,
+            bankcard: bankcard,
+            bankcity: bankcity,
+            bankprov: bankprov,
+            name: Memo,
+            payPwd: payPwd
+        };
+
+        $.ajaxSendData(param, "/api/user/bank/card/save", function(resData){
+            $("#a_close_addBank").click();
+            layer.msg(langPkg.getI18N("caozuochenggong"), { icon: 1, time: 2000 });
+
+            $('#ddl_BankList option:selected').val("-1");;
+            $("#tb_bankaddr").val("");
+            $("#tb_bankcard").val("");
+            // $("#tb_bankcity").val("");
+            // $("#tb_bankprov").val("");
+            $("#tb_Memo").val("");
+            $("#tb_payPwd ").val("");
+            getMyBankList();
+        });
+    }
+
+    function getMyBankList() {
+        $.ajaxSendData("", "/api/user/bank/card/list", function(resData){
+            if (resData.data.length > 0) {
+                var da = { "list": resData.data }
+                var _html = template('myBankList', da);
+                $("#MyBank_List").html(_html);
+                $(".trueName").html($("#hid_truename").val());
+            }else {
+                $("#MyBank_List").html("<td colspan='6' style='text-align:center'>"+ langPkg.getI18N("zanwuyinghangka_qingtianjia") +"</td>");
+            }
+            langPkg.loadLanguage("security_first58");
+        });
+    }
+
+    function delMyBank(id) {
+        var param = {
+            cardId: id
+        };
+        
+        layer.confirm(langPkg.getI18N("ningquerenyaoshanchuyinhangka"), {
+            btn: [langPkg.getI18N("make_sure"),langPkg.getI18N("quxiao")]
+            , yes: function (index) {
+                layer.close(index);
+                $.ajaxSendData(param, "/api/user/bank/card/del", function(resData){
+                    layer.msg(langPkg.getI18N("shanchuwancheng"), { icon: 1, time: 2000 });
+                    getMyBankList();
+                });
+            }
+        });
+        /*layer.prompt({ title: langPkg.getI18N("financial_first4_placeholder3"), formType: 1 }, function (pass, index) {
+            layer.close(index);
+            //pass = $.passWord(pass)
+
+            var param = {
+                cardId: id, payPwd: pass
+            };
+
+            $.ajaxSendData(param, "/api/user/bank/card/del", function(resData){
+                layer.msg(langPkg.getI18N("shanchuwancheng"), { icon: 2, time: 2000 });
+                getMyBankList();
+            });
+        });*/
+    }
+
+    template.helper('_bankNum', function (str) {
+        if (str.length > 4) {
+            return str.substring(0, 4) + "********" + str.substring(str.length - 4);
+        } else {
+            return str;
+        }
+    });
+</script>
+
+<script id="bank_list" type="text/html">
+    <!--<option value="-1" selected="selected">选择银行</option>-->
+    {{each list as value i}}
+    <option value="{{value.id}}">{{value.title}}</option>
+    {{/each}}
+</script>
+<script id="myBankList" type="text/html">
+    {{each list as value i}}
+    <tr>
+        <td>{{value.name}}</td>
+        <td>{{value.bank}}</td>
+        <td class="trueName"></td>
+        <td>{{_bankNum(value.bankcard)}}</td>
+        <td>{{value.createTime}}</td>
+        <td>
+            <!--<a class="am-btn am-btn-secondary am-btn-xs am-radius">修改</button> &nbsp;-->
+            <a class="modifybank" onclick="delMyBank({{value.id}})" translate="security_first58">删除</button>
+        </td>
+    </tr>
+
+    {{/each}}
+</script>
+</body>
+</html>

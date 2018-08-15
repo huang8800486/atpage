@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>交易系统</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="keyword" content="比特币价格,比特币交易平台,区块链,数字化资产,比特币行情,AT交易所,USDT,莱特币,BCH,以太坊,ETH,以太经典,进行币币交易" />
+    <meta name="description" content="description:AT交易所是一家集数字化资产、投资服务、资讯服务于一体的国际化区块链资产交易平台。提供比特币,莱特币(LTC),以太坊(ETH),比特币现金(BCH),以太经典(ETC)达世币(DASH)等虚拟货币以比特币(BTC)、USDT进行交易！提供实时比特币价格,比特币行情。">
+    <link rel="stylesheet" href="../../assets/css/reset.css">
+    <link rel="stylesheet" href="../../assets/font/iconfont.css">
+    <link rel="stylesheet" href="../../assets/css/layout.css">
+    <script src="../../script/jquery-3.3.1.min.js"></script>
+    <script src="../../script/tools/crypto-js.js"></script>
+    <script src="../../script/tools/jquery.cookie.js"></script>
+    <script src="../../script/tools/md5.min.js"></script>
+    <script src="../../script/tools/k_tools.js"></script>
+    <script src="../../script/tools/loadSiteInfo.js"></script>
+    <script src="../../script/tools/jquery-ui.js"></script>
+    <script src="../../script/trade/tools.js"></script>
+    <script src="../../script/center_toos/center_tools_new.js"></script>
+    <script src="../../script/template.js"></script>
+    <script src="../../script/layer.js"></script>
+    <script src="../../assets/js/translate/jquery.i18n.properties/jquery.i18n.properties.min.js" charset="utf-8"></script>
+    <script src="../../assets/js/translate/i18n.config.js" charset="utf-8"></script>
+</head>
+<body>
+<!-- header -->
+    <div class="view_body security_center_view_body set_trade_view_body">
+        <header class="header header-other" id="header"></header>
+        <div class="negative_content_page">
+            <div class="dynamic-width negative_content">
+                <div class="leftbar_padding clearfix main-set_trade">
+                    <div class="safety-leftbar" id="left"></div>
+                    <div class="safety-right">
+                        <div class="safety-top-title">
+                            <div class="safety-top-user">
+                                <h1><i class="iconfont icon-morentouxiang"></i></h1>
+                                <dl>
+                                    <dt id="trueName"></dt>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="safety-list">
+                            <div class="modify_personal_info">
+                                <div class="safety-form">
+                                    <div class="set_trade_time_wrap">
+                                        <h2 class="per_titl" translate="security_first4"></h2>
+                                        <div class="set_trade_time">
+                                            <div class="set_trade_time_fs">
+                                                <div class="tit">
+                                                    <em class="translate_em" translate="setpasswordtime"></em>
+                                                </div>
+                                                <div class="setTimes">
+                                                	<p><i class="translate_em" translate="jiaoyimimashezhi"></i></p>
+                                                    <a href="javascript:;" data-type="1"><i></i><p translate="jiaoy2"></p></a>
+                                                    <a href="javascript:;" data-type="2"><i></i><p translate="jiaoy3"></p></a>
+                                                    <a href="javascript:;" data-type="3"><i></i><p translate="jiaoy4"></p></a>
+                                                </div>
+                                                <div class="am-form-group">
+                                                    <span class="titl" translate="middle1_market1_placeholder6"></span>
+                                                    <div class="input_wrap">
+                                                        <input id="tb_oldpwd" type="password" class="frominput" value="" placeholder="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <a id="setButton" onclick="setTrade()" type="button" class="new-btn-color" ><em class="translate_em" translate="make_sure"></em> </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer" id="footer"></footer>
+        <div>
+            <input type="hidden" id="username">
+        </div>
+    </div>
+
+<!--[if lt IE 9]>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="../../assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+
+<script src="../../assets/js/amazeui.min.js"></script>
+<script src="../../assets/js/count-number.js"></script>
+
+
+
+
+<script type="text/javascript">
+    var isGetVerificationCode = 0;
+    $(function () {
+        $("#header").load("../common/commonHeader.html?version=" + $.version);
+        $("#footer").load("../common/commonFooter.html?version=" + $.version);
+        $("#left").load("./left.html");
+		$("#tb_oldpwd").attr("placeholder", langPkg.getI18N("jiaoyimimashezhi"));
+        init();
+    });
+</script>
+
+<!--功能函数-->
+<script type="text/javascript">
+    function init() {
+        var cookieStr = $.getToken();
+
+        //  如果已经登录，则取得财务中心数据
+        if (!$.TokenIsNull(cookieStr)) {
+            //  获取用户信息
+            getUserInfo();
+        }else {
+            $.toIndex1();
+        }
+    }
+
+    var isSetTradePwd = null;
+    /*
+    * 0:未设置，1：永不输入，2：6小时之内不用输入，3：每次都要输入)
+    */
+    var typeObj = {
+        TYPEVALUEZERO: 0,
+        TYPEVALUEONE: 1,
+        TYPEVALUETWO: 2,
+        TYPEVALUETHRRE: 3
+    }
+    /**
+     * 获取用户信息
+     * @constructor
+     */
+    setTimesFun();
+    function setTimesFun(){
+        var setTimes = $(".setTimes");
+        setTimes.on("click", "a", function(){
+            var idx = $(".setTimes a").index($(this));
+            $(this).addClass("active").siblings().removeClass("active");
+        })
+    }
+
+    function getUserInfo() {
+        $.ajaxSendData("", "/api/user/details", function(resData){
+            $("#trueName").html(resData.data.nickname)
+            if(resData.data.status != 3 && resData.data.status != null){
+                $.ajaxSendData("", "/api/user/paypassword/query", function(resData){
+                    var type = resData.data.type;
+                    if(type != 0){
+                        for(var i = 0; i < $(".setTimes a").length; i++){
+                            if($(".setTimes a").eq(i).attr("data-type") == type){
+                                $(".setTimes a").removeClass("active");
+                                $(".setTimes a").eq(i).addClass("active");
+                                break;
+                            }
+                        }
+                    }
+                });
+            }else{
+                var index = layer.load(1, {
+                    time: 10*1000,
+                    shade: [0.75,'#000'] //0.1透明度的白色背景
+                });
+                layer.msg(langPkg.getI18N("ningweishezhijiaoyimima_zhengzaiweiningtiaozhuan"), { time: 2000, icon: 0 }, function () {
+                    layer.close(index);
+                    $.beforePage();
+                    window.location.href = "../security/update_trade_pwd.html";
+                })
+            }
+        });
+
+        
+    }
+
+    //  绑定操作
+    function setTrade() {
+        var type = $(".setTimes").find(".active").attr("data-type");
+        var payPwd = $("#tb_oldpwd").val();
+        if(typeof type == "undefined"){
+            layer.tips("请选择交易验证设置", ".setTimes", {
+                tips: [3, "#0e9e80"], time: 2000
+            });
+            return false;
+        }
+
+        if(payPwd==""){
+            layer.tips('请输入交易密码', '#tb_oldpwd', { tips: [3, "#0e9e80"], time: 2000, end: function () { $("#setButton").removeAttr("disabled"); } });
+            return false;
+        }
+
+        var param = {
+            type: type,
+            payPwd: payPwd
+        };
+        $.ajaxSendData(param, "/api/user/paypassword/update", function(resData){
+            layer.msg("修改成功，正在跳转页面...", { time: 1500, icon: 1 }, function () {
+                window.location.href = "./security_center.html";
+            })
+        });
+    }
+</script>
+
+
+</body>
+</html>

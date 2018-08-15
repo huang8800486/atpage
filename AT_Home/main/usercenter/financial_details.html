@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>交易系统</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="keyword" content="比特币价格,比特币交易平台,区块链,数字化资产,比特币行情,AT交易所,USDT,莱特币,BCH,以太坊,ETH,以太经典,进行币币交易" />
+    <meta name="description" content="description:AT交易所是一家集数字化资产、投资服务、资讯服务于一体的国际化区块链资产交易平台。提供比特币,莱特币(LTC),以太坊(ETH),比特币现金(BCH),以太经典(ETC)达世币(DASH)等虚拟货币以比特币(BTC)、USDT进行交易！提供实时比特币价格,比特币行情。">
+    <link rel="stylesheet" href="../../assets/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="../../assets/css/app.css">
+    <script src="../../script/jquery-3.3.1.min.js"></script>
+    <script src="../../script/tools/crypto-js.js"></script>
+    <script src="../../script/tools/jquery.cookie.js"></script>
+    <script src="../../script/tools/md5.min.js"></script>
+    <script src="../../script/tools/k_tools.js"></script>
+    <script src="../../script/tools/loadSiteInfo.js"></script>
+    <script src="../../script/tools/jquery-ui.js"></script>
+    <script src="../../script/trade/tools.js"></script>
+    <script src="../../script/center_toos/center_tools_new.js"></script>
+    <script src="../../script/template.js"></script>
+    <script src="../../script/layer.js"></script>
+    <script src="../../script/jqPaginator.js"></script>
+    <script src="../../assets/js/translate/jquery.i18n.properties/jquery.i18n.properties.min.js" charset="utf-8"></script>
+    <script src="../../assets/js/translate/i18n.config.js" charset="utf-8"></script>
+</head>
+<body class="setbg">
+<!-- header -->
+<header class="header header-other" id="header"></header>
+
+<div class="am-container am-margin-top-sm main-finance">
+    <div class="finance-leftbar" id="left"></div>
+    <div class="finance-right">
+        <div class="finance-right-title">
+            <h2 translate="mingxijilu">明细记录</h2>
+            <!-- <p>可查看所有明细记录</p> -->
+            <dl translate="financial_first12">位置: 首页 > 财务中心 > <span class="c_blue2" translate="mingxijilu">明细记录</span></dl>
+        </div>
+        <div class="finance-list am-form">
+            <table class="am-table am-table-striped am-table-hover">
+                <thead>
+                <tr>
+                    <th>
+                        <select
+                                onchange="selectCoin($('#ul_coin_list').find('option:selected').attr('coinName'))"
+                                class="am-form-select am-input-sm am-radius" id="ul_coin_list"></select>
+                    </th>
+                    <th translate="middle2_market3">委托时间</th>
+                    <!--<th>
+                        <select class="am-form-select am-input-sm am-radius" id="typeList">
+                            <option value="" selected>全部</option>
+                            <option value="1">买入</option>
+                            <option value="2">卖出</option>
+                        </select>
+                    </th>-->
+                    <th>
+                        <select class="am-form-select am-input-sm am-radius" id="typeList">
+                            <option value="" selected translate="quanbuleixing">全部类型</option>
+                            <option value="3" translate="xunibizhuanru">虚拟币转入</option>
+                            <option value="4" translate="xunibizhuanchu">虚拟币转出</option>
+                            <option value="5" translate="mairuchengjiao">买入成交</option>
+                            <option value="6" translate="maichuchengjiao">卖出成交</option>
+                            <option value="7" translate="mairuchexiao">买入撤销</option>
+                            <option value="8" translate="maichuchexiao">卖出撤销</option>
+                            <option value="14" translate="mairuweituo">买入委托</option>
+                            <option value="15" translate="maichuweituo">卖出委托</option>
+                            <option value="17" translate="xunibizhuanchuzhong">虚拟币转出中</option>
+                            <option value="18" translate="saomafukuan">扫码付款</option>
+                            <option value="19" translate="saomashoukuan">扫码收款</option>
+                            <option value="20" translate="disanfangsaomafukuan">第三方扫码付款</option>
+                            <option value="23" translate="c2cmairutijiao">C2C买入提交</option>
+                            <option value="24" translate="c2cmaichutijiao">C2C卖出提交</option>
+                            <option value="25" translate="c2cmairu">C2C买入</option>
+                            <option value="26" translate="c2cmaichu">C2C卖出</option>
+                            <option value="33" translate="xunibizhuanchujujue">虚拟币转出拒绝</option>
+                        </select>
+                    </th>
+                    <th translate="c2c_trade7">数量</th>
+                    <!--<th>金额</th>-->
+                    <th translate="financial_first66">手续费</th>
+                    <!-- <th>余额</th> -->
+                </tr>
+                </thead>
+                <tbody id="tb_list"></tbody>
+            </table>
+            <ul class="am-pagination am-pagination-centered" id="pageList"></ul>
+        </div>
+
+    </div>
+
+</div>
+
+
+<br><br>
+
+<footer class="footer" id="footer"></footer>
+
+<input type="hidden" id="marketID" />
+<input type="hidden" id="coinName" />
+
+<!--[if lt IE 9]>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="../../assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+
+<script src="../../assets/js/amazeui.min.js"></script>
+
+
+
+<script type="text/javascript">
+    $(function () {
+        $("#header").load("../common/commonHeader.html?version=" + $.version);
+        $("#footer").load("../common/commonFooter.html?version=" + $.version);
+        $("#left").load("./left.html");
+
+        init();
+    });
+</script>
+
+<!--功能函数-->
+<script type="text/javascript">
+    function init() {
+        var cookieStr = $.getToken();
+
+        //判断token值是否为空
+        if (!$.TokenIsNull(cookieStr)) {
+
+            // Getassets();
+            // $("#Islogin").show();
+
+            getFinanceCore();
+            getCoinList();
+        }else {
+            $.toIndex1();
+        }
+    }
+
+    $("#typeList").change(function () {
+        getMyFinceList(1);
+    })
+
+    /**
+     * 获得财务记录
+     * @param pageTo
+     */
+    function getMyFinceList(pageTo) {
+        var type = $("#typeList").val();
+        var coinId = Number($("#marketID").val());
+        var param = {
+            coinId: coinId,
+            fromDate: "",
+            pageSize: pageSize,
+            pageTo: pageTo,
+            toDate: "",
+            tradeType: type
+        };
+
+        console.log(param);
+
+        var strObgect = $.toBase64(param);
+        var strSign = $.toSign(strObgect);
+
+        var resData = $.sendData(strObgect, strSign, "/api/finance/list");
+
+        if (resData.code == 200) {
+            if (resData.data.length > 0) {
+                page(resData.total, pageTo);
+                var da = { "list": resData.data };
+                var _html = template('deallist', da);
+                $("#tb_list").html(_html);
+
+                $("#pageList").show();
+            } else {
+                $("#tb_list").html("<tr><td colspan='7' style='text-align: center'>暂无明细记录!</td></tr>");
+                $("#pageList").hide();
+            }
+        } else {
+            layer.msg(resData.msg);
+            $("#tb_list").html("");
+            $("#pageList").hide();
+        }
+
+    }
+
+    //  获得币种列表
+    function getCoinList() {
+        var id = "";
+        var param = {
+            id: id
+        };
+        var strObgect = $.toBase64(param);
+        var strSign = $.toSign(strObgect);
+
+        var resData = $.sendData(strObgect, strSign, "/api/coin/all/list");
+
+        if (resData.code == 200) {
+            if (resData.data.length > 0) {
+                var da = { "list": resData.data }
+                $("body").data("coin_list", resData.data);//获取到的数据存入data，方便后面使用
+                var _html = template('coin_list', da);
+                $("#ul_coin_list").html(_html);
+
+                //设置默认数据
+                selectCoin(resData.data[1].name)
+            }
+        } else {
+            layer.msg(resData.msg);
+        }
+    }
+
+    function getFinanceCore() {
+        var resData = $.sendData("", "", "/api/finance/core");
+
+        if (resData.code == 200) {
+            $("body").data("financ_core", resData.data.userCoinFinanceDtoList);//获取到的数据存入data，方便后面使用
+        }
+    }
+
+    function selectCoin(coinName) {
+        var coinList = $("body").data("coin_list");
+
+        for (var i = 0; i < coinList.length; i++) {
+            if (coinName == coinList[i].name) {
+                $("#marketID").val(coinList[i].id);
+                $("#coinName").val(coinList[i].name);
+
+
+                getMyFinceList(1);
+                return;
+            }
+        }
+
+    }
+
+    var pageSize = 10;
+    function page(counts, pageTo) {
+        $('#pageList').jqPaginator('option', {
+            totalCounts: counts,
+            currentPage: pageTo
+        });
+        if (counts <= 1) {
+            $("#pageList").hide();
+        }
+    }
+
+    //初始化分页器
+    $('#pageList').jqPaginator({
+        totalCounts: 1,
+        visiblePages: 10,
+        pageSize: pageSize,
+        currentPage: 1,
+        activeClass: 'am-active',
+
+        //first: '<a href="javascript:void(0)">首页</a>',
+        prev: '<li><a href="javascript:void(0)">&laquo;</a></li>  ',
+        next: '<li><a href="javascript:void(0)">&raquo;</a></li> ',
+        //last: '<a href="javascript:void(0)">最后一页</a>',
+        page: ' <li ><a href="javascript:void(0)">{{page}}</a></li>',
+        onPageChange: function (num, status) {
+            if (status == "change") {
+                getMyFinceList(num);
+            }
+        }
+    });
+    template.helper('_imgPath', function (str) {
+        if (str == '' || str == null) {
+            return '../../../logo.png';
+        } else {
+            return $.imgFilePath() + str;
+        }
+    });
+    template.helper('_toUpperCase', function (str) {
+        return str.toUpperCase().replace("_", "/");
+    });
+    template.helper('_tradeType', function (id) {
+        switch (id){
+            case 3: return langPkg.getI18N("xunibizhuanru");
+            case 4: return langPkg.getI18N("xunibizhuanchu");
+            case 5: return langPkg.getI18N("mairuchengjiao");
+            case 6: return langPkg.getI18N("maichuchengjiao");
+            case 7: return langPkg.getI18N("mairuchexiao");
+            case 8: return langPkg.getI18N("maichuchexiao");
+            case 14: return langPkg.getI18N("mairuweituo");
+            case 15: return langPkg.getI18N("maichuweituo");
+            case 17: return langPkg.getI18N("xunibizhuanchuzhong");
+            case 18: return langPkg.getI18N("saomafukuan");
+            case 19: return langPkg.getI18N("saomashoukuan");
+            case 20: return langPkg.getI18N("disanfangsaomafukuan");
+            case 23: return langPkg.getI18N("c2cmairutijiao");
+            case 24: return langPkg.getI18N("c2cmaichutijiao");
+            case 25: return langPkg.getI18N("c2cmairu");
+            case 26: return langPkg.getI18N("c2cmaichu");
+            case 33: return langPkg.getI18N("xunibizhuanchujujue");
+
+            default:
+                return langPkg.getI18N("weizhileixing")
+        }
+    });
+    template.helper('_getCoinName', function () {
+        return $("#coinName").val();
+    });
+</script>
+
+<script id="coin_list" type="text/html">
+    {{each list as value i}}
+    {{if value.name!= "CNY"}}
+    <option value="{{ value.id }}" coinName="{{value.name}}">{{_toUpperCase(value.name)}}</option>
+    {{/if}}
+    {{/each}}
+</script>
+<script id="coin_select" type="text/html">
+    <img src="{{_imgPath(img)}}" width="24" height="24">
+    {{_toUpperCase(name)}} <span class="am-icon-caret-down"></span>
+</script>
+<script id="deallist" type="text/html">
+    {{each list as value i}}
+    <tr>
+        <td>{{_getCoinName()}}</td>
+        <td>{{value.createTime}}</td>
+        <td> {{ _tradeType(value.tradeType) }} </td>
+        <td>{{value.num}}</td>
+        <!--<td>{{value.money}}</td>-->
+        <td>{{value.fee}} </td>
+        <!-- <td>{{value.balance}}</td> -->
+    </tr>
+    {{/each}}
+</script>
+
+</body>
+</html>

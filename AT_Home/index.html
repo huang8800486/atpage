@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>比特币交易平台-AT交易所</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="keyword" content="比特币价格,比特币交易平台,区块链,数字化资产,比特币行情,AT交易所,USDT,莱特币,BCH,以太坊,ETH,以太经典,进行币币交易" />
+    <meta name="description" content="description:AT交易所是一家集数字化资产、投资服务、资讯服务于一体的国际化区块链资产交易平台。提供比特币,莱特币(LTC),以太坊(ETH),比特币现金(BCH),以太经典(ETC)达世币(DASH)等虚拟货币以比特币(BTC)、USDT进行交易！提供实时比特币价格,比特币行情。">
+    <link rel="stylesheet" href="./assets/css/reset.css">
+    <link rel="stylesheet" href="./assets/font/iconfont.css">
+    <link rel="stylesheet" href="./assets/css/swiper.min.css">
+    <link rel="stylesheet" href="./assets/css/layout.css">
+    <script type="text/javascript" src="./script/jquery-3.3.1.min.js"></script>
+    <script src="./script/tools/crypto-js.js"></script>
+    <script src="./script/tools/jquery.cookie.js"></script>
+    <script src="./script/tools/md5.min.js"></script>
+    <script src="./script/tools/k_tools.js"></script>
+    <script src="./script/tools/loadSiteInfo.js"></script>
+    <script src="./script/template.js"></script>
+    <script src="./script/layer.js"></script>
+    <script src="./pluguns/sockjs-client-master/dist/sockjs.min.js"></script>
+    <script src="./pluguns/stomp-websocket-master/lib/stomp.min.js"></script>
+    <script src="./assets/js/swiper.min.js"></script>
+    <script src="./assets/js/qrcode.min.js"></script>
+    <script src="./assets/js/translate/jquery.i18n.properties/jquery.i18n.properties.js" charset="utf-8"></script>
+    <script src="./assets/js/translate/i18n.config.js" charset="utf-8"></script>
+</head>
+<body> 
+<!-- header -->
+<div class="view_body index_view_body">
+    <header id="header" class="header"></header>
+    <div class="index-banner">
+        <!-- Slider -->
+        <div class="swiper-container am-slider am-slider-default">
+            <div class="swiper-wrapper am-slides" id="flash">
+                
+            </div>
+        </div>
+        <!-- <div data-am-widget="slider" class="am-slider am-slider-default" data-am-slider='{"directionNav":false,"slideshowSpeed":7000,pauseOnAction: false}'>
+            <ul class="am-slides" id="flash">
+                <li style="background:url('') no-repeat center top;"></li>
+                <li style="background: url('./images/banner1.jpg') no-repeat center top;"></li>
+                <li style="background:url('') no-repeat center top;"></li>
+                <li style="background:url('./images/banner1.jpg') no-repeat center top;"></li>
+            </ul>
+        </div> -->
+    </div>
+    <div class="market-index">
+        <div class="market-new-dynamic dynamic-width">
+            <div class="data-index" style="display:none;">
+                <div class="am-container">
+                    <ul>
+                        <li class="data-first">BTC：<span id="btcPrice">$ 0.00</span></li>
+                        <li>LTC：<span id="ltcPrice">$ 0.00</span></li>
+                        <li>BCH：<span id="bchPrice">$ 0.00</span></li>
+                        <li>ETH：<span id="ethPrice">$ 0.00</span></li>
+                        <li class="data-end">ETC：<span id="etcPrice">$ 0.00</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="market-title-wrap">
+                <div class="market-title">
+                    <span><em translate="firstpage_message1"></em><em translate="firstpage_message2"></em></span>
+                </div>
+            </div>
+            <div class="market-index-top">
+                <div class="am-tabs" data-am-tabs="{noSwipe: 1}">
+                    <ul class="am-tabs-nav am-nav am-nav-tabs">
+                        <li><a href="#tab-1" onclick="getMarketList()"><i class="iconfont icon-zixuan xing"></i> <em class="translate_em" translate="market_message1"></em></a></li>
+                        <li class="am-active"><a href="#tab-2" translate="market_message2"></a></li>
+                        <li><a href="#tab-3" translate="market_message3"></a></li>
+                        <li><a href="#tab-4" translate="market_message4"></a></li>
+                        <li><a href="#tab-5" translate="market_message5"></a></li>
+                    </ul>
+                    <div class="am-tabs-bd am-tabs-bd-ofv market-tab am-tabs-bd-ofv">
+                        <div class="am-fade am-tab-panel example ex-1" id="tab-1">
+                        	<table class="am-table am-table-hover" summary="user infomation table" id="tableSort">
+                                <thead>
+                                <tr>
+                                    <th width="100" class="no-sort" translate="market_line1"><a href="javascript:void(0)" class="curr"> <i class="am-icon-caret-down"></i></a></th>
+                                    <th style="cursor: pointer;" translate="market_line2"> </th>
+                                    <th style="cursor: pointer;" translate="market_line3"> </th>
+                                    <th style="cursor: pointer;" translate="market_line4"> </th>
+                                    <th style="cursor: pointer;" translate="market_line5"> </th>
+                                    <th style="cursor: pointer;" translate="market_line6"> </th>
+                                    <th style="cursor: pointer;" translate="market_line7"> </th>
+                                </tr>
+                                </thead>
+                                <tbody id="zxList"></tbody>
+                            </table>
+                        </div>
+                        <div class="am-tab-panel am-fade am-in am-active example ex-1" id="tab-2">
+                            <table class="am-table am-table-hover" summary="user infomation table" id="tableSort1">
+                                <thead>
+                                <tr>
+                                    <th width="100" class="no-sort"><a href="javascript:void(0)" class="curr" translate="market_line1"> <i class="am-icon-caret-down"></i></a></th>
+                                    <th style="cursor: pointer;" translate="market_line2"> </th>
+                                    <th style="cursor: pointer;" translate="market_line3"> </th>
+                                    <th style="cursor: pointer;" translate="market_line4"> </th>
+                                    <th style="cursor: pointer;" translate="market_line5"> </th>
+                                    <th style="cursor: pointer;" translate="market_line6"> </th>
+                                    <th style="cursor: pointer;" translate="market_line7"> </th>
+                                </tr>
+                                </thead>
+                                <tbody id="qdList"></tbody>
+                            </table>
+                        </div>
+                        <div class="am-tab-panel am-fade" id="tab-3">
+                            <table class="am-table am-table-hover">
+                                <thead>
+                                <tr>
+                                    <th width="100" class="no-sort"><a href="javascript:void(0)" class="curr" translate="market_line1"> <i class="am-icon-caret-down"></i></a></th>
+                                    <th style="cursor: pointer;" translate="market_line2"> </th>
+                                    <th style="cursor: pointer;" translate="market_line3"> </th>
+                                    <th style="cursor: pointer;" translate="market_line4"> </th>
+                                    <th style="cursor: pointer;" translate="market_line5"> </th>
+                                    <th style="cursor: pointer;" translate="market_line6"> </th>
+                                    <th style="cursor: pointer;" translate="market_line7"> </th>
+                                </tr>
+                                </thead>
+                                <tbody id="usdtList"></tbody>
+                            </table>
+                        </div>
+                        <div class="am-tab-panel am-fade" id="tab-4">
+                            <table class="am-table am-table-hover" summary="user infomation table" id="tableSort2">
+                                <thead>
+                                <tr>
+                                    <th width="100" class="no-sort"><a href="javascript:void(0)" class="curr" translate="market_line1"> <i class="am-icon-caret-down"></i></a></th>
+                                    <th style="cursor: pointer;" translate="market_line2"></th>
+                                    <th style="cursor: pointer;" translate="market_line3"></th>
+                                    <th style="cursor: pointer;" translate="market_line4"></th>
+                                    <th style="cursor: pointer;" translate="market_line5"></th>
+                                    <th style="cursor: pointer;" translate="market_line6"></th>
+                                    <th style="cursor: pointer;" translate="market_line7"></th>
+                                </tr>
+                                </thead>
+                                <tbody id="btcList"></tbody>
+                            </table>
+                        </div>
+                        <div class="am-tab-panel am-fade example ex-1" id="tab-5">
+                            <table class="am-table am-table-hover" summary="user infomation table" id="tableSort3">
+                                <thead>
+                                <tr>
+                                    <th width="100" class="no-sort"><a href="javascript:void(0)" class="curr" translate="market_line1"> <i class="am-icon-caret-down"></i></a></th>
+                                    <th style="cursor: pointer;" translate="market_line2"></th>
+                                    <th style="cursor: pointer;" translate="market_line3"></th>
+                                    <th style="cursor: pointer;" translate="market_line4"></th>
+                                    <th style="cursor: pointer;" translate="market_line5"></th>
+                                    <th style="cursor: pointer;" translate="market_line6"></th>
+                                    <th style="cursor: pointer;" translate="market_line7"></th>
+                                </tr>
+                                </thead>
+                                <tbody id="ethList"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="news-bg new-industry">
+                <div class="new-container">
+                    <h1 class="am-text-center">
+                        <span translate="ad_message41">行业</span><em translate="ad_message42"></em>
+                        <a href="./main/support/help_center.html?sort=2" target="_blank" class="more-btn">&nbsp;&nbsp;<em class="translate_em" translate="gengduo"></em>&nbsp;&nbsp;</a>
+                    </h1>
+                    <!-- <div class="am-text-center line-text">
+                        <span class="line line-01"></span>
+                        <p translate="ad_message43" class="new-ind-title">最新最全的交易信息，尽在AT币交易平台</p>
+                        <span class="line line-02"></span>
+                    </div> -->
+                    <div id="div_newsList">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="indexappdown">
+                <h1 class="am-text-center">
+                    <span translate="xiazaiapp">下载APP</em>
+                </h1>
+                <div class="downs_wrap">
+                    <div class="do_text">
+                        <h2 class="tilets" translate="advertistment1">下载AT交易所APP</h2>
+                        <span translate="advertistment2">浏览行情 酣畅交易 指尖掌握</span>
+                    </div>
+                    <div class="do_img">
+                        <img src="./images/downappbg.png" alt="">
+                        <div class="qrcode_download clearfix">
+                            <div class="qrcode_box fl">
+                                <div class="qrcode_wrap">
+                                    <a id="iosCode" class="qrcode" href="javascript:;"></a>
+                                    <span translate="saomiaoerweima">扫描二维码下载APP</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <p class="immediately" translate="advertistment3">即将上线，敬请期待</p> -->
+                </div>
+            </div>
+        </div>
+        <div class="newsecurity-bg" style="display:none;">
+            <div class="am-container">
+                <div class="newsecurity-title">
+                    <h1 translate="ad_message11"></h1>
+                    <span class="line"></span>
+                    <p translate="ad_message12"></p>
+                </div>
+                <div class="newsecurity-box clearfix">
+                    <div class="newsecurity-detail">
+                        <h1><span class="icon-box icon-s1"></span><em class="translate_em" translate="ad_message13"></em></h1>
+                        <p class="am-margin-top-0" translate="ad_message14"></p>
+                    </div>
+                    <div class="newsecurity-detail">
+                        <h1><span class="icon-box icon-s2"></span> <em class="translate_em" translate="ad_message15"></em></h1>
+                        <p class="am-margin-top-0" translate="ad_message16">采用区块链技术，去中心化、不可篡改，保证每一笔交易安全可信。</p>
+                    </div>
+                    <div class="newsecurity-detail">
+                        <h1><span class="icon-box icon-s3"></span> <em class="translate_em" translate="ad_message17"></em></h1>
+                        <h2 class="am-margin-top-0 am-margin-bottom-0"></h2>
+                        <p class="am-margin-top-0" translate="ad_message18">点对点的用户自由支付模式，应用多个AT平台场景。</p>
+                    </div>
+                    <div class="newsecurity-detail">
+                        <h1><span class="icon-box icon-s4"></span> <em class="translate_em" translate="ad_message21"></em></h1>
+                        <p class="am-margin-top-0" translate="ad_message22">专业的开发和运营团队，实时跟进每一笔数据交易，保障平台正常运行。</p>
+                    </div>
+                    <div class="newsecurity-detail">
+                        <h1><span class="icon-box icon-s5"></span> <em class="translate_em" translate="ad_message23"></em></h1>
+                        <p class="am-margin-top-0" translate="ad_message24">专业的开发技术团队，专注区块链技术，将区块链技术应用到AT互联网生态圈。</p>
+                    </div>
+                    <div class="newsecurity-detail">
+                        <h1><span class="icon-box icon-s6"></span> <em class="translate_em" translate="ad_message25"></em></h1>
+                        <p class="am-margin-top-0" translate="ad_message26">实时交易平台服务，每一笔交易都是独一无二。</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="register-box" style="display:none;">
+            <div class="am-container">
+                <div class="am-register">
+                    <span class="register_img"><img src="./images/register.png" alt=""></span>
+                </div>
+                <div class="am-register_text">
+                    <div class="tit_text">
+                        <span class="tit" translate="ad_message31">安全&nbsp;&nbsp;快速&nbsp;&nbsp;稳定</span>
+                        <span class="text" translate="ad_message32">AT币全面保护您的资产交易安全</span>
+                    </div>
+                    <a href="register.html" class="register-btn" translate="ad_message33">注册帐户</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="index-down" style="display:none;">
+            <div class="am-container">
+                <div class="down-info">
+                    <h1 class="am-text-xxl" translate="ad_message51">下载AT交易所APP</h1>
+                    <p class="info_text" translate="ad_message52">浏览行情 酣畅交易 指尖掌握</p>
+                    <p class="info_text" translate="ad_message53">即将上线</p>
+                    <div class="download_wrap">
+                        <div class="download-wxcode" style="display:none;">
+                            <img src="./images/wxcode.png" alt="">
+                            <span>扫码二维码安装</span>
+                        </div>
+                        <div class="download-btn" style="margin-left:0;">
+                            <a href="javascript:;" class="ios" style="float:left;" translate="download_message1">IOS下载</a> &nbsp;&nbsp; 
+                            <a href="javascript:;" class="android" style="float:left;" translate="download_message2">Android下载</a>
+                        </div>
+                    </div>
+                    
+                    <!-- <p class="am-margin-top-xl">
+                        <a href="javascript:;"><img src="./images/btn-ios.png"></a> &nbsp;&nbsp; 
+                        <a href="javascript:;"><img src="./images/btn-android.png"></a>
+                    </p> -->
+                </div>
+            </div>
+
+            <div class="am-container bot-data">
+                <ul class="am-text-center">
+
+                    <li><span class="am-text-xxl"><span class="timer count-title" id="1day" data-to=""
+                                                        data-speed="5000"></span></span>
+                        <p class="deep-gray" translate="ad_message61">24 小时 成交量</p></li>
+                    <li><span class="am-text-xxl"><span class="timer count-title" id="7day" data-to=""
+                                                        data-speed="5000"></span></span>
+                        <p class="deep-gray" translate="ad_message62">7 天 成交量</p></li>
+                    <li><span class="am-text-xxl"><span class="timer count-title" id="30day" data-to=""
+                                                        data-speed="5000"></span></span>
+                        <p class="deep-gray" translate="ad_message63">30 天 成交量</p></li>
+                </ul>
+            </div>
+            <script type="text/javascript">
+                //  获取成交量
+               /*  function getVolume() {
+                    var param = {
+                        days : "1,7,30"
+                    }
+
+                    $.ajaxSendData(param, "/api/market/total/volume", function(resData){
+                        var data = resData.data;
+                        var options = {
+                            useEasing: true,
+                            useGrouping: true,
+                            separator: ',',
+                            decimal: '.'
+                        };
+                        var day1 = new CountUp('1day', 0, data.key1, 6, 5, options);
+                        var day7 = new CountUp('7day', 0, data.key7, 6, 5, options);
+                        var day30 = new CountUp('30day', 0, data.key30, 6, 5, options);
+                        if (!day1.error) {
+                            day1.start();
+                        }
+                        if (!day7.error) {
+                            day7.start();
+                        }
+                        if (!day30.error) {
+                            day30.start();
+                        }
+                    });
+                } */
+            </script>
+        </div>
+    </div>
+    <footer id="footer" class="footer"></footer>
+</div>
+<script src="./assets/js/amazeui.min.js"></script>
+<!--<script src="./assets/js/count-number.js"></script>-->
+<script src="./assets/js/countUp.js"></script>
+<script src="./assets/js/setdecimals.js"></script>
+<script src="./assets/js/jquery.tablesort.js"></script>
+<script src="./assets/js/website/index.js"></script>
+<!-- <script src="./assets/js/website/public.js"></script> -->
+<!--banner图-->
+<script id="banner_list" type="text/html">
+    {{each list as value i}}
+    <div class="swiper-slide" style="background:url('{{_imgPath(value.img)}}') no-repeat center top;background-size: cover">
+        {{if (value.url) != ""}}
+            <a href="{{(value.url)}}"></a>
+        {{/if}}
+    </div>
+    {{/each}}
+</script>
+<!--行业资讯-->
+<script id="list_News" type="text/html">
+    
+    <div class="new-list-box">
+        {{each list as value i}}
+        {{ if i >= 0 && i < 3 }}
+        <div class="news-detail2">
+            <a href="./main/support/listconter.html?id={{value.id}}&sort=2" title="{{ value.title }}" target="_blank">
+                <h2 class="newsw_img"><img onerror="errorImg(this)" class="am-img-responsive" src="{{_imgPath(value.img)}}"></h2>
+                <div class="news-detail-info">
+                    <h1 title="{{ value.title }}"><span class="radius"></span>{{ value.title }}</h1>
+                    <div class="newsClass">
+                        <span>{{ value.createTime }}</span>
+                        {{ #value.content }}
+                    </div>
+                </div>
+            </a>
+        </div>
+        {{ /if }}
+        {{/each}}
+    </div>
+</script>
+
+<!--公告-->
+<script id="list_Notice" type="text/html">
+    {{each list as value i}}
+    {{ if i < 3 }}
+    <li>
+        <a href="#" style="display:block;width:250px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="{{ value.title }}">{{ value.title }}</a></li>
+    {{ /if}}
+    {{/each}}
+    <li class="top-ad-more">
+        <a href="./main/support/help_center.html?sort=1">更多</a>
+        <a href="javascript:void(0)" class="am-align-right btn-close">
+            <img src="./images/btn-close.png">
+        </a>
+    </li>
+</script>
+
+<!--自选市场-->
+<script id="list_zxList" type="text/html">
+    {{each list as value i}}
+    <tr>
+        <td><span onclick="redictMarketId({{ value.id }})">{{ value.name_en }}</span></td>
+        <td onclick="redictMarketId({{ value.id }})">{{value.newPrice}}</td>
+        {{ if value.change < 0 }}
+        <td><span class="red" onclick="redictMarketId({{ value.id }})">{{value.change}}%</span></td>
+        {{ else }}
+        <td><span class="c_green" onclick="redictMarketId({{ value.id }})">{{value.change}}%</span></td>
+        {{ /if }}
+        <td onclick="redictMarketId({{ value.id }})">{{value.maxPrice}}</td>
+        <td onclick="redictMarketId({{ value.id }})">{{value.minPrice}}</td>
+        <td onclick="redictMarketId({{ value.id }})">{{_toThousands(value.volume)}}</td>
+        <td onclick="redictMarketId({{ value.id }})">{{_toThousands(value.newPrice * value.volume)}}</td>
+    </tr>
+    {{/each}}
+</script>
+
+<!--QD交易市场-->
+<script id="list_qdList" type="text/html">
+    {{each list as value i}}
+    <tr>
+        <td><span style="cursor: pointer" onclick="redictMarketId({{ value.id }})">{{ value.name_en }}</span></td>
+        <td style="cursor: pointer" onclick="redictMarketId({{ value.id }})">{{value.newPrice}}</td>
+        {{ if value.change < 0 }}
+        <td style="cursor: pointer" onclick="redictMarketId({{ value.id }})"><span class="red">{{value.change}}%</span></td>
+        {{ else }}
+        <td style="cursor: pointer" onclick="redictMarketId({{ value.id }})"><span class="c_green">{{value.change}}%</span></td>
+        {{ /if }}
+        <td style="cursor: pointer" onclick="redictMarketId({{ value.id }})">{{value.maxPrice}}</td>
+        <td style="cursor: pointer" onclick="redictMarketId({{ value.id }})">{{value.minPrice}}</td>
+        <td style="cursor: pointer" onclick="redictMarketId({{ value.id }})">{{_toThousands(value.volume)}}</td>
+        <td style="cursor: pointer" onclick="redictMarketId({{ value.id }})">{{_toThousands(value.newPrice * value.volume)}}</td>
+    </tr>
+    {{/each}}
+</script>
+
+<!-- USDT 交易市场-->
+<script id="list_usdtList" type="text/html">
+    {{each list as value i}}
+    <tr>
+        <td><span onclick="redictMarketId({{ value.id }})">{{ value.name_en }}</span></td>
+        <td style="cursor: pointer" onclick="redictMarketId({{ value.id }})">{{value.newPrice}} <!--/ <span class="deep-gray">￥0.28</span>--></td>
+        {{ if value.change < 0 }}
+        <td style="cursor: pointer"><span class="red" onclick="redictMarketId({{ value.id }})">{{value.change}}%</span></td>
+        {{ else }}
+        <td style="cursor: pointer"><span class="c_green" onclick="redictMarketId({{ value.id }})">{{value.change}}%</span></td>
+        {{ /if }}
+        <td style="cursor: pointer" onclick="redictMarketId({{ value.id }})">{{value.maxPrice}}</td>
+        <td style="cursor: pointer" onclick="redictMarketId({{ value.id }})">{{value.minPrice}}</td>
+        <td style="cursor: pointer" onclick="redictMarketId({{ value.id }})">{{_toThousands(value.volume)}}</td>
+        <td style="cursor: pointer" onclick="redictMarketId({{ value.id }})">{{_toThousands(value.newPrice * value.volume)}}</td>
+    </tr>
+    {{/each}}
+</script>
+
+<!-- BTC 交易市场-->
+<script id="list_btcList" type="text/html">
+    {{each list as value i}}
+    <tr>
+        <td><span onclick="redictMarketId({{ value.id }})">{{ value.name_en }}</span></td>
+        <td style="cursor: pointer" onclick="redictMarketId({{ value.id }})">{{value.newPrice}} <!--/ <span class="deep-gray">￥0.28</span>--></td>
+        {{ if value.change < 0 }}
+        <td style="cursor: pointer"><span class="red" onclick="redictMarketId({{ value.id }})">{{value.change}}%</span></td>
+        {{ else }}
+        <td style="cursor: pointer"><span class="c_green" onclick="redictMarketId({{ value.id }})">{{value.change}}%</span></td>
+        {{ /if }}
+        <td style="cursor: pointer" onclick="redictMarketId({{ value.id }})">{{value.maxPrice}}</td>
+        <td style="cursor: pointer" onclick="redictMarketId({{ value.id }})">{{value.minPrice}}</td>
+        <td style="cursor: pointer" onclick="redictMarketId({{ value.id }})">{{_toThousands(value.volume)}}</td>
+        <td style="cursor: pointer" onclick="redictMarketId({{ value.id }})">{{_toThousands(value.newPrice * value.volume)}}</td>
+    </tr>
+    {{/each}}
+</script>
+
+<!-- ETH 交易市场-->
+<script id="list_ethList" type="text/html">
+    {{each list as value i}}
+    <tr>
+        <td><span onclick="redictMarketId({{ value.id }})">{{ value.name_en }}</span></td>
+        <td style="cursor: pointer" onclick="redictMarketId({{ value.id }})">{{value.newPrice}} <!--/ <span class="deep-gray">￥0.28</span>--></td>
+        {{ if value.change < 0 }}
+        <td style="cursor: pointer"><span class="red" onclick="redictMarketId({{ value.id }})">{{value.change}}%</span></td>
+        {{ else }}
+        <td style="cursor: pointer"><span class="c_green" onclick="redictMarketId({{ value.id }})">{{value.change}}%</span></td>
+        {{ /if }}
+        <td style="cursor: pointer" onclick="redictMarketId({{ value.id }})">{{value.maxPrice}}</td>
+        <td style="cursor: pointer" onclick="redictMarketId({{ value.id }})">{{value.minPrice}}</td>
+        <td style="cursor: pointer" onclick="redictMarketId({{ value.id }})">{{_toThousands(value.volume)}}</td>
+        <td style="cursor: pointer" onclick="redictMarketId({{ value.id }})">{{_toThousands(value.newPrice * value.volume)}}</td>
+    </tr>
+    {{/each}}
+</script>
+</body>
+</html>

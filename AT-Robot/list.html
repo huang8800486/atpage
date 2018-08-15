@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>配置-刷单计划列表</title>
+    <link rel="stylesheet" href="css/amazeui.min.css"/>
+    <link rel="stylesheet" href="css/back.css"/>
+    <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="js/back.js"></script>
+    <script type="text/javascript" src="js/amazeui.min.js"></script>
+    <script type="text/javascript" src="js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="js/md5.min.js"></script>
+    <script type="text/javascript" src="js/k_tools.js"></script>
+    <script type="text/javascript" src="js/center_tools.js"></script>
+    <script type="text/javascript" src="js/crypto-js.js"></script>
+    <script type="text/javascript" src="js/template.js"></script>
+    <script type="text/javascript" src="js/layer.js"></script>
+    <script type="text/javascript" src="js/jqPaginator.js"></script>
+</head>
+<body class="body_color">
+<div class="nav clearfix">
+    <div class="nav_logo">
+        <i><img src="images/dl_3.png"/></i>
+        <span>FFK DEMO</span>
+    </div>
+    <div class="nav_right clearfix">
+        <p>欢迎登录FFK DEMO机器人刷单系统！</p>
+        <ul class="user clearfix">
+            <li class="name">
+                <i><img src="images/sy_7.png"/></i>
+                <span id="userName"></span>
+                <em><img src="images/sy_9.png"/></em>
+                
+            </li>
+            <li class="out">
+                <i><img src="images/sy_10.png"/></i>
+                <a onclick="delt()">退出</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="meau">
+    <ul class="list_one">
+        <li><a href="#" class="inactive"><i><img src="images/sy_2.png"/></i>首页</a>
+            <ul class="list_two" style="display: none">
+                <li><a href="index.html">系统概览</a></li>
+                
+            </ul>
+        </li>
+        <li class="list_bgroud"><a href="#" class="inactive inactives"><i><img src="images/sy_3.png"/></i>配置</a>
+            <ul class="list_two">
+                <li><a href="Deploy.html">刷单计划配置</a></li>
+                <li><a href="list.html" class="curr">刷单计划列表</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<div class="bz_cont">
+    <div class="bz_bt clearfix">
+        <h2>刷单计划列表</h2>
+        <ul class="ba_navbtnb clearfix">
+            <li>
+                <a href="Deploy.html">新 增</a>
+            </li>
+            <!--<li>
+                <button>启 用</button>
+            </li>
+            <li>
+                <button>禁 用</button>
+            </li>
+            <li>
+                <button class="delt">删 除</button>
+            </li>-->
+        </ul>
+    </div>
+    <div class="bz_iput clearfix">
+        <ul class="ba_navipt clearfix">
+            <li>
+                <select id="status">
+                    <option value="-1" selected>全部状态</option>
+                    <option value="1">未开始</option>
+                    <option value="2">进行中</option>
+                    <option value="3">已结束</option>
+                    <option value="4">执行失败</option>
+                </select>
+            </li>
+            <li>
+                <select id="ddl_marketList">
+                    <!--<option>中文名</option>-->
+                </select>
+            </li>
+            <!--<li>
+                <input class="text" placeholder="请输入名称" type="text" id="searchText" name="">
+            </li>-->
+            <li>
+                <button class="bz_ss" onclick="serch()">搜 索</button>
+            </li>
+        </ul>
+    </div>
+    <div class="finance-list">
+        <table class="am-table am-table-striped am-table-hover am-text-center">
+            <thead>
+            <tr style="background: #f3f3f3;">
+                <th width="10%" class="am-text-center">市场</th>
+                <th width="20%" class="am-text-center">时间节点</th>
+                <th width="10%" class="am-text-center">成交量</th>
+                <th width="10%" class="am-text-center">成交笔数</th>
+                <th width="10%" class="am-text-center">最小成交量限制</th>
+                <th width="10%" class="am-text-center">状态</th>
+                <th width="10%" class="am-text-center">操作</th>
+            </tr>
+            </thead>
+            <tbody id="tb_List"></tbody>
+        </table>
+        <ul class="am-pagination am-pagination-centered" id="pageList">
+
+        </ul>
+    </div>
+</div>
+</body>
+
+<script>
+    $(function () {
+        //getCoinList();
+        var cookieStr = $.getToken();
+        var _nme = $.getCookies("deployname",);
+        $("#userName").html(_nme);
+        var cookieStr = $.getToken();
+        if (!$.TokenIsNull(cookieStr)) {
+            getCoinList(1);
+            getMarketist();
+        }else{
+        	window.location.href = "login.html"
+        }
+    });
+    
+    function delt() {
+			$.loginOut();
+		}
+    
+    /*获取市场列表*/
+    function getMarketist() {
+        var id = "";
+        var param = {id: id};
+        var resData = $.sendData(param,"/api/automatic/market/list");
+        if (resData.code == 200) {
+            if (resData.data.length > 0) {
+                var da = { "list": resData.data };
+                var _html = template('market_list', da);
+                $("#ddl_marketList").html(_html);
+            }
+        }
+    }
+
+    function getCoinList(pageTo) {
+        var status = $("#status").val();
+        var marketId = $("#ddl_marketList").val();
+
+        if ( status == -1 ){
+            status = "";
+        }
+        if ( marketId == -1 ){
+            marketId = "";
+        }
+
+        var param = {
+            marketId : marketId,
+            status : status,
+            pageSize: pageSize,
+            pageTo: pageTo,
+        }
+        var resData = $.sendData(param, "/api/automatic/list");
+        if (resData.code == 200) {
+            if (resData.data.length > 0) {
+                page(resData.total, pageTo);
+                var da = {"list": resData.data};
+                var _html = template('CoinFinanceDtoList', da);
+                $("#tb_List").html(_html);
+                $("#pageList").show();
+            }else{
+            	 page(0, 1);
+                 var da = {"list": resData.data};
+                 var _html = template('CoinFinanceDtoList', da);
+                 $("#tb_List").html(_html);
+                 $("#pageList").show();
+            }
+        }
+    }
+
+    //  搜索
+    function serch() {
+        var status = $("#status").val();
+        var marketId = $("#ddl_marketList").val();
+
+        //	如果状态拿到的为空
+        if (status == -1 && marketId == -1) {
+            getCoinList(1);
+        }else {
+            if ( status == -1 ){
+                status = "";
+            }
+            if ( marketId == -1 ){
+                marketId = "";
+            }
+
+            var pageTo = 1;
+            var param = {
+                pageSize: pageSize,
+                pageTo: pageTo,
+                status : status,
+                marketId : marketId
+            };
+            var resData = $.sendData(param, "/api/automatic/list");
+            if (resData.code == 200) {
+                if (resData.data.length > 0) {
+                    page(resData.total, pageTo);
+                    var da = {"list": resData.data};
+					$("#tb_List").html("");
+                    var _html = template('CoinFinanceDtoList', da);
+                    $("#tb_List").html(_html);
+                    $("#pageList").show();
+                }else{
+                	 page(2, pageTo);
+                	$("#tb_List").html("");
+                }
+            }
+        }
+    }
+
+    /*分页开始*/
+    var pageSize = 10;
+
+    function page(counts, pageTo) {
+        $('#pageList').jqPaginator('option', {
+            totalCounts: counts,
+            currentPage: pageTo
+        });
+        if (counts <= 1) {
+            $("#pageList").hide();
+        }
+    }
+
+    //初始化分页器
+    $('#pageList').jqPaginator({
+        totalCounts: 1,
+        visiblePages: 10,
+        pageSize: pageSize,
+        currentPage: 1,
+        activeClass: 'am-active',
+
+        //first: '<a href="javascript:void(0)">首页</a>',
+        prev: '<li  class="am-disabled"><a href="javascript:void(0)">&laquo;</a></li>  ',
+        next: '<li><a href="javascript:void(0)">&raquo;</a></li> ',
+        //last: '<a href="javascript:void(0)">最后一页</a>',
+        page: ' <li ><a href="javascript:void(0)">{{page}}</a></li>',
+        onPageChange: function (num, status) {
+            if (status == "change") {
+                getCoinList(num);
+                // serch(num);
+            }
+        }
+    });
+    /*分页结束*/
+
+    function conFirm(id) {
+        var num = confirm("您确认要删除此条数据?");
+        if ( num == true ){
+            del(id);
+        }else {
+            return false;
+        }
+    }
+
+    /**
+     * 删除功能
+     */
+    function del(id) {
+        var param = {
+        	automaticId : id
+        };
+        var resData = $.sendData(param, "/api/automatic/delete");
+        if (resData.code == 200) {
+            alert("删除成功!");
+            serch();
+        }else {
+            alert(resData.msg);
+        }
+    }
+    
+    function stopAutomatic(id){
+    	var param = {
+            	automaticId : id
+            };
+            var resData = $.sendData(param, "/api/automatic/stopAutomatic");
+            if (resData.code == 200 && resData.data == true) {
+                alert("已停止!");
+                serch();
+            }else {
+                alert(resData.msg);
+            }
+    }
+
+    /**
+     * 编辑功能
+     */
+    function edit(id,marketId,executeTime,volume,tradeNum,minVolume,maxPriceChange,minPriceChange,price,priceType,showTrade) {
+        var str = "?id=" + id + "&marketid=" + marketId + "&time=" + executeTime +
+            "&volume=" + volume + "&tradenum=" + tradeNum + "&minvolume=" + minVolume
+            + "&maxPriceChange=" + maxPriceChange + "&minPriceChange=" + minPriceChange + "&price=" + price
+            + "&priceType=" + priceType + "&showTrade=" + showTrade;
+        window.open("./Deploy.html" + str);
+    }
+</script>
+
+<!--模板-->
+<script id="market_list" type="text/html">
+    <option value="-1" selected="selected">全部市场</option>
+    {{each list as value i}}
+    <option value="{{value.id}}">{{value.name_en}}</option>
+    {{/each}}
+</script>
+
+<!--模板-->
+<script id="CoinFinanceDtoList" type="text/html">
+    {{each list as value i}}
+    <tr>
+        <td>{{value.marketName}}</td>
+        <td>{{value.executeTime}}</td>
+        <td>{{value.volume}}</td>
+        <td>{{value.tradeNum}}</td>
+        <td>{{value.minVolume}}</td>
+        {{if value.status==1}}
+        <td class="status">未开始</td>
+        {{/if}}
+        {{if value.status==2}}
+        <td class="status">进行中</td>
+        {{/if}}
+        {{if value.status==3}}
+        <td class="status">已结束</td>
+        {{/if}}
+        {{if value.status==4}}
+        <td class="status">执行失败</td>
+        {{/if}}
+        <td class="operate">
+            {{if value.status==1}}
+            	<a href="javascript:void(0)" onclick="edit({{value.id}},{{value.marketId}},'{{value.executeTime}}',{{value.volume}},
+            	{{value.tradeNum}},{{value.minVolume}},{{value.maxPriceChange}},{{value.minPriceChange}},{{value.price}},{{value.priceType}},{{value.showTrade}})">编辑</a>
+				<a href="javascript:void(0)" onclick="conFirm({{ value.id }})">删除</a>
+            {{/if}}
+ 			{{if value.status==2}}
+				<a href="javascript:void(0)" onclick="stopAutomatic({{ value.id }})">停止</a>
+ 			{{/if}}
+        </td>
+    </tr>
+    {{/each}}
+</script>
+</html>

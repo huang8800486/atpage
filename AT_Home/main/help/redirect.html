@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>AT</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="keyword" content="比特币价格,比特币交易平台,区块链,数字化资产,比特币行情,AT交易所,USDT,莱特币,BCH,以太坊,ETH,以太经典,进行币币交易" />
+    <meta name="description" content="description:AT交易所是一家集数字化资产、投资服务、资讯服务于一体的国际化区块链资产交易平台。提供比特币,莱特币(LTC),以太坊(ETH),比特币现金(BCH),以太经典(ETC)达世币(DASH)等虚拟货币以比特币(BTC)、USDT进行交易！提供实时比特币价格,比特币行情。">
+    <script type="text/javascript" src="../../script/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../../script/tools/crypto-js.js"></script>
+    <script type="text/javascript" src="../../script/tools/jquery.cookie.js"></script>
+    <script type="text/javascript" src="../../script/tools/md5.min.js"></script>
+    <script type="text/javascript" src="../../script/tools/k_tools.js"></script>
+    <script type="text/javascript" src="../../script/tools/loadSiteInfo.js"></script>
+    <script type="text/javascript" src="../../script/trade/tools.js"></script>
+    <script type="text/javascript" src="../../script/center_toos/center_tools_new.js"></script>
+    <script src="../../assets/js/translate/jquery.i18n.properties/jquery.i18n.properties.min.js" charset="utf-8"></script>
+    <script src="../../assets/js/translate/i18n.config.js" charset="utf-8"></script>
+</head>
+<body>
+    <div id="text"></div>
+</body>
+<script type='text/javascript'>
+    var browser = {
+        versions: function () {
+            var u = navigator.userAgent, app = navigator.appVersion;
+            return {//移动终端浏览器版本信息
+                trident: u.indexOf('Trident') > -1, //IE内核
+                presto: u.indexOf('Presto') > -1, //opera内核
+                webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+                gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+                mobile: !!u.match(/AppleWebKit.*Mobile.*/) && !!u.match(/AppleWebKit/), //是否为移动终端
+                ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1 || u.indexOf("UCBrowser") > -1, //android终端或者uc浏览器
+                //iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+                iPhone: u.indexOf('iPhone') > -1, //是否为iPhone
+                iPad: u.indexOf('iPad') > -1, //是否iPad
+                WindowsMobile: u.indexOf('WindowsMobile') > -1, //是否WindowsMobile
+                WindowsPhone: u.indexOf('ARM; Touch') > -1, //是否WindowsPhone
+                webApp: u.indexOf('Safari') > -1, //是否web应该程序，没有头部与底部
+                weiXin: u.toLowerCase().match(/MicroMessenger/i) == 'micromessenger',
+                qq: u.indexOf("QQ") > -1
+            };
+        }(),
+        language: (navigator.browserLanguage || navigator.language).toLowerCase()
+    }
+    $(function(){
+        init();
+    })    
+
+    function init(){
+        var param1 = {
+            platform: 1
+        }
+        var param2 = {
+            platform: 2
+        }
+        // console.log(resData);
+        if(browser.versions.weiXin){
+            if (browser.versions.android || browser.versions.WindowsMobile) {
+                window.location.href = "../h5/androiddownload.html";
+            }else if(browser.versions.iPhone || browser.versions.WindowsPhone){
+                window.location.href = "../h5/iosdownload.html";
+            }
+        }else if(browser.versions.iPhone && browser.versions.qq){
+            window.location.href = "../h5/iosdownload.html";
+        }
+        else if (browser.versions.android || browser.versions.WindowsMobile) {
+            $.ajaxSendData(param1, "/api/version/new", function(resData){
+                window.location.href = resData.data.url;
+            });
+            
+        }else if(browser.versions.iPhone || browser.versions.WindowsPhone){
+            $.ajaxSendData(param2, "/api/version/new", function(resData){
+                window.location.href = resData.data.url;
+            });
+        }
+    }
+</script>
+
+</html>

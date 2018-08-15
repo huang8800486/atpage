@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>交易系统</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="keyword" content="比特币价格,比特币交易平台,区块链,数字化资产,比特币行情,AT交易所,USDT,莱特币,BCH,以太坊,ETH,以太经典,进行币币交易" />
+    <meta name="description" content="description:AT交易所是一家集数字化资产、投资服务、资讯服务于一体的国际化区块链资产交易平台。提供比特币,莱特币(LTC),以太坊(ETH),比特币现金(BCH),以太经典(ETC)达世币(DASH)等虚拟货币以比特币(BTC)、USDT进行交易！提供实时比特币价格,比特币行情。">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="stylesheet" href="./assets/css/reset.css">
+    <link rel="stylesheet" href="./assets/font/iconfont.css">
+    <link rel="stylesheet" href="./assets/css/layout.css">
+    <script src="./script/jquery-3.3.1.min.js"></script>
+    <script src="./script/tools/crypto-js.js"></script>
+    <script src="./script/tools/jquery.cookie.js"></script>
+    <script src="./script/tools/md5.min.js"></script>
+    <script src="./script/tools/k_tools.js"></script>
+    <script src="./script/tools/loadSiteInfo.js"></script>
+    <script src="./script/template.js"></script>
+    <script src="./script/layer.js"></script>
+    <script src="./assets/js/amazeui.min.js"></script>
+    <script src="./assets/js/register.js"></script>
+    <script type="text/javascript" charset="utf-8" src="//g.alicdn.com/sd/ncpc/nc.js?t=2015052012"></script>
+    <script type="text/javascript" charset="utf-8" src="//g.alicdn.com/sd/nch5/index.js?t=2015052012"></script>
+    <script src="./script/common/common.js"></script>
+    <script src="./assets/js/translate/jquery.i18n.properties/jquery.i18n.properties.min.js" charset="utf-8"></script>
+    <script src="./assets/js/translate/i18n.config.js" charset="utf-8"></script>
+</head>
+<body class="body_login_register">
+
+    <div class="view_body register_view_body login_and_register">
+        <!-- header -->
+        <header id="header" class="header header-other"></header>
+        <div class="negative_content_page">
+            <div class="grid-container">
+                <div class="negative_content">
+                    <div class="main-login clearfix">
+                        <div class="login-list col-xs-12 col-sm-6 col-md-7 col-lg-8">
+                            <div class="imagesbanner xs-hide md-show">
+                                
+                            </div>
+                            <!-- <span class="rightline"></span>
+                            <div class="reg-right-info">
+                                <p translate="login_message1">还不是AT的用户？<br><em class="login_message2"></em></p>
+                                <p><a href="register.html" translate="register_button">马上注册</a></p>
+                            </div> -->
+                        </div>
+                        <div class="login-right col-xs-12 col-sm-6 col-md-5 col-lg-4">
+                            <div class="groupsetp">
+                                <div class="reg" id="register_step1">
+                                    <div class="reg-list register-list am-tabs" data-am-tabs="{noSwipe: 1}">
+                                        <div class="webcome-at">
+                                            <span class="titl" translate="welcome_register_at">欢迎注册AT帐号</span>
+                                        </div>
+                                        <ul class="am-tabs-nav am-nav am-nav-tabs clearfix">
+                                            <li class="am-active"><a class="at_regtop at_regtop01" href="#tab1"><span translate="phone_register">手机注册</span></a></li>
+                                            <li><a class="at_regtop" href="#tab2"><span translate="email_register">邮箱注册</span></a></li>
+                                        </ul>
+                                        <div class="am-tabs-bd am-tabs-bd-ofv at_reg reg-box" id="verifyCheck">
+                                            <div class="am-tab-panel am-active" id="tab1">
+                                                <div class="login-group-wrap clearfix reg_dl">
+                                                    <span class="titl" translate="ningdeshoujihao">您的手机号：</span>
+                                                    <div class="input_wrap">
+                                                        <span class="tit phone_tit" class="phonr_prefix" style="display:none;">
+                                                            <select>
+                                                                <option>+ 86</option>
+                                                            </select>
+                                                        </span>
+                                                        <input id="phone" type="text" class="am-form-field am-radius" value="" data-i18n-placeholder="qingshurushoujihaoma" onblur="isMobile(this.value)">
+                                                    </div>
+                                                    <span class="at_msg pwd_tips" id="msg_test"></span>
+                                                </div>
+                                            </div>
+                                            <div class="am-tab-panel" id="tab2">
+                                                <div class="login-group-wrap clearfix reg_dl">
+                                                    <span class="titl" translate="ningdeyouxiang">您的邮箱：</span>
+                                                    <div class="input_wrap">
+                                                        <span class="tit" translate="email_username">邮箱地址</span>
+                                                        <input id="email" type="text" class="am-form-field am-radius" value="" data-i18n-placeholder="email_username_placeholder" onblur="isemail(this.value)" onkeyup="isemail(this.value)">
+                                                    </div>
+                                                    <span class="at_msg" id="msg_email"></span>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix reg_dl">
+                                                <div class="login-group-wrap">
+                                                    <span class="titl" translate="financial_first48">验证码</span>
+                                                    <div class="input_wrap">
+                                                        <input id="moble_verify" type="text" class="am-form-field am-radius" value="" data-i18n-placeholder="confirm_code_placeholder" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                                                        <button type="button" id="btn_sendCode" class="secodes" onclick="getCode(this)" translate="mobile_verify_get">获取验证码</button>
+                                                    </div>
+                                                </div>
+                                                <!--<button id="btn_sendCode" onclick="SendCode()" type="button" class="am-btn am-btn-secondary am-radius am-margin-left-sm am-align-left">获取验证码</button>-->
+
+                                            </div>
+                                            <div class="register-group-wrap clearfix reg_dl">
+                                                <div class="login-group-wrap">
+                                                    <span class="titl" translate="login_code">登录密码</span>
+                                                    <div class="input_wrap f-fl item-ifo">
+                                                        <input type="password" id="password" maxlength="20" autocomplete="new-password"
+                                                               class="am-form-field am-radius txt03 f-r3 required"
+                                                               data-i18n-placeholder="moblie_verify_request" style="ime-mode:disabled;"
+                                                               onpaste="return  false" autocomplete="new-password"
+                                                               data-valid="isNonEmpty||between:6-20||level:2" onkeyup="chckeStrength(this, this.value)"/>
+                                                        <span class="ie8 icon-close close hide" style="right:55px"></span>
+                                                        <span class="showpwd" data-eye="password"></span>
+                                                        <label class="icon-sucessfill blank hide"></label>
+                                                        <label class="focus" ><em class="translate_em" translate="login_tip1"> </em> <br/> <em class="translate_em" translate="login_tip2"> </em></label>
+                                                        <label class="focus valid"></label>
+                                                        <span class="clearfix" style="top:10%!important;" ></span>
+                                                        <label class="strength clearfix">
+                                                            <!-- <span class="f-fl f-size12" translate="deep">程度：</span> -->
+                                                            <b class="f-size-b"><i translate="Weak">弱</i><i translate="medium">中</i><i translate="strength">强</i></b>
+                                                        </label>
+                                                    </div>
+                                                    <strong class="pwd_tips"></strong>
+                                                </div>
+                                            </div>
+                                            <div class="login-group-wrap">
+                                                <span class="titl" translate="confirm_code">确认密码</span>
+                                                <div class="input_wrap">
+                                                    <input id="loginRePwd" type="password" class="am-form-field am-radius" value="" data-i18n-placeholder="password_placeholder"maxlength="20" autocomplete="new-password" onkeyup="isloginRePwd(this.value)">
+                                                    <strong class="loginRePwd_tips" translate="login_error2">输入密码不一致</strong>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix reg_dl">
+                                                <div class="login-group-wrap">
+                                                    <span class="titl" translate="yaoqingma">邀请码</span>
+                                                    <div class="input_wrap f-fl item-ifo">
+                                                        <input id="Invitation_code" type="text" class="am-form-field am-radius" value="" data-i18n-placeholder="invitation_placeholder">
+                                                    </div>
+                                                    <strong class="pwd_tips"></strong>
+                                                </div>
+                                            </div>
+
+                                            <!--<p>注册即视为同意<a href="javascript:void(0)" id="agreement" onclick="seeagreeement()">注册协议</a></p>-->
+                                            <!--我已阅读并同意《AT 交易所注册协议》-->
+                                            <p class="agree_wrap">
+                                                <input type="checkbox" id="agree" checked>
+                                                <label for="agree" style="cursor: pointer" ><em class="translate_em" translate="agree_message"></em>
+                                                    <a href="help/register_protocol.html" target="_blank" class="newcolor" id="agreement" onclick="seeagreeement()" translate="agreement">《AT 交易所注册协议》</a>
+                                                </label>
+                                            </p>
+                                            <div class="login-group-wrap">
+                                                <a id="btn_next" onclick="next()" class="new-btn-color" translate="nav7">注册</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="reg-right">
+                                        <span class="rightline"></span>
+                                        <div class="reg-right-info">
+                                            <p translate="reg_right_info1">已经是AT的用户？</p>
+                                            <a href="login.html" class="reg-ui-login" translate="nav8">登录</a>
+                                            <!-- <span style="margin-top: 20px !important;" translate="reminder1">温馨提示：</span><br/>
+                                            <span class="red" translate="reminder2">验证邮件可能会被误判为垃圾邮件，请注意查收。</span><br/>
+                                            <span class="red" translate="reminder3">请妥善保管好您的登录账号及登录密码，切勿泄露给他人。</span><br/>
+                                            <span class="red" translate="reminder4">请勿使用和其他交易网站相同的登录密码。</span> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="am-container am-margin-top-sm reg" id="register_step3" style="display: none">
+                                    <div class="reg-info-tip am-text-center">
+                                        <p><img src="./images/icon-yes.png" ></p>
+                                        <h1 translate="Congratulations_on_your">恭喜您注册成功!</h1>
+                                        <p class="deep-gray"><span id="wait" class="c_blue2">3</span> <em class="translate_em" translate="seconds_will"></em></p>
+                                        <p><a href="javascript:void(0)" onclick="window.location.href='login.html'" class="am-btn new-btn-color am-radius am-btn-lg" translate="go_to_login">去登录账号</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- header -->
+    <!-- <footer id="footer" class="footer"></footer> -->
+    <div class="register-login-footer"></div>
+    <div id="div_hid" style="display: none"></div>
+
+    <div class="am-modal am-modal-no-btn" tabindex="-1" id="modelBox">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd" translate="verification">验证
+                <a id="at_modlog" href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+            </div>
+            <dl class="am-modal-bd" id="sliderBox" style="padding: 10px 20px;">
+                <div id="aliSliderBox" class="nc-container"></div>
+            </dl>
+            <button id="btn_slider" onclick="SendCode()" type="button" class="am-btn am-btn-secondary am-radius new-btn-color2" style="float: right;margin-right: 20px" translate="make_sure">确定</button>
+        </div>
+    </div>
+
+<!--[if lt IE 9]>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="./assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+
+<script src="./assets/js/count-number.js"></script>
+
+
+
+<script type="text/javascript">
+    // 已登录跳转
+    var LoginInfo = $.getToken();
+    if (LoginInfo != "") {
+        window.location.href = "./index.html";
+    }
+    var isPhone = false;
+    var isEmail = false;
+    var isSlider = false;
+    var isGetVerificationCode = 0;
+    $(function () {
+        $("#header").load("./main/common/indexHeader.html?version=" + $.version);
+        $("#footer").load("./main/common/indexFooter.html?version=" + $.version);
+        init(1);
+        pageLoad();
+    });
+
+    /*手机号验证*/
+    function isMobile(value) {
+        var flag = false;
+        if(!$.phoneNumberIsTrue(value)){
+            $("#msg_test").html(langPkg.getI18N("phone_username_error"));
+            $("#phone").addClass("error_phone")
+            flag = true;
+        }else{
+            $("#msg_test").html("");
+            $("#phone").removeClass("error_phone")
+            flag = false;
+        }
+        return flag;
+    }
+    function isemail(value) {
+        var flag = false;
+        if(!$.emailIsTrue(value)){
+            $("#msg_email").html(langPkg.getI18N("email_username_error"));
+            $("#email").addClass("error_phone")
+            flag = true;
+        } else {
+            $("#msg_email").html("");
+            $("#email").removeClass("error_phone")
+            flag = false;
+        }
+        return flag;
+    }
+    function isloginPwd(value){
+        var password = $("#loginRePwd").val();
+        if(password == "") return;
+        // 密码一致
+        if(value == password && password !== ""){
+            $("#loginRePwd").removeClass("error_phone")
+            $(".loginRePwd_tips").hide();
+        }else{
+            $("#loginRePwd").addClass("error_phone")
+            $(".loginRePwd_tips").show();
+        }
+    }
+
+    function isloginRePwd(value){
+        var password = $("#password").val();
+        // 密码一致
+        if(value == password){
+            $("#loginRePwd").removeClass("error_phone")
+            $(".loginRePwd_tips").hide();
+        }else{
+            $("#loginRePwd").addClass("error_phone")
+            $(".loginRePwd_tips").show();
+        }
+    }
+
+</script>
+
+<script type="text/javascript">
+    function init(num) {
+        switch (num) {
+            case 1:
+                //$("#register_step1").attr("style", "display:none");
+                $("#register_step2").attr("style", "display:none");
+                $("#register_step3").attr("style", "display:none");
+                break;
+            case 2:
+                $("#register_step1").attr("style", "display:none");
+                $("#register_step2").removeAttr("style");
+                $("#register_step3").attr("style", "display:none");
+                break;
+            case 3:
+                $("#register_step1").attr("style", "display:none");
+                $("#register_step2").attr("style", "display:none");
+                $("#register_step3").removeAttr("style");
+                break;
+        }
+    }
+
+    // 检测密码强度(密码强度太低)
+    function chckeStrength(obj, objvalue){
+        if($.passwordStrength(objvalue)){
+            $(obj).parents(".am-form-group").find(".pwd_tips").html("")
+            $(obj).removeClass("v_error_new")
+        }else{
+            $(obj).addClass("v_error_new")
+            $(obj).parents(".am-form-group").find(".pwd_tips").html(langPkg.getI18N("mimaqiangdutaidi"))
+        }
+        isloginPwd(objvalue);
+    }
+
+    $("#password").on("blur focus", function(){
+        if($(this).val() == ""){
+            $(".pwd_tips").html("");
+        }
+    })
+    //第一步
+    function next() {
+        if($("#btn_next").attr("disabled") == "disabled"){
+            return false;
+        }
+        isPhone = $("#tab1").hasClass("am-active");
+        isEmail = $("#tab2").hasClass("am-active");
+
+
+        var loginPwd = $("#password").val();
+        var loginRePwd = $("#loginRePwd").val();
+
+        //  如果是手机注册
+        if ( isPhone ){
+            var phone = $("#phone").val();
+            var isUserName = $("#username").val();
+            var moble_verify = $("#moble_verify").val();
+            var invitationCode = $("#Invitation_code").val();
+
+
+            if (phone == "") {
+                layer.tips(langPkg.getI18N("phone_username_null_error"), "#phone", {
+                    tips: [3, "#0e9e80"], time: 2000, end: function () {
+                        $("#btn_next").removeAttr("disabled");
+                    }
+                })
+                return false;
+            }
+            if (isUserName == "") {
+                layer.tips(langPkg.getI18N("qingshuruyonghuming"), "#username", {
+                    tips: [3, "#0e9e80"], time: 2000, end: function () {
+                        $("#btn_next").removeAttr("disabled");
+                    }
+                })
+                return false;
+            }
+
+            if ( isGetVerificationCode == 0 ) {
+                layer.tips(langPkg.getI18N("moblie_verify_request"), "#moble_verify", {
+                    tips: [3, "#0e9e80"], time: 2000, end: function () {
+                        $("#btn_next").removeAttr("disabled");
+                    }
+                });
+                return false;
+            }
+
+            if (moble_verify == "") {
+                layer.tips(langPkg.getI18N("financial_first4_placeholder4"), "#moble_verify", {
+                    tips: [3, "#0e9e80"], time: 2000, end: function () {
+                        $("#btn_next").removeAttr("disabled");
+                    }
+                });
+                return false;
+            }
+
+            if (loginPwd == "") {
+                layer.tips(langPkg.getI18N("security_first31_placeholder"), "#password", {
+                    tips: [3, "#0e9e80"], time: 2000, end: function () {
+                        $("#btn_next").removeAttr("disabled");
+                    }
+                });
+                return false;
+            }
+
+            if (!$.passwordStrength(loginPwd)) {
+                layer.tips(langPkg.getI18N("mimaqiangdutaidi"), "#password", {
+                    tips: [3, "#0e9e80"], time: 2000, end: function () {
+                        $("#btn_next").removeAttr("disabled");
+                    }
+                });
+                return false;
+            }
+
+            if (loginRePwd == "") {
+                layer.tips(langPkg.getI18N("qingshuruquerenmima"), "#loginRePwd", {
+                    tips: [3, "#0e9e80"], time: 2000, end: function () {
+                        $("#btn_next").removeAttr("disabled");
+                    }
+                })
+                return false;
+            }
+            if (loginPwd != loginRePwd) {
+                layer.tips(langPkg.getI18N("buyizhi"), "#loginRePwd", {
+                    tips: [3, "#0e9e80"], time: 2000, end: function () {
+                        $("#btn_next").removeAttr("disabled");
+                    }
+                })
+                return false;
+            }
+
+            if ( isSlider === false ){
+                layer.msg( langPkg.getI18N("tuodonghuadongyanzheng"), { time: 1500 }, function () {
+                    $("#btn_next").removeAttr("disabled");
+                });
+                return false;
+            }else {
+                //  判断手机号是否验证
+                UsernameIsRegistered(moble_verify, phone, phone, invitationCode);
+            }
+
+
+        }
+
+        //  如果是邮箱
+        if ( isEmail ){
+            var email = $("#email").val();
+            var isUserName = $("#username").val();
+            var moble_verify = $("#moble_verify").val();
+            var invitationCode = $("#Invitation_code").val();
+            if (email == "") {
+                layer.tips(langPkg.getI18N("email_username_placeholder"), "#email", {
+                    tips: [3, "#0e9e80"], time: 2000, end: function () {
+                        $("#btn_next").removeAttr("disabled");
+                    }
+                })
+                return false;
+            }
+            if (isUserName == "") {
+                layer.tips(langPkg.getI18N("qingshuruyonghuming"), "#username", {
+                    tips: [3, "#0e9e80"], time: 2000, end: function () {
+                        $("#btn_next").removeAttr("disabled");
+                    }
+                })
+                return false;
+            }
+
+            if ( isGetVerificationCode == 0 ) {
+                layer.tips(langPkg.getI18N("moblie_verify_request"), "#moble_verify", {
+                    tips: [3, "#0e9e80"], time: 2000, end: function () {
+                        $("#btn_next").removeAttr("disabled");
+                    }
+                });
+                return false;
+            }
+
+            if (moble_verify == "") {
+                layer.tips(langPkg.getI18N("financial_first4_placeholder4"), "#moble_verify", {
+                    tips: [3, "#0e9e80"], time: 2000, end: function () {
+                        $("#btn_next").removeAttr("disabled");
+                    }
+                });
+                return false;
+            }
+
+            if (loginPwd == "") {
+                layer.tips(langPkg.getI18N("security_first31_placeholder"), "#password", {
+                    tips: [3, "#0e9e80"], time: 2000, end: function () {
+                        $("#btn_next").removeAttr("disabled");
+                    }
+                });
+                return false;
+            }
+            if (loginRePwd == "") {
+                layer.tips(langPkg.getI18N("qingshuruquerenmima"), "#loginRePwd", {
+                    tips: [3, "#0e9e80"], time: 2000, end: function () {
+                        $("#btn_next").removeAttr("disabled");
+                    }
+                })
+                return false;
+            }
+            if (loginPwd != loginRePwd) {
+                layer.tips(langPkg.getI18N("buyizhi"), "#loginRePwd", {
+                    tips: [3, "#0e9e80"], time: 2000, end: function () {
+                        $("#btn_next").removeAttr("disabled");
+                    }
+                })
+                return false;
+            }
+            if (!$.passwordStrength(loginPwd)) {
+                layer.tips(langPkg.getI18N("mimaqiangdutaidi"), "#password", {
+                    tips: [3, "#0e9e80"], time: 2000, end: function () {
+                        $("#btn_next").removeAttr("disabled");
+                    }
+                });
+                return false;
+            }
+
+            if ( isSlider === false ){
+                layer.msg( langPkg.getI18N("tuodonghuadongyanzheng"), { time: 1500 }, function () {
+                    $("#btn_next").removeAttr("disabled");
+                });
+                return false;
+            }else {
+                //  判断手机号是否验证
+                UsernameIsRegistered(moble_verify, email, email, invitationCode);
+            }
+        }
+    }
+
+    //第二步
+    function next2() {
+        $("#btn_next2").attr("disabled", "");
+
+        var loginPwd = $("#password").val();
+        var loginRePwd = $("#loginRePwd").val();
+
+        if (loginPwd == "") {
+            layer.tips(langPkg.getI18N("phone_password_null_error"), "#password", {
+                tips: [3, "#0e9e80"], time: 2000, end: function () {
+                    $("#btn_next2").removeAttr("disabled");
+                }
+            });
+            return false;
+        }
+        if (loginRePwd == "") {
+            layer.tips(langPkg.getI18N("qingshuruquerenmima"), "#loginRePwd", {
+                tips: [3, "#0e9e80"], time: 2000, end: function () {
+                    $("#btn_next2").removeAttr("disabled");
+                }
+            })
+            return false;
+        }
+        if (loginPwd != loginRePwd) {
+            layer.tips(langPkg.getI18N("buyizhi"), "#loginRePwd", {
+                tips: [3, "#0e9e80"], time: 2000, end: function () {
+                    $("#btn_next2").removeAttr("disabled");
+                }
+            })
+            return false;
+        }
+
+        //  调用注册操作
+        register();
+    }
+
+    /**
+     *  注册
+     */
+    function register() {
+
+        if ( $("#agree").is(":checked") ){
+            var code = $("#moble_verify").val();
+            var pwd = $("#loginRePwd").val();
+            var invitationCode = $("#Invitation_code").val();
+            var username = "";
+
+            if ( isPhone ){
+                username = $("#phone").val();
+            }
+
+            if ( isEmail ){
+                username = $("#email").val();
+            }
+
+            if ( $.pwdVerifyCN(pwd) ){
+                $("#btn_next").removeAttr("disabled");
+                return;
+            }
+
+            var param = {
+                code: code,
+                pwd: pwd,
+                username: username,
+                invitationCode:invitationCode
+            };
+            var pwd = pwd;
+
+            $.ajaxSendData(param, "/api/user/register", function(resData){
+                layer.msg(langPkg.getI18N("Congratulations_on_your"), { time: 1500, icon: 1 }, function () {
+                    //init(3);
+                    //toLoginPage();
+                    param.pwd = pwd;
+                    param.code = resData.data.autoLoginCode;
+                    toAutoLogin(param);
+                })
+            }, function(resData){
+                layer.msg(resData.msg, { time: 2000, icon: 5 }, function () {
+                    $("#btn_next").removeAttr("disabled");
+                })
+            });
+        } else {
+            layer.msg(langPkg.getI18N("bixutongyio"), { time: 2000, icon: 5 }, function () {
+                $("#btn_next").removeAttr("disabled");
+            })
+        }
+
+
+    }
+
+    /**
+     *  跳转到登录页面
+     */
+    function toLoginPage() {
+        var obj = $('#wait');
+        var wait = 3;
+        var interval = setInterval(function () {
+            obj.html(wait);
+            wait--;
+            if (wait < 0) {
+                clearInterval(interval);
+                window.location.href = "login.html"
+            }
+        }, 1000);
+    }
+    function toAutoLogin(param){
+        var goBeforeUrl = "";
+        var url = "";
+        if(window.location.href.indexOf("/main") != -1){
+            url = window.location.href.split("/main")[0];
+        }
+        var str = {userName:param.username,password:param.pwd,code:param.code};
+        $.ajaxSendData(str, "/api/login", function(resData){
+            var datas = resData.data;
+            var token = datas.token;
+            var key = datas.randomKey;
+            $.loginSet(token, key);
+            var cookies = $.getToken();
+            // history.back();
+            if(window.sessionStorage && sessionStorage.beforeUrl != "" && typeof sessionStorage.beforeUrl != "undefined"){
+                goBeforeUrl = url + "/main" + sessionStorage.beforeUrl;
+                window.location.href = goBeforeUrl;
+            }else{
+                window.location.href = "./index.html";
+            }
+        }, function(resData){
+            layer.msg( resData.msg, { icon: 2, time: 1500 }, function () {
+            });
+            return false;
+        });
+    }
+
+    //  注册协议弹窗
+    /*function seeagreeement() {
+        var hid_div = $("#div_hid").html();
+        layer.open({
+            type: 1,
+            title: false,
+            closeBtn: 0,
+            shadeClose: true,
+            area: ["650px", "600px"],
+            content: hid_div
+        });
+        $(".layui-layer-content > *").attr("style", "margin:20px;")
+    }*/
+
+    //  获取验证码，只是为了弹出框
+    function getCode(aliButton) {
+        var moble = $("#phone").val();
+        var email = $("#email").val();
+
+        isPhone = $("#tab1").hasClass("am-active");
+        isEmail = $("#tab2").hasClass("am-active");
+        if ( isPhone ){
+            if (moble == "") {
+                layer.tips(langPkg.getI18N("phone_username_null_error"), "#phone", {
+                    tips: [3, "#0e9e80"], time: 1000
+                });
+                return false;
+            }
+            if (isMobile(moble)) {
+                layer.tips(langPkg.getI18N("phone_username_error"), "#phone", {
+                    tips: [3, "#0e9e80"], time: 1000
+                });
+                return false;
+            }
+        }
+
+        if ( isEmail){
+            if (email == "") {
+                layer.tips(langPkg.getI18N("shuruyouxiangdizhi"), "#email", {
+                    tips: [3, "#0e9e80"], time: 1000
+                });
+                return false;
+            }
+            if (isemail(email)) {
+                layer.tips(langPkg.getI18N("email_username_error"), "#email", {
+                    tips: [3, "#0e9e80"], time: 1000
+                });
+                return false;
+            }
+        }
+        var username = null;
+        if ( isPhone ){
+            username = $("#phone").val();
+        }
+
+        if ( isEmail ){
+            username = $("#email").val();
+        }
+        var param = {
+            username: username
+        }
+        $.ajaxSendData(param, "/api/user/verify/username", function(resData){
+            if(!resData.data){
+                //打开阿里验证
+                OpenAliValidate(aliButton, username, 0, $('#btn_sendCode'));
+                $("#btn_next").removeClass("notAliValidata").removeAttr("disabled");
+            }else{
+                layer.msg(langPkg.getI18N("zhanghaoyizhuce"), { time: 2000, icon: 5 }, function () {
+                    $("#btn_next").addClass("notAliValidata").attr("disabled", "disabled");
+                })
+            }
+        }, function(resData){
+            layer.msg(resData.msg, { time: 2000, icon: 5 }, function () {
+                $("#btn_next").removeAttr("disabled");
+            })
+        });
+        
+    }
+
+    $("#at_modlog").off('closed.modal.amui').click(function(){
+        $("#btn_sendCode").removeAttr("disabled");
+        // $("#slider").slider("restore");
+    })
+  
+    //  判断 该手机号或者用户名 是否注册,未注册则调下一步+
+    //  code 验证码
+    //  type 手机或邮箱
+    //  username 用户名
+    function UsernameIsRegistered(code, type, username, invitationCode) {
+        var param = {
+            code: code,
+            type: type,
+            username: username,
+            invitationCode: invitationCode
+        };
+
+        $.ajaxSendData(param, "/api/user/verify/username", function(resData){
+            if (resData.data) {
+                if ( isPhone ){
+                    layer.msg(langPkg.getI18N("shoujihaoyibeizhuce"), { time: 2000, icon: 5 }, function () {
+                        $("#btn_next").removeAttr("disabled");
+                    })
+                }
+
+                if ( isEmail ) {
+                    layer.msg(langPkg.getI18N("gaiyouxiangyibeizhuce"), { time: 2000, icon: 5 }, function () {
+                        $("#btn_next").removeAttr("disabled");
+                    })
+                }
+                //  如果邮箱没被注册，那么调用 注册方法
+            }else {
+                register();
+            }
+        }, function(resData){
+            layer.msg(resData.msg, { time: 2000, icon: 5 }, function () {
+                $("#btn_next").removeAttr("disabled");
+            })
+        });
+    }
+
+    //  判断验证码是否正确
+    function verifyCode(code, phone) {
+        var param = {
+            code: code,
+            phone: phone
+        };
+        $.ajaxSendData(param, "/api/user/verify/code", function(resData){
+            if (resData.data) {
+                layer.msg(resData.msg + langPkg.getI18N("zhengzaijinxingxiayibu"), { time: 2000, icon: 6 }, function () {
+                    init(2);
+                })
+            } else {
+                layer.msg(langPkg.getI18N("yanzhengmacuowu"), { time: 2000, icon: 5 }, function () {
+                    $("#btn_next").removeAttr("disabled");
+                })
+            }
+        }, function(resData){
+            layer.msg(resData.msg, { time: 2000, icon: 5 }, function () {
+                $("#btn_next").removeAttr("disabled");
+            })
+        });
+    }
+
+    //  页面加载初始化，以及鼠标事件的绑定
+    function pageLoad() {
+        var url = window.location.href;
+        var urseId = "";
+        if(url.indexOf("user_id=") != -1){
+            urseId = url.split("ser_id=")[1];
+        }
+        $("#Invitation_code").val(urseId)
+        var loginPwd = $("#password");
+        //文本框绑定事件
+        $("#password").bind('keyup onfocus onblur input propertychange', function () {
+            var index = checkStrong(this.value);
+            switch (index){
+                case 1:
+                    $("#level").html(langPkg.getI18N("cha"));
+                    $("#level").removeClass("red");
+                    $("#level").removeClass("c_yellow");
+                    $("#level").removeClass("c_green");
+                    $("#level").addClass("red");
+                    $("#strong").removeClass().addClass("s1");
+                    break;
+                case 2:
+                    $("#level").html(langPkg.getI18N("zhong"));
+                    $("#level").removeClass("red");
+                    $("#level").removeClass("c_yellow");
+                    $("#level").removeClass("c_green");
+                    $("#level").addClass("c_yellow");
+                    $("#strong").removeClass().addClass("s2");
+                    break;
+                case 3:
+                case 4:
+                    $("#level").html(langPkg.getI18N("qiang"));
+                    $("#level").removeClass("red");
+                    $("#level").removeClass("c_yellow");
+                    $("#level").removeClass("c_green");
+                    $("#level").addClass("c_green");
+                    $("#strong").removeClass().addClass("s3");
+                    break;
+            }
+        });
+    }
+
+    //  检测密码强度
+    function checkStrong(sValue) {
+        var modes = 0;
+        //正则表达式验证符合要求的
+        if (sValue.length < 1) return modes;
+        if (/\d/.test(sValue)) modes++; //数字
+        if (/[a-z]/.test(sValue)) modes++; //小写
+        if (/[A-Z]/.test(sValue)) modes++; //大写
+        if (/\W/.test(sValue)) modes++; //特殊字符
+
+        //逻辑处理
+        switch (modes) {
+            case 1:
+                return 1;
+                break;
+            case 2:
+                return 2;
+            case 3:
+            case 4:
+                return sValue.length < 12 ? 3 : 4
+                break;
+        }
+    }
+</script>
+
+
+</body>
+</html>
